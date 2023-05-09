@@ -1,46 +1,26 @@
 # Todo
 
 * FromRegistry: Skips directories, how to make it better?
+* Validator: Not well integrated, separate augmentation - in analyzer?
+
 
 + Store gathereddata as json
 + make it possible to load json
++ new csv
+  + make it nicer than before
+  + only show relevant information
++ dump: complete file extension infos
+  + HKLU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\
+  + HKCR\<>
+
+
 
 * make it possible to give path to opens.txt
-* args: dump.json
+* args: dump.json, csv result etc.
 
-
-* dump: complete file extension infos
-  * HKLU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\
-  * HKCR\<>
 
 * checks:
   * OBJID:
     * Toast?
     * valid shell? (opens etc.)
-
-* new csv
-  * make it nicer than before
-  * only show relevant information
-
-
-           
-            ///var ext = ".WAX";
-            /*var ext = ".jar";
-            Console.WriteLine(String.Format("{0} Xml:{1} Choice:{2}  #HKCU.Progids:{3}  #HKCR.Progids: {4}  HKCR.Default:{5}  ValidToast:{6}  ValidTripple:{7}  validr:{8}",
-                ext,
-                hasXml(ext),
-                hasUserChoice(ext),
-                countUserOpenWithProgids(ext),
-                countRootProgids(ext),
-                hasRootDefault(ext),
-                hasValidRootProgidsToasts(ext),
-                validTrippleNames(ext),
-                isValidRootDefault(ext)
-             ));
-
-            string assumption = AnalyzeExtension(ext);
-            _FileExtension fileExtension = new _FileExtension();
-            fileExtension.Extension = ext;
-            fileExtension.Assumption = assumption;
-            FileExtensions.Add(fileExtension);
-            */
+  * 

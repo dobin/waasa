@@ -17,4 +17,8 @@
     <Optimize>False</Optimize>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="csvhelper" Version="30.0.1" />
+  </ItemGroup>
+
 </Project>

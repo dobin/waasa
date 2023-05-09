@@ -7,6 +7,24 @@ using System.Threading.Tasks;
 
 namespace waasa
 {
+
+    public class _FileExtensionDebug
+    {
+        public String Extension { get; set; }
+        public String Result { get; set; }
+        public String Assumption { get; set; }
+
+        public bool hasXml { get; set; }
+        public bool hasUserChoice { get; set; }
+        public int cntUserProgids { get; set; }
+        public int cntRootProdis { get; set; }
+        public bool hasRootDefault { get; set; }
+        public bool hasValidRootProgidsToasts { get; set; }
+        public bool validTrippleNames { get; set; }
+        public bool isValidRootDefault { get; set; }
+    }
+
+
 	public class _FileExtension
 	{
 		public string Extension { get; set; }
@@ -26,6 +44,31 @@ namespace waasa
 			GatheredData = gatheredData;
 		}
 
+
+        public List<_FileExtensionDebug> GetDebug()
+        {
+            List<_FileExtensionDebug> result = new List<_FileExtensionDebug>();
+            foreach (var extension in GatheredData.ListedExtensions) {
+                string assumption = AnalyzeExtension(extension);
+
+                _FileExtensionDebug entry = new _FileExtensionDebug();
+                entry.Extension = extension;
+                entry.Assumption = assumption;
+                entry.hasXml = hasXml(extension);
+                entry.hasUserChoice = hasUserChoice(extension);
+                entry.cntUserProgids = countUserOpenWithProgids(extension);
+                entry.cntRootProdis = countRootProgids(extension);
+                entry.hasRootDefault = hasRootDefault(extension);
+                entry.hasValidRootProgidsToasts = hasValidRootProgidsToasts(extension);
+                entry.validTrippleNames = validTrippleNames(extension);
+                entry.isValidRootDefault = isValidRootDefault(extension);
+
+                result.Add(entry);
+            }
+            return result;
+        }
+
+
 		public void AnalyzeAll()
         {
 			foreach(var extension in GatheredData.ListedExtensions) {
@@ -35,6 +78,16 @@ namespace waasa
                 fileExtension.Assumption = assumption;
                 FileExtensions.Add(fileExtension);
             }
+        }
+
+
+        public void AnalyzeSingle(string extension)
+        {
+            string assumption = AnalyzeExtension(extension);
+            _FileExtension fileExtension = new _FileExtension();
+            fileExtension.Extension = extension;
+            fileExtension.Assumption = assumption;
+            FileExtensions.Add(fileExtension);
         }
 
 
@@ -54,6 +107,7 @@ namespace waasa
 
             return false;
         }
+
 
         // HK_LocalUser
         private bool hasUserChoice(string extension)
@@ -77,6 +131,7 @@ namespace waasa
             return false;
         }
 
+
         // HK_LocalUser
         private int countUserOpenWithProgids(string extension)
         {
@@ -93,6 +148,7 @@ namespace waasa
             return 0;
         }
 
+
         // HK_CurrentRoot
         private int countRootProgids(string extension)
         {
@@ -108,6 +164,7 @@ namespace waasa
             }
             return 0;
         }
+
 
         // HK_CurrentRoot
         private bool hasRootDefault(string extension)
@@ -148,6 +205,7 @@ namespace waasa
             }
             return false;
         }
+
 
         private bool isExecutableObjid(string objid)
         {
@@ -214,6 +272,7 @@ namespace waasa
             return true;
         }
 
+
         public bool hasToast(string extension, string objid)
         {
             string keyToSearch = objid + "_" + extension;
@@ -224,6 +283,7 @@ namespace waasa
                 return false;
             }
         }
+
 
         public bool validTrippleNames(string extension)
         {
@@ -240,7 +300,9 @@ namespace waasa
 
             if (GatheredData.HKCR.HasDir(extension)) {
                 if (GatheredData.HKCR.GetDir(extension).HasDir("OpenWithProgids")) {
-                    hkcrOpenWithObjid = GatheredData.HKCR.GetDir(extension).GetDir("OpenWithProgids").Keys.First().Key;
+                    if (GatheredData.HKCR.GetDir(extension).GetDir("OpenWithProgids").Keys.Count == 1) {
+                        hkcrOpenWithObjid = GatheredData.HKCR.GetDir(extension).GetDir("OpenWithProgids").Keys.First().Key;
+                    }
                 }
             }
 
@@ -262,10 +324,43 @@ namespace waasa
                 return false;
             }
         }
+
+
+        public bool isValidUserProgids(string extension)
+        {
+            string objid = "";
+            _RegDirectory root = null;
+
+            if (GatheredData.HKCU_ExplorerFileExts.HasDir(extension)) {
+                root = GatheredData.HKCU_ExplorerFileExts.GetDir(extension);
+            } else {
+                return false;
+            }
+
+            if (root.HasDir("OpenWithProgids")) {
+                var progids = root.GetDir("OpenWithProgids");
+                if (progids.Keys.Count != 1) {
+                    return false;
+                } else {
+                    objid = progids.Keys.First().Key;
+                }
+            }
+
+            if (!hasToast(extension, objid)) {
+                return false;
+            }
+
+            if (!isExecutableObjid(objid)) {
+                return false;
+            }
+
+            return true;
+        }
         
+
         public string AnalyzeExtension(string extension)
         {
-			string ret = "";
+            string ret = "";
 
             if (!hasValidRootProgidsToasts(extension)) {
                 ret += "recommended0";
@@ -273,43 +368,34 @@ namespace waasa
 
             if (hasXml(extension)) {
                 if (hasUserChoice(extension)) {
-                    ret += "exec1";
+                    ret += "exec1.1";
                 } else {
-
+                    ret += "exec1.2"; // Unecessary?
                 }
             } else {
-                if (hasUserChoice(extension) && countUserOpenWithProgids(extension) == 1) {
-                    ret += "exec2.1";
-                } else {
-                    if (countUserOpenWithProgids(extension) == 1 && countRootProgids(extension) == 1) {
-                        if (validTrippleNames(extension)) { 
-                            ret += "exec2.2";
-                        }
+                if (countUserOpenWithProgids(extension) == 1 && countRootProgids(extension) == 1) {
+                    if (validTrippleNames(extension)) { 
+                        ret += "exec2.2";
                     }
-
-                    if (countRootProgids(extension) == 0) {
-                        if (hasRootDefault(extension)) {
-                            if (isValidRootDefault(extension)) {
-                                ret += "exec4";
-                            } else {
-                                ret += "openwith2";
-                            }
-                        } else {
-                            ret += "openwith1";
-                        }
-
-                        return ret;
-                    } else {
-                        ret += "exec3";
-                        return ret;
-                    }
-
-                    // If user.openwithprogid is also in root.openwithprogid
-
                 }
-                //if (!hasUserProgid()) {
-                //    ret = "exec2";
-                //}
+
+                if (countRootProgids(extension) == 0) {
+                    if (hasRootDefault(extension)) {
+                        if (isValidRootDefault(extension)) {
+                            ret += "exec4";
+                        } else {
+                            ret += "openwith2";
+                        }
+                    } else if (isValidUserProgids(extension)) { // only .jar
+                        ret += "exec5";
+                    } else {
+                        ret += "openwith1";
+                    }
+
+                    return ret;
+                } else {
+                    ret += "exec3";
+                }
             }
 
             return ret;

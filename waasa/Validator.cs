@@ -10,6 +10,7 @@ using System.IO;
 using System.Xml;
 using Microsoft.Win32;
 
+
 namespace waasa
 {
     [Serializable]
@@ -18,14 +19,17 @@ namespace waasa
         public string Result { get; set; }
     }
 
+
     class Validator
     {
         private Dictionary<string, cTested> tests { get; } = new Dictionary<string, cTested>();
+
 
         public Validator()
         {
 
         }
+
 
         public void Load(string opensFilename)
         {
@@ -44,6 +48,7 @@ namespace waasa
                 }
             }
         }
+
 
         public void PrintStats(List<_FileExtension> fileExtensions) {
             Console.WriteLine("Missmatches:");
@@ -88,6 +93,7 @@ namespace waasa
             Console.WriteLine("  Erros openwith:    " + eOpenwith);
         }
 
+
         public void Validate(List<_FileExtension> fileExtensions)
         {
             Console.WriteLine("Validating...");
@@ -96,6 +102,17 @@ namespace waasa
                     var effective = app.Assumption;
                     var identified = tests[app.Extension].Result;
                     app.Result = identified;
+                }
+            }
+        }
+
+        public void ValidateDebug(List<_FileExtensionDebug> fileExtensions)
+        {
+            Console.WriteLine("Validating...");
+            foreach (var app in fileExtensions) {
+
+                if (app.Assumption != null && tests.ContainsKey(app.Extension)) {
+                    app.Result = tests[app.Extension].Result;
                 }
             }
         }

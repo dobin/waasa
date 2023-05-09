@@ -8,6 +8,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 
+
 namespace waasa
 {
     /// <summary>
@@ -17,6 +18,7 @@ namespace waasa
     public partial class App : Application
     {
         private _GatheredData gatheredData;
+
 
         void loadData(string filename)
         {
@@ -29,9 +31,10 @@ namespace waasa
                 Console.WriteLine("Loading data from: " + filename);
                 string jsonString = File.ReadAllText(filename);
                 gatheredData = JsonSerializer.Deserialize<_GatheredData>(jsonString)!;
-                gatheredData.PrintStats();
+                //gatheredData.PrintStats();
             }
         }
+
 
         void handleCsv()
         {
@@ -47,6 +50,36 @@ namespace waasa
             output.WriteCsv(fileExtensions);
         }
 
+
+        void handleSingle(string extension)
+        {
+            var analyze = new Analyze(gatheredData);
+            analyze.AnalyzeSingle(extension);
+            var fileExtensions = analyze.FileExtensions;
+
+            var validator = new Validator();
+            validator.Load(@"C:\Users\dobin\source\repos\AppSurface\AppSurface\tests\opens.txt");
+            validator.Validate(fileExtensions);
+
+            var output = new Output();
+            output.printCsv(fileExtensions);
+        }
+
+
+        void handleCsvDebug()
+        {
+            var analyze = new Analyze(gatheredData);
+            var debugEntries = analyze.GetDebug();
+
+            var validator = new Validator();
+            validator.Load(@"C:\Users\dobin\source\repos\AppSurface\AppSurface\tests\opens.txt");
+            validator.ValidateDebug(debugEntries);
+
+            var output = new Output();
+            output.WriteCsvDebug(debugEntries);
+        }
+
+
         void handleTest()
         {
             var analyze = new Analyze(gatheredData);
@@ -58,6 +91,7 @@ namespace waasa
             validator.Validate(fileExtensions);
             validator.PrintStats(fileExtensions);
         }
+
 
         void handleFiles()
         {
@@ -95,6 +129,7 @@ namespace waasa
             output.WriteObjid(gatheredData, objid);
         }
 
+
         void dumpToJson()
         {
             var analyze = new Analyze(gatheredData);
@@ -115,6 +150,11 @@ namespace waasa
             var dumpjson = "dump.json";
 
             switch (function) {
+                case "single":
+                    loadData(dumpjson);
+                    handleSingle(e.Args[1]);
+                    break;
+
                 case "gui":
                     this.ShutdownMode = ShutdownMode.OnMainWindowClose;
                     MainWindow mainWindow = new MainWindow();
@@ -124,6 +164,11 @@ namespace waasa
                     loadData(dumpjson);
                     handleCsv();
                     break;
+                case "csvdebug":
+                    loadData(dumpjson);
+                    handleCsvDebug();
+                    break;
+
                 case "test":
                     loadData(dumpjson);
                     handleTest();
@@ -132,10 +177,10 @@ namespace waasa
                     loadData(dumpjson);
                     handleFiles();
                     break;
-
                 case "dump":
                     dumpToJson();
                     break;
+
 
                 case "ext":
                     loadData(dumpjson);
@@ -149,9 +194,6 @@ namespace waasa
                     handleObjid(objid);
                     break;
             }
-
-            // Your console application logic goes here
-            Console.WriteLine("Hello from WPF Console App!");
 
             // Shutdown the application when done
             this.Shutdown();

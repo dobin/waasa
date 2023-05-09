@@ -5,6 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using CsvHelper;
+using CsvHelper.Configuration;
+using System.Globalization;
+
 
 namespace waasa
 {
@@ -30,9 +34,26 @@ namespace waasa
             Console.WriteLine("Objid: " + objid);
             Console.WriteLine();
 
+            // HKCR
+            if (! gatheredData.HKCR.HasDir(objid)) {
+                Console.WriteLine(String.Format("HKCR\\{0} not found", objid));
+                return;
+            }
             var x = gatheredData.HKCR.GetDir(objid);
             x.Print(1);
 
+            // Toast
+
+            // Has Shell?
+            // Has Exec?
+
+        }
+
+        public void printCsv(List<_FileExtension> fileExtensions)
+        {
+            foreach (var fileExtension in fileExtensions) {
+                Console.WriteLine(String.Format("{0};{1};{2}", fileExtension.Extension, fileExtension.Result, fileExtension.Assumption));
+            }
         }
 
         public void WriteCsv(List<_FileExtension> fileExtensions)
@@ -42,6 +63,17 @@ namespace waasa
                     writer.WriteLine(String.Format("{0};{1};{2}", fileExtension.Extension, fileExtension.Result, fileExtension.Assumption));
                 }
             }
+        }
+
+        public void WriteCsvDebug(List<_FileExtensionDebug> fileExtensionsDebug)
+        {
+            using var writer = new StreamWriter("output-debug.csv");
+            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                // Configure CSV settings, e.g., delimiter, quoting, etc.
+            };
+            using var csv = new CsvWriter(writer, config);
+            csv.WriteRecords(fileExtensionsDebug);
         }
 
         public void WriteFiles(List<_FileExtension> fileExtensions)
