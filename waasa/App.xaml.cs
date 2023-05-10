@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
+using CommandLine;
 
 
 namespace waasa
@@ -18,78 +19,69 @@ namespace waasa
     public partial class App : Application
     {
         private _GatheredData gatheredData;
-
+        private Validator Validator;
 
         void loadData(string filename)
         {
-            if (filename == "") {
-                Console.WriteLine("Gathering all data from current system");
-                var gather = new Gather();
-                gather.GatherAll();
-                gatheredData = gather.GatheredData;
-            } else {
-                Console.WriteLine("Loading data from: " + filename);
-                string jsonString = File.ReadAllText(filename);
-                gatheredData = JsonSerializer.Deserialize<_GatheredData>(jsonString)!;
-                //gatheredData.PrintStats();
-            }
+            Console.WriteLine("Loading data from: " + filename);
+            string jsonString = File.ReadAllText(filename);
+            gatheredData = JsonSerializer.Deserialize<_GatheredData>(jsonString)!;
+            //gatheredData.PrintStats();
+        }
+
+        void loadValidator(string filepath)
+        {
+            Validator = new Validator();
+            Validator.Load(@"C:\Users\dobin\source\repos\AppSurface\AppSurface\tests\opens.txt");
         }
 
 
-        void handleCsv()
+        void handleCsv(string filepath)
         {
             var analyze = new Analyze(gatheredData);
             analyze.AnalyzeAll();
             var fileExtensions = analyze.FileExtensions;
 
-            var validator = new Validator();
-            validator.Load(@"C:\Users\dobin\source\repos\AppSurface\AppSurface\tests\opens.txt");
-            validator.Validate(fileExtensions);
+            Validator.Validate(fileExtensions);
 
             var output = new Output();
-            output.WriteCsv(fileExtensions);
+            output.WriteCsv(fileExtensions, filepath);
         }
 
 
-        void handleSingle(string extension)
+        void testOne(string extension)
         {
             var analyze = new Analyze(gatheredData);
             analyze.AnalyzeSingle(extension);
             var fileExtensions = analyze.FileExtensions;
 
-            var validator = new Validator();
-            validator.Load(@"C:\Users\dobin\source\repos\AppSurface\AppSurface\tests\opens.txt");
-            validator.Validate(fileExtensions);
+            Validator.Validate(fileExtensions);
 
             var output = new Output();
             output.printCsv(fileExtensions);
         }
 
 
-        void handleCsvDebug()
+        void handleCsvDebug(string filepath)
         {
             var analyze = new Analyze(gatheredData);
             var debugEntries = analyze.GetDebug();
 
-            var validator = new Validator();
-            validator.Load(@"C:\Users\dobin\source\repos\AppSurface\AppSurface\tests\opens.txt");
-            validator.ValidateDebug(debugEntries);
+            Validator.ValidateDebug(debugEntries);
 
             var output = new Output();
-            output.WriteCsvDebug(debugEntries);
+            output.WriteCsvDebug(debugEntries, filepath);
         }
 
 
-        void handleTest()
+        void testAll()
         {
             var analyze = new Analyze(gatheredData);
             analyze.AnalyzeAll();
             var fileExtensions = analyze.FileExtensions;
 
-            var validator = new Validator();
-            validator.Load(@"C:\Users\dobin\source\repos\AppSurface\AppSurface\tests\opens.txt");
-            validator.Validate(fileExtensions);
-            validator.PrintStats(fileExtensions);
+            Validator.Validate(fileExtensions);
+            Validator.PrintStats(fileExtensions);
         }
 
 
@@ -99,9 +91,7 @@ namespace waasa
             analyze.AnalyzeAll();
             var fileExtensions = analyze.FileExtensions;
 
-            var validator = new Validator();
-            validator.Load(@"C:\Users\dobin\source\repos\AppSurface\AppSurface\tests\opens.txt");
-            validator.Validate(fileExtensions);
+            Validator.Validate(fileExtensions);
 
             var output = new Output();
             output.WriteFiles(fileExtensions);
@@ -130,15 +120,63 @@ namespace waasa
         }
 
 
-        void dumpToJson()
+        void dumpToJson(string filepath)
         {
-            var analyze = new Analyze(gatheredData);
-            analyze.AnalyzeAll();
-            var fileExtensions = analyze.FileExtensions;
+            Console.WriteLine("Gathering all data from current system");
+            var gather = new Gather();
+            gather.GatherAll();
+            gatheredData = gather.GatheredData;
 
             var output = new Output();
-            output.dumpToJson(gatheredData);
+            output.dumpToJson(gatheredData, filepath);
         }
+
+
+        public class Options
+        {
+            [Option("verbose", Required = false, HelpText = "More detailed output")]
+            public bool Verbose { get; set; }
+
+            // Input
+            [Option("dumpfile", Required = false, Default = "dump.json", HelpText = "Path to the dump file")]
+            public string DumpInputFile { get; set; }
+
+            [Option("opensfile", Required = false, Default = "opens.txt", HelpText = "Path to the opens.txt")]
+            public string OpensInputFile { get; set; }
+
+            // Output to file
+            [Option("csv", Required = false, HelpText = "")]
+            public string Csv { get; set; }
+
+            [Option("csvdebug", Required = false, HelpText = "")]
+            public string CsvDebug { get; set; }
+
+            [Option("dump", Required = false, HelpText = "")]
+            public string Dump { get; set; }
+
+            // Testing
+            [Option("testall", Required = false, HelpText = "")]
+            public bool TestAll { get; set; }
+
+            [Option("testone", Required = false, HelpText = "")]
+            public string TestOne { get; set; }
+
+            // Debug
+            [Option("infoext", Required = false, HelpText = "")]
+            public string InfoExt { get; set; }
+
+            [Option("infoobjid", Required = false, HelpText = "")]
+            public string InfoObjid { get; set; }
+
+            // Generate
+            [Option("files", Required = false, HelpText = "")]
+            public bool Files { get; set; }
+
+            // Other
+            [Option("gui", Required = false, HelpText = "")]
+            public bool Gui { get; set; }
+        }
+
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -146,54 +184,38 @@ namespace waasa
             // Set the shutdown mode to explicit shutdown
             this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
-            var function = e.Args[0];
-            var dumpjson = "dump.json";
+            CommandLine.Parser.Default.ParseArguments<Options>(e.Args)
+              .WithParsed<Options>(o =>
+             {
+                 if (o.Gui) {
+                     this.ShutdownMode = ShutdownMode.OnMainWindowClose;
+                     MainWindow mainWindow = new MainWindow();
+                     mainWindow.Show();
+                     return;
+                 } else if (o.Dump != null) {
+                     dumpToJson(o.Dump);
+                     return;
+                 }
 
-            switch (function) {
-                case "single":
-                    loadData(dumpjson);
-                    handleSingle(e.Args[1]);
-                    break;
+                 loadData(o.DumpInputFile);
+                 loadValidator(o.OpensInputFile); // Currently load for all options
 
-                case "gui":
-                    this.ShutdownMode = ShutdownMode.OnMainWindowClose;
-                    MainWindow mainWindow = new MainWindow();
-                    mainWindow.Show();
-                    break;
-                case "csv":
-                    loadData(dumpjson);
-                    handleCsv();
-                    break;
-                case "csvdebug":
-                    loadData(dumpjson);
-                    handleCsvDebug();
-                    break;
-
-                case "test":
-                    loadData(dumpjson);
-                    handleTest();
-                    break;
-                case "files":
-                    loadData(dumpjson);
-                    handleFiles();
-                    break;
-                case "dump":
-                    dumpToJson();
-                    break;
-
-
-                case "ext":
-                    loadData(dumpjson);
-                    string ext = e.Args[1];
-                    handleExt(ext);
-                    break;
-
-                case "objid":
-                    loadData(dumpjson);
-                    string objid = e.Args[1];
-                    handleObjid(objid);
-                    break;
-            }
+                 if (o.TestOne != null) {
+                     testOne(o.TestOne);
+                 } else if (o.TestAll) {
+                     testAll();
+                 } else if (o.Csv != null) {
+                     handleCsv(o.Csv);
+                 } else if (o.CsvDebug != null) {
+                     handleCsvDebug(o.CsvDebug);
+                 } else if (o.Files) {
+                     handleFiles();
+                 } else if (o.InfoExt != null) {
+                     handleExt(o.InfoExt);
+                 } else if (o.InfoObjid != null) {
+                     handleObjid(o.InfoObjid);
+                 }
+             });
 
             // Shutdown the application when done
             this.Shutdown();

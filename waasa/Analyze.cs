@@ -249,13 +249,11 @@ namespace waasa
         // HK_CurrentRoot
         private bool hasValidRootProgidsToasts(string extension)
         {
-            ///if (GatheredData.HKCR.SubDirectories.ContainsKey(extension)) {
             if (GatheredData.HKCR.HasDir(extension)) {
                 // HKCR\<extension>\
                 var rootExtensionDir = GatheredData.HKCR.GetDir(extension);
 
                 // HKCR\<extension>\OpenWithProgids\
-                ///if (rootExtensionDir.SubDirectories.ContainsKey("OpenWithProgids")) {
                 if (rootExtensionDir.HasDir("OpenWithProgids")) {
                     var openWithProgidsDir = rootExtensionDir.GetDir("OpenWithProgids");
 
