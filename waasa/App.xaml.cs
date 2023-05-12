@@ -8,6 +8,8 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using CommandLine;
+using System.Runtime.InteropServices;
+using System.Text;
 
 
 namespace waasa
@@ -180,6 +182,9 @@ namespace waasa
             [Option("gui", Required = false, HelpText = "")]
             public bool Gui { get; set; }
 
+            [Option("assoc", Required = false, HelpText = "")]
+            public string Assoc{ get; set; }
+
             // Other
             [Option("ext", Required = false, HelpText = "")]
             public string Ext { get; set; }
@@ -191,6 +196,8 @@ namespace waasa
             base.OnStartup(e);
             // Set the shutdown mode to explicit shutdown
             this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+
+
 
             CommandLine.Parser.Default.ParseArguments<Options>(e.Args)
               .WithParsed<Options>(o =>
@@ -222,6 +229,8 @@ namespace waasa
                      handleExt(o.InfoExt);
                  } else if (o.InfoObjid != null) {
                      handleObjid(o.InfoObjid, o.Ext);
+                 } else if (o.Assoc != null) { 
+                     Shlwapi.Query(o.Assoc);
                  }
              });
 

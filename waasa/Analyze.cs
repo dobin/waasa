@@ -14,48 +14,39 @@ namespace waasa
         public String Result { get; set; }
         public String Assumption { get; set; }
 
-        public string Xml1Choice { get; set; }
-        public bool Xml1Exec { get; set; }
-        public bool Xml1Toast { get; set; }
-
-        public string Xml2Choice { get; set; }
-        public bool Xml2Exec { get; set; }
-        public bool Xml2Toast { get; set; }
-
         public string SysFileAssoc { get; set; }
         public string WinFileAssoc { get; set; }
 
-        public string UserChoice { get; set; }
-        public bool UserChoiceExec { get; set; }
-        public bool UserChoiceToast { get; set; }
+        public string HKCU_SwCls { get; set; }
+        public bool HKLU_has { get; set; }
 
-        public int cntUserProgids { get; set; }
-        public string UserProgidOne { get; set; }
-        public bool UserProgidOneExec { get; set; }
-        public bool UserProgidOneToast { get; set; }
+        public string User_Choice { get; set; }
+        public bool User_ChoiceExec { get; set; }
+        public bool User_ChoiceToast { get; set; }
 
-        public string HasHKCUSwCls { get; set; }
+        public int User_CntProgids { get; set; }
+        public string User_ProgidOne { get; set; }
+        public bool User_ProgidOneExec { get; set; }
+        public bool User_ProgidOneToast { get; set; }
+        public bool User_ProgIdsValid { get; set; }
+        public bool User_ProgIdsValid2 { get; set; }
+        public string User_CntList { get; set; }
+        public bool User_ValidList { get; set; }
 
-        public string cntUserList { get; set; }
-        public bool UserProgIdsValid { get; set; }
-        public bool RootProgidsValid { get; set; }
-        public bool UserListIsValid { get; set; }
-        public bool RootListIsValid { get; set; }
-        public bool AAhasHKLU { get; set; }
+        public string Root_Default { get; set; }
+        public bool Root_DefaultExec { get; set; }
+        public bool Root_DefaultToast { get; set; }
+        public int Root_CntProgids { get; set; }
+        public bool Root_ProgidsValid { get; set; }
+        public string Root_ProgidOne { get; set; }
+        public bool Root_ProgidOneExec { get; set; }
+        public bool Root_ProgidOneToast { get; set; }
+        public int Root_CountList { get; set; }
+        public bool Root_ListIsValid { get; set; }
+        public string Root_PersistentHandler { get; set; }
+        public string Root_ContentType { get; set; }
+        public string Root_PerceivedType { get; set; }
 
-        public int cntRootProgids { get; set; }
-        public string RootProgidOne { get; set; }
-        public bool RootProgidOneExec { get; set; }
-        public bool RootProgidOneToast { get; set; }
-
-        public int cntRootList { get; set; }
-        public string RootPersistentHandler { get; set; }
-        public string RootContentType { get; set; }
-        public string RootPerceivedType { get; set; }
-
-        public string RootDefault { get; set; }
-        public bool RootDefaultExec { get; set; }
-        public bool RootDefaultToast { get; set; }
     }
 
 
@@ -89,6 +80,7 @@ namespace waasa
                 entry.Extension = extension;
                 entry.Assumption = assumption;
 
+                /*
                 entry.Xml1Choice = getXml1(extension);
                 entry.Xml1Exec = isExecutableObjid(entry.Xml1Choice);
                 entry.Xml1Toast = hasToast(extension, entry.Xml1Choice);
@@ -96,41 +88,42 @@ namespace waasa
                 entry.Xml2Choice = getXml2(extension);
                 entry.Xml2Exec = isExecutableObjid(entry.Xml2Choice);
                 entry.Xml2Toast = hasToast(extension, entry.Xml2Choice);
+                */
 
                 entry.SysFileAssoc = getSysFileAssoc(extension);
                 entry.WinFileAssoc = getWinFileAssoc(extension);
 
-                entry.UserChoice = getUserChoice(extension);
-                entry.UserChoiceExec = isExecutableObjid(entry.UserChoice);
-                entry.UserChoiceToast = hasToast(extension, entry.UserChoice);
+                entry.User_Choice = getUserChoice(extension);
+                entry.User_ChoiceExec = isExecutableObjid(entry.User_Choice);
+                entry.User_ChoiceToast = hasToast(extension, entry.User_Choice);
 
-                entry.cntUserProgids = countUserOpenWithProgids(extension);
-                entry.UserProgidOne = getUserOpenWithProgids(extension);
-                entry.UserProgidOneExec = isExecutableObjid(entry.UserProgidOne);
-                entry.UserProgidOneToast = hasToast(extension, entry.UserProgidOne);
+                entry.User_CntProgids = countUserOpenWithProgids(extension);
+                entry.User_ProgidOne = getUserOpenWithProgids(extension);
+                entry.User_ProgidOneExec = isExecutableObjid(entry.User_ProgidOne);
+                entry.User_ProgidOneToast = hasToast(extension, entry.User_ProgidOne);
 
-                entry.HasHKCUSwCls = hasHKCUSwCls(extension);
+                entry.HKCU_SwCls = hasHKCUSwCls(extension);
 
-                entry.cntUserList = countUserOpenWithList(extension);
-                entry.UserProgIdsValid = allUserProgidsValid(extension);
-                entry.RootProgidsValid = allRootProgidsValid(extension);
-                entry.UserListIsValid = isUserListValid(extension);
-                entry.RootListIsValid = isRootListValid(extension);
-                entry.AAhasHKLU = hasHKLU(extension);
+                entry.User_CntList = countUserOpenWithList(extension);
+                entry.User_ProgIdsValid = allUserProgidsValid(extension);
+                entry.Root_ProgidsValid = allRootProgidsValid(extension);
+                entry.User_ValidList = isUserListValid(extension);
+                entry.Root_ListIsValid = isRootListValid(extension);
+                entry.HKLU_has = hasHKLU(extension);
 
-                entry.cntRootProgids = countRootProgids(extension);
-                entry.RootProgidOne = getRootProgids(extension);
-                entry.RootProgidOneExec = isExecutableObjid(entry.RootProgidOne);
-                entry.RootProgidOneToast = hasToast(extension, entry.RootProgidOne);
+                entry.Root_CntProgids = countRootProgids(extension);
+                entry.Root_ProgidOne = getRootProgids(extension);
+                entry.Root_ProgidOneExec = isExecutableObjid(entry.Root_ProgidOne);
+                entry.Root_ProgidOneToast = hasToast(extension, entry.Root_ProgidOne);
 
-                entry.cntRootList = countRootOpenWithList(extension);
-                entry.RootPersistentHandler = getRootPersistentHandler(extension);
-                entry.RootContentType = getRootContentType(extension);
-                entry.RootPerceivedType = getRootPerceivedType(extension);
+                entry.Root_CountList = countRootOpenWithList(extension);
+                entry.Root_PersistentHandler = getRootPersistentHandler(extension);
+                entry.Root_ContentType = getRootContentType(extension);
+                entry.Root_PerceivedType = getRootPerceivedType(extension);
 
-                entry.RootDefault = getRootDefault(extension);
-                entry.RootDefaultExec = isExecutableObjid(entry.RootDefault);
-                entry.RootDefaultToast = hasToast(extension, entry.RootDefault);
+                entry.Root_Default = getRootDefault(extension);
+                entry.Root_DefaultExec = isExecutableObjid(entry.Root_Default);
+                entry.Root_DefaultToast = hasToast(extension, entry.Root_Default);
 
                 result.Add(entry);
             }
@@ -308,15 +301,15 @@ namespace waasa
                     if (openWithProgidsDir.Keys.Count == 2) {
                         foreach(var l in openWithProgidsDir.Keys) {
                             if (l.Key.ToLower() != "MRUList") {
-                                return "A: " + l.Value;
+                                return l.Value;
                             }
                         }
                     }
 
-                    return "B: " + openWithProgidsDir.Keys.Count.ToString();
+                    return openWithProgidsDir.Keys.Count.ToString();
                 }
             }
-            return "C";
+            return "";
         }
         private string getUserOpenWithList(string extension)
         {
@@ -802,6 +795,29 @@ namespace waasa
             return true;
         }
 
+        public string AnalyzeExtension(string extension)
+        {
+            Shlwapi.Assoc assoc = Shlwapi.Query(extension);
+
+            if (assoc.FriendlyAppName == "Pick an application") {
+                return "openwith1.1";
+            }
+            if (assoc.FriendlyAppName == "") {
+                return "openwith1.2";
+            }
+            if (assoc.Command != "") {
+
+                // Hmmm
+                if (! isValidUserProgids(extension) && countUserOpenWithList(extension) == "0") {
+                    return "openwith2";
+                } else {
+                    return "exec2";
+                }
+            }
+
+            return "";
+        }
+
         public string AnalyzeExtension00(string extension)
         {
             string x;
@@ -834,7 +850,7 @@ namespace waasa
             return "recommended_end";
         }
 
-        public string AnalyzeExtension(string extension) {
+        public string AnalyzeExtensionWorksPrettyWell(string extension) {
             string x;
             string ret = "";
 
