@@ -19,13 +19,27 @@ namespace waasa
             Console.WriteLine("Extension: " + extension);
             Console.WriteLine();
 
-            Console.WriteLine(@"HKLU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\");
-            var y = gatheredData.HKCU_ExplorerFileExts.GetDir(extension);
-            y.Print(1);
+            Console.WriteLine(@"HKLU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\" + extension + "\\");
+            if (gatheredData.HKCU_ExplorerFileExts.HasDir(extension)) {
+                var y = gatheredData.HKCU_ExplorerFileExts.GetDir(extension);
+                y.Print(1);
+            } else {
+                Console.WriteLine("  NOT EXIST");
+            }
+            
+            Console.WriteLine();
+            Console.WriteLine(@"HKCR\" + extension + "\\");
+            var x = gatheredData.HKCR.GetDir(extension);
+            x.Print(1);
 
             Console.WriteLine();
-            Console.WriteLine(@"HKCR\");
-            var x = gatheredData.HKCR.GetDir(extension);
+            // HKCU\Software\Classes
+            if (!gatheredData.HKCU_SoftwareClasses.HasDir(extension)) {
+                Console.WriteLine(String.Format("HKCU\\Software\\Classes\\{0} not found", extension));
+                return;
+            }
+            x = gatheredData.HKCU_SoftwareClasses.GetDir(extension);
+            Console.WriteLine(@"HKCU\Software\Classes\" + extension + "\\");
             x.Print(1);
         }
 
@@ -40,11 +54,20 @@ namespace waasa
                 return;
             }
             var x = gatheredData.HKCR.GetDir(objid);
-            Console.WriteLine(@"HKCR\");
+            Console.WriteLine(@"HKCR\" + objid + "\\");
+            x.Print(1);
+
+
+            // HKCU\Software\Classes
+            if (!gatheredData.HKCU_SoftwareClasses.HasDir(objid)) {
+                Console.WriteLine(String.Format("HKCU\\Software\\Classes\\{0} not found", objid));
+                return;
+            }
+            x = gatheredData.HKCU_SoftwareClasses.GetDir(objid);
+            Console.WriteLine(@"HKCR\" + objid + "\\");
             x.Print(1);
 
             // Toast
-
             // Has Shell?
             // Has Exec?
 
@@ -80,7 +103,7 @@ namespace waasa
         public void WriteFiles(List<_FileExtension> fileExtensions)
         {
             foreach (var app in fileExtensions) {
-                var output = "output";
+                var output = "output2";
                 var filename = "test" + app.Extension;
                 var directory = app.Assumption;
 

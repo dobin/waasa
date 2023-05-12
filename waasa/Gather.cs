@@ -24,6 +24,10 @@ namespace waasa
         public _RegDirectory HKCR { get; set; }
         public _RegDirectory HKCU_ExplorerFileExts { get; set; }
         public _RegDirectory HKCU_ApplicationAssociationToasts { get; set; }
+        public _RegDirectory HKCU_SoftwareClasses { get; set; }
+
+        public _RegDirectory HKCR_SystemFileAssociations { get; set; }
+        public _RegDirectory HKCR_FileTypeAssociations { get; set; }
 
         public List<_XmlAssociation> AppAssocXml { get; set; } = new List<_XmlAssociation>();
         public List<_XmlAssociation> DefaultAssocXml { get; set; } = new List<_XmlAssociation>();
@@ -35,6 +39,10 @@ namespace waasa
             Console.WriteLine("  HKCR                                 : " + HKCR.SubDirectories.Count);
             Console.WriteLine("  HKCU_ExplorerFileExts                : " + HKCU_ExplorerFileExts.SubDirectories.Count);
             Console.WriteLine("  HKCU_ApplicationAssociationToasts    : " + HKCU_ApplicationAssociationToasts.Keys.Count);
+            Console.WriteLine("  HKCU_SoftwareClasses                 : " + HKCU_SoftwareClasses.Keys.Count);
+
+            Console.WriteLine("  HKCR_SystemFileAssociations          : " + HKCR_SystemFileAssociations.SubDirectories.Count);
+            Console.WriteLine("  HKCR_FileTypeAssociations            : " + HKCR_FileTypeAssociations.SubDirectories.Count);
             Console.WriteLine("  AppAssocXml                          : " + AppAssocXml.Count);
             Console.WriteLine("  DefaultAssocXml                      : " + DefaultAssocXml.Count);
         }
@@ -63,6 +71,10 @@ namespace waasa
             GatherRegistryHKCR();
             GatherRegistryHKCU_ExplorerFileExts();
             GatherRegistryHKCU_ApplicationAssociationToasts();
+            GatherRegistryHKCU_SoftwareClasses();
+
+            GatherHKCR_SystemFileAssociations();
+            GatherHKCR_FileTypeAssociations();
 
             GatherAppAssocXml();
             GatherDefaultAssocXml();
@@ -88,6 +100,27 @@ namespace waasa
             Console.WriteLine("  Finished");
         }
 
+        public void GatherHKCR_SystemFileAssociations()
+        {
+            Console.WriteLine("GatherHKCR_SystemFileAssociations");
+            GatheredData.HKCR_SystemFileAssociations = FromRegistry(Registry.ClassesRoot, @"SystemFileAssociations");
+            Console.WriteLine("  Finished: " + GatheredData.HKCR.SubDirectories.Count);
+        }
+        public void GatherHKCR_FileTypeAssociations()
+        {
+            Console.WriteLine("GatherHKCR_FileTypeAssociations");
+            GatheredData.HKCR_FileTypeAssociations = FromRegistry(Registry.ClassesRoot, @"Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\PackageRepository\Extensions\windows.fileTypeAssociation");
+            Console.WriteLine("  Finished");
+        }
+
+        public void GatherRegistryHKCU_SoftwareClasses()
+        {
+            Console.WriteLine("GatherRegistryHKCU_SoftwareClasses");
+            GatheredData.HKCU_SoftwareClasses = FromRegistry(Registry.CurrentUser, @"SOFTWARE\Classes");
+            Console.WriteLine("  Finished");
+        }
+
+
         public void GatherRegistryHKCU_ExplorerFileExts()
         {
             Console.WriteLine("GatherRegistryHKCU_ExplorerFileExts");
@@ -104,7 +137,7 @@ namespace waasa
 
         public void GatherAppAssocXml()
         {
-            GatheredData.AppAssocXml = FromXml(@"C:\Users\dobin\source\repos\AppSurface\AppSurface\tests\AppAssoc.xml");
+            GatheredData.AppAssocXml = FromXml(@"AppAssoc.xml");
         }
 
         public void GatherDefaultAssocXml()

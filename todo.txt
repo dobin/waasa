@@ -12,15 +12,24 @@
 + dump: complete file extension infos
   + HKLU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\
   + HKCR\<>
++ make it possible to give path to opens.txt
++ args: dump.json, csv result etc.
 
 
 
-* make it possible to give path to opens.txt
-* args: dump.json, csv result etc.
+## Commands
+
+.\waasa.exe --csvdebug .\output-debug.csv
+
+.\waasa.exe --csvdebug .\windev.csv --dumpfile .\windev-new.json --opensfile .\windev.txt
+
+.\waasa.exe --dumpfile .\windev-new.json --opensfile .\windev.txt --infoobjid AppX43hnxtbyyps62jhe9sqpdzxn1790zetc
 
 
-* checks:
-  * OBJID:
-    * Toast?
-    * valid shell? (opens etc.)
-  * 
+
+## wpf
+
+https://www.simplilearn.com/tutorials/c-sharp-tutorial/c-sharp-gui
+http://csharp.net-informations.com/gui/gui_tutorial.htm
+https://learn.microsoft.com/en-us/dotnet/desktop/wpf/controls/how-to-group-sort-and-filter-data-in-the-datagrid-control?view=netframeworkdesktop-4.8
+

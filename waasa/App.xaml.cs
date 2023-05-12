@@ -32,7 +32,7 @@ namespace waasa
         void loadValidator(string filepath)
         {
             Validator = new Validator();
-            Validator.Load(@"C:\Users\dobin\source\repos\AppSurface\AppSurface\tests\opens.txt");
+            Validator.Load(filepath);
         }
 
 
@@ -109,7 +109,7 @@ namespace waasa
         }
 
 
-        void handleObjid(string objid)
+        void handleObjid(string objid, string extension)
         {
             var analyze = new Analyze(gatheredData);
             analyze.AnalyzeAll();
@@ -117,6 +117,10 @@ namespace waasa
 
             var output = new Output();
             output.WriteObjid(gatheredData, objid);
+
+            Console.WriteLine("");
+            Console.WriteLine("Toast: " + analyze.hasToast(extension, objid));
+
         }
 
 
@@ -175,6 +179,10 @@ namespace waasa
             // Other
             [Option("gui", Required = false, HelpText = "")]
             public bool Gui { get; set; }
+
+            // Other
+            [Option("ext", Required = false, HelpText = "")]
+            public string Ext { get; set; }
         }
 
 
@@ -213,7 +221,7 @@ namespace waasa
                  } else if (o.InfoExt != null) {
                      handleExt(o.InfoExt);
                  } else if (o.InfoObjid != null) {
-                     handleObjid(o.InfoObjid);
+                     handleObjid(o.InfoObjid, o.Ext);
                  }
              });
 

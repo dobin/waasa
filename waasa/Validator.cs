@@ -33,6 +33,7 @@ namespace waasa
 
         public void Load(string opensFilename)
         {
+            Console.WriteLine("Validator: " + opensFilename);
             // Parse opens.txt
             using (var fileStream = File.OpenRead(opensFilename))
             using (var streamReader = new StreamReader(fileStream, System.Text.Encoding.UTF8, true, 512)) {
@@ -44,7 +45,11 @@ namespace waasa
 
                     var tested = new cTested();
                     tested.Result = s[1];
-                    tests.Add(s[0], tested);
+                    if (! tests.ContainsKey(s[0])) {
+                        tests.Add(s[0], tested);
+                    } else {
+                        Console.WriteLine("Double: " + s[0]);
+                    }
                 }
             }
         }
