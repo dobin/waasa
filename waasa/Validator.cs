@@ -48,7 +48,7 @@ namespace waasa
                     if (! tests.ContainsKey(s[0])) {
                         tests.Add(s[0], tested);
                     } else {
-                        Console.WriteLine("Double: " + s[0]);
+                        //Console.WriteLine("Double: " + s[0]);
                     }
                 }
             }

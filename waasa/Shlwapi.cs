@@ -56,6 +56,7 @@ public class Shlwapi
         return pszOut.ToString();
     }
 
+    [Serializable]
     public class Assoc
     {
         public string FriendlyAppName { get; set; }
@@ -66,6 +67,20 @@ public class Shlwapi
         public string DDECommand { get; set; }
         public string DDEIfExec { get; set; }
         public string DDEApplication { get; set; }
+
+        public override string ToString()
+        {
+            string r = "";
+            r += String.Format("FriendlyAppName: {0}\n", FriendlyAppName);
+            r += String.Format("Command: {0}\n", Command);
+            r += String.Format("FriendlyDocName: {0}\n", FriendlyDocName);
+            r += String.Format("NoOpen: {0}\n", NoOpen);
+            r += String.Format("ShellNewValue: {0}\n", ShellNewValue);
+            r += String.Format("DDECommand: {0}\n", DDECommand);
+            r += String.Format("DDEIfExec: {0}\n", DDEIfExec);
+            r += String.Format("DDEApplication: {0}", DDEApplication);
+            return r;
+        }
     }
 
     public static Assoc Query(string data)

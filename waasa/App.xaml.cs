@@ -20,103 +20,96 @@ namespace waasa
 
     public partial class App : Application
     {
-        private _GatheredData gatheredData;
-        private Validator Validator;
-
-        void loadData(string filename)
+        _GatheredData loadData(string filename)
         {
-            Console.WriteLine("Loading data from: " + filename);
+            Console.WriteLine("Dump: " + filename);
             string jsonString = File.ReadAllText(filename);
-            gatheredData = JsonSerializer.Deserialize<_GatheredData>(jsonString)!;
+            var gatheredData = JsonSerializer.Deserialize<_GatheredData>(jsonString)!;
             //gatheredData.PrintStats();
+            return gatheredData;
         }
 
-        void loadValidator(string filepath)
+        Validator loadValidator(string filepath)
         {
-            Validator = new Validator();
-            Validator.Load(filepath);
+            Validator validator = new Validator();
+            validator.Load(filepath);
+            return validator;
         }
 
 
-        void handleCsv(string filepath)
+        void handleCsv(_GatheredData gatheredData, Validator validator, string filepath)
         {
             var analyze = new Analyze(gatheredData);
             analyze.AnalyzeAll();
             var fileExtensions = analyze.FileExtensions;
 
-            Validator.Validate(fileExtensions);
+            validator.Validate(fileExtensions);
 
             var output = new Output();
             output.WriteCsv(fileExtensions, filepath);
         }
 
 
-        void testOne(string extension)
+        void testOne(_GatheredData gatheredData, Validator validator, string extension)
         {
             var analyze = new Analyze(gatheredData);
             analyze.AnalyzeSingle(extension);
             var fileExtensions = analyze.FileExtensions;
 
-            Validator.Validate(fileExtensions);
+            validator.Validate(fileExtensions);
 
             var output = new Output();
             output.printCsv(fileExtensions);
         }
 
 
-        void handleCsvDebug(string filepath)
+        void handleCsvDebug(_GatheredData gatheredData, Validator validator, string filepath)
         {
             var analyze = new Analyze(gatheredData);
             var debugEntries = analyze.GetDebug();
 
-            Validator.ValidateDebug(debugEntries);
+            validator.ValidateDebug(debugEntries);
 
             var output = new Output();
             output.WriteCsvDebug(debugEntries, filepath);
         }
 
 
-        void testAll()
+        void testAll(_GatheredData gatheredData, Validator validator)
         {
             var analyze = new Analyze(gatheredData);
             analyze.AnalyzeAll();
             var fileExtensions = analyze.FileExtensions;
 
-            Validator.Validate(fileExtensions);
-            Validator.PrintStats(fileExtensions);
+            validator.Validate(fileExtensions);
+            validator.PrintStats(fileExtensions);
         }
 
 
-        void handleFiles()
+        void handleFiles(_GatheredData gatheredData, Validator validator)
         {
             var analyze = new Analyze(gatheredData);
             analyze.AnalyzeAll();
             var fileExtensions = analyze.FileExtensions;
 
-            Validator.Validate(fileExtensions);
+            validator.Validate(fileExtensions);
 
             var output = new Output();
             output.WriteFiles(fileExtensions);
         }
 
 
-        void handleExt(string extension)
+        void handleExt(_GatheredData gatheredData, string extension)
         {
             var analyze = new Analyze(gatheredData);
-            analyze.AnalyzeAll();
-            var fileExtensions = analyze.FileExtensions;
-
             var output = new Output();
             output.WriteExts(gatheredData, extension);
         }
 
 
-        void handleObjid(string objid, string extension)
+        void handleObjid(_GatheredData gatheredData, string objid, string extension)
         {
             var analyze = new Analyze(gatheredData);
-            analyze.AnalyzeAll();
-            var fileExtensions = analyze.FileExtensions;
-
             var output = new Output();
             output.WriteObjid(gatheredData, objid);
 
@@ -125,13 +118,20 @@ namespace waasa
 
         }
 
+        void handleAssoc(_GatheredData gatheredData, string data)
+        {
+            var analyze = new Analyze(gatheredData);
+            var a = analyze.GetShlwapiBy(data);
+            Console.WriteLine("Assoc:\n" + a.ToString());
+        }
+
 
         void dumpToJson(string filepath)
         {
             Console.WriteLine("Gathering all data from current system");
             var gather = new Gather();
             gather.GatherAll();
-            gatheredData = gather.GatheredData;
+            var gatheredData = gather.GatheredData;
 
             var output = new Output();
             output.dumpToJson(gatheredData, filepath);
@@ -168,11 +168,15 @@ namespace waasa
             public string TestOne { get; set; }
 
             // Debug
-            [Option("infoext", Required = false, HelpText = "")]
+            [Option("ext", Required = false, HelpText = "")]
             public string InfoExt { get; set; }
 
-            [Option("infoobjid", Required = false, HelpText = "")]
+            [Option("obj", Required = false, HelpText = "")]
             public string InfoObjid { get; set; }
+
+            [Option("assoc", Required = false, HelpText = "")]
+            public string Assoc { get; set; }
+
 
             // Generate
             [Option("files", Required = false, HelpText = "")]
@@ -182,11 +186,8 @@ namespace waasa
             [Option("gui", Required = false, HelpText = "")]
             public bool Gui { get; set; }
 
-            [Option("assoc", Required = false, HelpText = "")]
-            public string Assoc{ get; set; }
-
             // Other
-            [Option("ext", Required = false, HelpText = "")]
+            [Option("extinfo", Required = false, HelpText = "")]
             public string Ext { get; set; }
         }
 
@@ -196,8 +197,6 @@ namespace waasa
             base.OnStartup(e);
             // Set the shutdown mode to explicit shutdown
             this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-
-
 
             CommandLine.Parser.Default.ParseArguments<Options>(e.Args)
               .WithParsed<Options>(o =>
@@ -212,25 +211,25 @@ namespace waasa
                      return;
                  }
 
-                 loadData(o.DumpInputFile);
-                 loadValidator(o.OpensInputFile); // Currently load for all options
-
+                 _GatheredData gatheredData = loadData(o.DumpInputFile);
+                 var validator = loadValidator(o.OpensInputFile);
+                 Console.WriteLine("");
                  if (o.TestOne != null) {
-                     testOne(o.TestOne);
+                     testOne(gatheredData, validator, o.TestOne);
                  } else if (o.TestAll) {
-                     testAll();
+                     testAll(gatheredData, validator);
                  } else if (o.Csv != null) {
-                     handleCsv(o.Csv);
+                     handleCsv(gatheredData, validator, o.Csv);
                  } else if (o.CsvDebug != null) {
-                     handleCsvDebug(o.CsvDebug);
+                     handleCsvDebug(gatheredData, validator, o.CsvDebug);
                  } else if (o.Files) {
-                     handleFiles();
+                     handleFiles(gatheredData, validator);
                  } else if (o.InfoExt != null) {
-                     handleExt(o.InfoExt);
+                     handleExt(gatheredData, o.InfoExt);
                  } else if (o.InfoObjid != null) {
-                     handleObjid(o.InfoObjid, o.Ext);
-                 } else if (o.Assoc != null) { 
-                     Shlwapi.Query(o.Assoc);
+                     handleObjid(gatheredData, o.InfoObjid, o.Ext);
+                 } else if (o.Assoc != null) {
+                     handleAssoc(gatheredData, o.Assoc);
                  }
              });
 

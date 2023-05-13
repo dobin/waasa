@@ -19,7 +19,7 @@ namespace waasa
     [Serializable]
     public class _GatheredData
     {
-        public List<string> ListedExtensions { get; set;  } = new List<string>();
+        public List<string> ListedExtensions { get; set; } = new List<string>();
 
         public _RegDirectory HKCR { get; set; }
         public _RegDirectory HKCU_ExplorerFileExts { get; set; }
@@ -28,6 +28,8 @@ namespace waasa
 
         public _RegDirectory HKCR_SystemFileAssociations { get; set; }
         public _RegDirectory HKCR_FileTypeAssociations { get; set; }
+
+        public Dictionary<string, Shlwapi.Assoc> ShlwapiAssoc { get; set; } = new Dictionary<string, Shlwapi.Assoc>();
 
         public List<_XmlAssociation> AppAssocXml { get; set; } = new List<_XmlAssociation>();
         public List<_XmlAssociation> DefaultAssocXml { get; set; } = new List<_XmlAssociation>();
@@ -40,11 +42,11 @@ namespace waasa
             Console.WriteLine("  HKCU_ExplorerFileExts                : " + HKCU_ExplorerFileExts.SubDirectories.Count);
             Console.WriteLine("  HKCU_ApplicationAssociationToasts    : " + HKCU_ApplicationAssociationToasts.Keys.Count);
             Console.WriteLine("  HKCU_SoftwareClasses                 : " + HKCU_SoftwareClasses.Keys.Count);
-
             Console.WriteLine("  HKCR_SystemFileAssociations          : " + HKCR_SystemFileAssociations.SubDirectories.Count);
             Console.WriteLine("  HKCR_FileTypeAssociations            : " + HKCR_FileTypeAssociations.SubDirectories.Count);
             Console.WriteLine("  AppAssocXml                          : " + AppAssocXml.Count);
             Console.WriteLine("  DefaultAssocXml                      : " + DefaultAssocXml.Count);
+            Console.WriteLine("  ShlwapiAssoc                         : " + ShlwapiAssoc.Count);
         }
     }
 
@@ -79,9 +81,18 @@ namespace waasa
             GatherAppAssocXml();
             GatherDefaultAssocXml();
 
+            GatherShlwapi();
+
             GatheredData.PrintStats();
         }
 
+        public void GatherShlwapi()
+        {
+            foreach(var ext in GatheredData.ListedExtensions) {
+                var assoc = Shlwapi.Query(ext);
+                GatheredData.ShlwapiAssoc.Add(ext, assoc);
+            }
+        }
 
         public void GatherListedExtensions()
         {

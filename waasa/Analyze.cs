@@ -795,9 +795,19 @@ namespace waasa
             return true;
         }
 
+        public Shlwapi.Assoc GetShlwapiBy(string ext)
+        {
+            if (GatheredData.ShlwapiAssoc.ContainsKey(ext)) {
+                return GatheredData.ShlwapiAssoc[ext];
+            } else {
+                return null;
+            }
+        }
+
         public string AnalyzeExtension(string extension)
         {
-            Shlwapi.Assoc assoc = Shlwapi.Query(extension);
+            //Shlwapi.Assoc assoc = Shlwapi.Query(extension);
+            var assoc = GetShlwapiBy(extension);
 
             if (assoc.FriendlyAppName == "Pick an application") {
                 return "openwith1.1";
