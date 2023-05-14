@@ -50,6 +50,20 @@ namespace waasa
         }
 
 
+        void handleGui(_GatheredData gatheredData, Validator validator)
+        {
+            var analyze = new Analyze(gatheredData);
+            analyze.AnalyzeAll();
+            var fileExtensions = analyze.FileExtensions;
+
+            validator.Validate(fileExtensions);
+
+            this.ShutdownMode = ShutdownMode.OnMainWindowClose;
+            MainWindow mainWindow = new MainWindow(gatheredData, fileExtensions);
+            mainWindow.Show();
+        }
+
+
         void testOne(_GatheredData gatheredData, Validator validator, string extension)
         {
             var analyze = new Analyze(gatheredData);
@@ -201,12 +215,7 @@ namespace waasa
             CommandLine.Parser.Default.ParseArguments<Options>(e.Args)
               .WithParsed<Options>(o =>
              {
-                 if (o.Gui) {
-                     this.ShutdownMode = ShutdownMode.OnMainWindowClose;
-                     MainWindow mainWindow = new MainWindow();
-                     mainWindow.Show();
-                     return;
-                 } else if (o.Dump != null) {
+                 if (o.Dump != null) {
                      dumpToJson(o.Dump);
                      return;
                  }
@@ -216,6 +225,9 @@ namespace waasa
                  Console.WriteLine("");
                  if (o.TestOne != null) {
                      testOne(gatheredData, validator, o.TestOne);
+                 } else if (o.Gui) {
+                     handleGui(gatheredData, validator);
+                     return;
                  } else if (o.TestAll) {
                      testAll(gatheredData, validator);
                  } else if (o.Csv != null) {
@@ -234,7 +246,7 @@ namespace waasa
              });
 
             // Shutdown the application when done
-            this.Shutdown();
+            //this.Shutdown();
         }
     }
 }

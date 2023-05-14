@@ -7,6 +7,26 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <DataGrid Name="dataGrid" AutoGenerateColumns="False" CanUserSortColumns="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Extension" Binding="{Binding Extension}" SortDirection="Ascending" />
+                <DataGridTextColumn Header="Result" Binding="{Binding Result}" />
+                <DataGridTextColumn Header="Assumption" Binding="{Binding Assumption}" />
 
+                <!-- Add a new column with a button -->
+                <DataGridTemplateColumn Header="Actions">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="Exec" Click="ButtonExec"/>
+                                <Button Content="Download" Click="ButtonDownload"/>
+                                <Button Content="Browser" Click="ButtonBrowserDownload"/>
+                                <Button Content="Details" Click="ButtonDetails"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>
