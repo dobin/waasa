@@ -440,6 +440,25 @@ namespace waasa
             return true;
         }
 
+        public string GetSystemApp(string objid)
+        {
+            // PackageID
+            if (GatheredData.HKCR.HasDir(objid)) {
+                var obj = GatheredData.HKCR.GetDir(objid);
+                var packageid = obj.GetDir("shell").GetDir("open").Keys["PackageId"];
+
+                return packageid;
+            }
+
+            // Check if its a valid objid first
+            // TODO
+
+            // Check if its a package
+            // Computer\HKEY_CURRENT_USER\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\Repository\Packages\Microsoft.Windows.SecHealthUI_10.0.19041.1865_neutral__cw5n1h2txyewy
+
+            return objid;
+        }
+
         public bool appExists(string objid)
         {
             var root = GatheredData.HKCR.GetDir("Applications");
@@ -523,6 +542,39 @@ namespace waasa
                     }
                 }
             }
+            return "";
+        }
+
+        public string ContentTypeExec(string mimetype)
+        {
+            var regContentType = GatheredData.HKCR.GetDir("MIME").GetDir("Database").GetDir("Content Type");
+            if (regContentType.HasDir(mimetype)) {
+                if (regContentType.GetDir(mimetype).Keys.ContainsKey("CLSID")) {
+                    var clsid = regContentType.GetDir(mimetype).Keys["CLSID"];
+
+                    var x = getClsidExe(clsid);
+
+                    return x + "?";
+                }
+            }
+
+            return "";
+        }
+
+        public string getClsidExe(string clsid)
+        {
+            var root = GatheredData.HKCR.GetDir("CLSID");
+            var ret = "";
+
+            if (root.HasDir(clsid)) {
+                if (root.GetDir(clsid).HasDir("InprocServer32")) {
+                    if (root.GetDir(clsid).GetDir("InprocServer32").Keys.ContainsKey("")) {
+                        var exec = root.GetDir(clsid).GetDir("InprocServer32").Keys[""];
+                        return exec;
+                    }
+                }
+            }
+
             return "";
         }
 

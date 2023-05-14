@@ -248,7 +248,7 @@ namespace waasa
                 }
 
                 // Skip unecessary directories
-                if (path != "Interface" && path != "CLSID" && path != "Extensions" && path != "Local Settings" 
+                if (path != "Interface" && path != "Extensions" && path != "Local Settings" 
                     && path != "WOW6432Node" && path != "Installer" && path != "ActivatableClasses"
                     && path != "AppId" && path != "CID" && path != "Record" && path != "TypeLib" 
                 ) {
