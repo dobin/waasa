@@ -48,6 +48,74 @@ namespace waasa
             Console.WriteLine("  DefaultAssocXml                      : " + DefaultAssocXml.Count);
             Console.WriteLine("  ShlwapiAssoc                         : " + ShlwapiAssoc.Count);
         }
+
+        public string GetShlwapiInfo(string extension)
+        {
+            return ShlwapiAssoc[extension].ToString();
+        }
+
+        public string GetExtensionInfo(string extension)
+        {
+            string ret = "";
+
+            ret += String.Format("Extension: {0}\n", extension);
+            ret += String.Format("\n");
+
+            // HKLU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\
+            ret += String.Format("HKLU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\{0}\\ \n", extension);
+            if (HKCU_ExplorerFileExts.HasDir(extension)) {
+                var y = HKCU_ExplorerFileExts.GetDir(extension);
+                ret += y.toStr(1);
+            } else {
+                ret += ("  NOT EXIST\n");
+            }
+            ret += String.Format("\n");
+
+            // HKCR\
+            ret += String.Format("HKCR\\{0}\\ \n", extension);
+            var x = HKCR.GetDir(extension);
+            ret += x.toStr(1);
+            ret += String.Format("\n");
+
+            // HKCU\Software\Classes
+            ret += String.Format("\n");
+            if (!HKCU_SoftwareClasses.HasDir(extension)) {
+                ret += String.Format("HKCU\\Software\\Classes\\{0} not found\n", extension);
+            } else {
+                x = HKCU_SoftwareClasses.GetDir(extension);
+                ret += String.Format("HKCU\\Software\\Classes\\{0}\\ \n", extension);
+                ret += x.toStr(1);
+            }
+
+            return ret;
+        }
+
+
+        public string GetObjidInfo(string objid)
+        {
+            string ret = "";
+
+            // HKCR
+            if (!HKCR.HasDir(objid)) {
+                ret += String.Format("HKCR\\{0} not found\n", objid);
+            } else {
+                var x = HKCR.GetDir(objid);
+                ret += String.Format("HKCR\\{0}\\ \n", objid);
+                ret += x.toStr(1);
+            }
+
+            // HKCU\Software\Classes
+            ret += String.Format("\n");
+            if (!HKCU_SoftwareClasses.HasDir(objid)) {
+                ret += String.Format("HKCU\\Software\\Classes\\{0} not found", objid);
+            } else {
+                var x = HKCU_SoftwareClasses.GetDir(objid);
+                ret += @"HKCR\" + objid + "\\";
+                ret += x.toStr(1);
+            }
+
+            return ret;
+        }
     }
 
 
@@ -55,18 +123,7 @@ namespace waasa
     {
         public _GatheredData GatheredData = new _GatheredData();
 
-        public void ToJson()
-        {
-
-        }
-
-        public void FromJson()
-        {
-
-        }
-
-
-        public void GatherAll()
+        public _GatheredData GatherAll()
         {
             GatherListedExtensions();
 
@@ -84,6 +141,8 @@ namespace waasa
             GatherShlwapi();
 
             GatheredData.PrintStats();
+
+            return GatheredData;
         }
 
         public void GatherShlwapi()

@@ -10,132 +10,112 @@ using System.Windows;
 using CommandLine;
 using System.Runtime.InteropServices;
 using System.Text;
-
+using CsvHelper;
+using CsvHelper.Configuration;
+using System.Globalization;
 
 namespace waasa
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-
     public partial class App : Application
     {
-        _GatheredData loadData(string filename)
+        private _GatheredData GatheredData { get; set; }
+        private _Registry Registry { get; set; }
+        private Validator Validator { get; set; }
+        private Analyze Analyzer { get; set; }
+
+
+        private void loadAll(string dumpFilepath, string opensFilepath)
         {
-            Console.WriteLine("Dump: " + filename);
-            string jsonString = File.ReadAllText(filename);
-            var gatheredData = JsonSerializer.Deserialize<_GatheredData>(jsonString)!;
-            //gatheredData.PrintStats();
-            return gatheredData;
-        }
+            Console.WriteLine("Dump: " + dumpFilepath);
+            string jsonString = File.ReadAllText(dumpFilepath);
+            GatheredData = JsonSerializer.Deserialize<_GatheredData>(jsonString)!;
 
-        Validator loadValidator(string filepath)
-        {
-            Validator validator = new Validator();
-            validator.Load(filepath);
-            return validator;
-        }
+            Validator = new Validator();
+            Validator.Load(opensFilepath);
 
-
-        void handleCsv(_GatheredData gatheredData, Validator validator, string filepath)
-        {
-            var analyze = new Analyze(gatheredData);
-            analyze.AnalyzeAll();
-            var fileExtensions = analyze.FileExtensions;
-
-            validator.Validate(fileExtensions);
-
-            var output = new Output();
-            output.WriteCsv(fileExtensions, filepath);
+            Registry = new _Registry(GatheredData);
+            Analyzer = new Analyze(GatheredData, Validator, Registry);
         }
 
 
-        void handleGui(_GatheredData gatheredData, Validator validator)
+        void handleGui()
         {
-            var analyze = new Analyze(gatheredData);
-            analyze.AnalyzeAll();
-            var fileExtensions = analyze.FileExtensions;
-
-            validator.Validate(fileExtensions);
+            var fileExtensions = Analyzer.AnalyzeAll();
 
             this.ShutdownMode = ShutdownMode.OnMainWindowClose;
-            MainWindow mainWindow = new MainWindow(gatheredData, fileExtensions);
+            MainWindow mainWindow = new MainWindow(GatheredData, fileExtensions);
             mainWindow.Show();
         }
 
 
-        void testOne(_GatheredData gatheredData, Validator validator, string extension)
+        void handleCsv(string filepath)
         {
-            var analyze = new Analyze(gatheredData);
-            analyze.AnalyzeSingle(extension);
-            var fileExtensions = analyze.FileExtensions;
+            var fileExtensions = Analyzer.AnalyzeAll();
 
-            validator.Validate(fileExtensions);
-
-            var output = new Output();
-            output.printCsv(fileExtensions);
+            Console.WriteLine("Writing CSV to: " + filepath + " with " + fileExtensions.Count);
+            using (StreamWriter writer = new StreamWriter(filepath)) {
+                foreach (var fileExtension in fileExtensions) {
+                    writer.WriteLine(String.Format("{0};{1};{2}", fileExtension.Extension, fileExtension.Result, fileExtension.Assumption));
+                }
+            }
         }
 
 
-        void handleCsvDebug(_GatheredData gatheredData, Validator validator, string filepath)
+        void handleCsvDebug(string filepath)
         {
-            var analyze = new Analyze(gatheredData);
-            var debugEntries = analyze.GetDebug();
+            var fileExtensions = Analyzer.AnalyzeAll();
+            var fileExtensionsDebug = Registry.GetFileExtensionDebug(fileExtensions);
 
-            validator.ValidateDebug(debugEntries);
-
-            var output = new Output();
-            output.WriteCsvDebug(debugEntries, filepath);
+            Console.WriteLine("Writing CSVDebug to: " + filepath + " with " + fileExtensionsDebug.Count);
+            using var writer = new StreamWriter(filepath);
+            var config = new CsvConfiguration(CultureInfo.InvariantCulture) {};
+            using var csv = new CsvWriter(writer, config);
+            csv.WriteRecords(fileExtensionsDebug);
         }
 
 
-        void testAll(_GatheredData gatheredData, Validator validator)
+        void testAll()
         {
-            var analyze = new Analyze(gatheredData);
-            analyze.AnalyzeAll();
-            var fileExtensions = analyze.FileExtensions;
-
-            validator.Validate(fileExtensions);
-            validator.PrintStats(fileExtensions);
+            var fileExtensions = Analyzer.AnalyzeAll();
+            Validator.Validate(fileExtensions);
+            Validator.PrintStats(fileExtensions);
         }
 
 
-        void handleFiles(_GatheredData gatheredData, Validator validator)
+        void handleFiles()
         {
-            var analyze = new Analyze(gatheredData);
-            analyze.AnalyzeAll();
-            var fileExtensions = analyze.FileExtensions;
+            var fileExtensions = Analyzer.AnalyzeAll();
+            foreach (var app in fileExtensions) {
+                var output = "output";
+                var filename = "test" + app.Extension;
+                var directory = app.Assumption;
 
-            validator.Validate(fileExtensions);
-
-            var output = new Output();
-            output.WriteFiles(fileExtensions);
+                if (!Directory.Exists(output)) {
+                    Directory.CreateDirectory(output);
+                }
+                if (!Directory.Exists(output + "\\" + directory)) {
+                    Directory.CreateDirectory(output + "\\" + directory);
+                }
+                File.Create(output + "\\" + directory + "\\" + filename);
+            }
         }
 
 
-        void handleExt(_GatheredData gatheredData, string extension)
+        void handleExt(string extension)
         {
-            var analyze = new Analyze(gatheredData);
-            var output = new Output();
-            output.WriteExts(gatheredData, extension);
+            Console.WriteLine(GatheredData.GetExtensionInfo(extension));
         }
 
 
-        void handleObjid(_GatheredData gatheredData, string objid, string extension)
+        void handleObjid(string objid)
         {
-            var analyze = new Analyze(gatheredData);
-            var output = new Output();
-            output.WriteObjid(gatheredData, objid);
-
-            Console.WriteLine("");
-            Console.WriteLine("Toast: " + analyze.hasToast(extension, objid));
-
+            Console.WriteLine(GatheredData.GetObjidInfo(objid));
         }
 
-        void handleAssoc(_GatheredData gatheredData, string data)
+
+        void handleAssoc(string data)
         {
-            var analyze = new Analyze(gatheredData);
-            var a = analyze.GetShlwapiBy(data);
+            var a = Analyzer.GetShlwapiBy(data);
             Console.WriteLine("Assoc:\n" + a.ToString());
         }
 
@@ -144,11 +124,12 @@ namespace waasa
         {
             Console.WriteLine("Gathering all data from current system");
             var gather = new Gather();
-            gather.GatherAll();
-            var gatheredData = gather.GatheredData;
+            var gatheredData = gather.GatherAll();
 
-            var output = new Output();
-            output.dumpToJson(gatheredData, filepath);
+            using (StreamWriter writer = new StreamWriter(filepath)) {
+                string strJson = JsonSerializer.Serialize<_GatheredData>(gatheredData);
+                writer.WriteLine(strJson);
+            }
         }
 
 
@@ -186,7 +167,7 @@ namespace waasa
             public string InfoExt { get; set; }
 
             [Option("obj", Required = false, HelpText = "")]
-            public string InfoObjid { get; set; }
+            public string InfoObj { get; set; }
 
             [Option("assoc", Required = false, HelpText = "")]
             public string Assoc { get; set; }
@@ -199,10 +180,6 @@ namespace waasa
             // Other
             [Option("gui", Required = false, HelpText = "")]
             public bool Gui { get; set; }
-
-            // Other
-            [Option("extinfo", Required = false, HelpText = "")]
-            public string Ext { get; set; }
         }
 
 
@@ -212,41 +189,53 @@ namespace waasa
             // Set the shutdown mode to explicit shutdown
             this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
+            /*
+            var a = Shlwapi.Query(".androidproj");
+            Console.WriteLine("COmmand: " + a.Command);
+            Console.WriteLine("FriendlyAppName: " + a.FriendlyAppName);
+            this.Shutdown();
+            return;
+            */
+            
+
             CommandLine.Parser.Default.ParseArguments<Options>(e.Args)
               .WithParsed<Options>(o =>
              {
                  if (o.Dump != null) {
                      dumpToJson(o.Dump);
+                     this.Shutdown();
                      return;
                  }
 
-                 _GatheredData gatheredData = loadData(o.DumpInputFile);
-                 var validator = loadValidator(o.OpensInputFile);
+                 loadAll(o.DumpInputFile, o.OpensInputFile);
+
                  Console.WriteLine("");
-                 if (o.TestOne != null) {
-                     testOne(gatheredData, validator, o.TestOne);
-                 } else if (o.Gui) {
-                     handleGui(gatheredData, validator);
+                 if (o.Gui) {
+                     handleGui();
                      return;
                  } else if (o.TestAll) {
-                     testAll(gatheredData, validator);
+                     testAll();
+                     this.Shutdown();
                  } else if (o.Csv != null) {
-                     handleCsv(gatheredData, validator, o.Csv);
+                     handleCsv(o.Csv);
+                     this.Shutdown();
                  } else if (o.CsvDebug != null) {
-                     handleCsvDebug(gatheredData, validator, o.CsvDebug);
+                     handleCsvDebug(o.CsvDebug);
+                     this.Shutdown();
                  } else if (o.Files) {
-                     handleFiles(gatheredData, validator);
+                     handleFiles();
+                     this.Shutdown();
                  } else if (o.InfoExt != null) {
-                     handleExt(gatheredData, o.InfoExt);
-                 } else if (o.InfoObjid != null) {
-                     handleObjid(gatheredData, o.InfoObjid, o.Ext);
+                     handleExt(o.InfoExt);
+                     this.Shutdown();
+                 } else if (o.InfoObj != null) {
+                     handleObjid(o.InfoObj);
+                     this.Shutdown();
                  } else if (o.Assoc != null) {
-                     handleAssoc(gatheredData, o.Assoc);
+                     handleAssoc(o.Assoc);
+                     this.Shutdown();
                  }
              });
-
-            // Shutdown the application when done
-            //this.Shutdown();
         }
     }
 }

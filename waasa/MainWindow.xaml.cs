@@ -17,16 +17,17 @@ using System.IO;
 
 namespace waasa
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
+        private _GatheredData GatheredData;
+
         public MainWindow(_GatheredData gatheredData, List<_FileExtension> fileExtensions)
         {
             InitializeComponent();
             dataGrid.ItemsSource = fileExtensions;
+            GatheredData = gatheredData;
         }
+
 
         private void ButtonExec(object sender, RoutedEventArgs e)
         {
@@ -41,22 +42,26 @@ namespace waasa
             Process.Start(startInfo);
         }
 
+
         private void ButtonDownload(object sender, RoutedEventArgs e)
         {
-            _FileExtension person = (_FileExtension)(sender as Button).DataContext;
-            Console.WriteLine($"ButtonExec{person.Extension} {person.Result} clicked the button!");
+            _FileExtension fe = (_FileExtension)(sender as Button).DataContext;
+            Console.WriteLine($"ButtonExec{fe.Extension} {fe.Result} clicked the button!");
         }
+
 
         private void ButtonBrowserDownload(object sender, RoutedEventArgs e)
         {
-            _FileExtension person = (_FileExtension)(sender as Button).DataContext;
-            Console.WriteLine($"ButtonExec{person.Extension} {person.Result} clicked the button!");
+            _FileExtension fe = (_FileExtension)(sender as Button).DataContext;
+            Console.WriteLine($"ButtonExec{fe.Extension} {fe.Result} clicked the button!");
         }
+
 
         private void ButtonDetails(object sender, RoutedEventArgs e)
         {
-            _FileExtension person = (_FileExtension)(sender as Button).DataContext;
-            Console.WriteLine($"ButtonExec{person.Extension} {person.Result} clicked the button!");
+            _FileExtension fe = (_FileExtension)(sender as Button).DataContext;
+            WindowInfo secondWindow = new WindowInfo(GatheredData, fe);
+            secondWindow.Show();
         }
     }
 }

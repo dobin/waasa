@@ -1,0 +1,23 @@
+﻿<Window x:Class="waasa.WindowInfo"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:waasa"
+        mc:Ignorable="d"
+        Title="WindowInfo" Height="450" Width="800">
+    <Grid>
+        <TabControl>
+
+            <TabItem Header="Reg HKCR">
+                <TextBox Text="{Binding ExtensionRegInfo}"></TextBox>
+            </TabItem>
+            <TabItem Header="Reg HKCU">
+                <TextBox Text="{Binding ExtensionObjInfo}"></TextBox>
+            </TabItem>
+            <TabItem Header="Shlwapi">
+                <TextBox Text="{Binding Shlwapi}"></TextBox>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

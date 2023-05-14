@@ -1,9 +1,5 @@
 # Todo
 
-* FromRegistry: Skips directories, how to make it better?
-* Validator: Not well integrated, separate augmentation - in analyzer?
-
-
 + Store gathereddata as json
 + make it possible to load json
 + new csv
@@ -14,6 +10,45 @@
   + HKCR\<>
 + make it possible to give path to opens.txt
 + args: dump.json, csv result etc.
++ Validator: Not well integrated, separate augmentation - in analyzer?
+
+
+* FromRegistry: Skips directories, how to make it better?
+
+* Shlwapi:
+  * Is StringBuilder really correct?
+  * What AssocF args is best?
+    * Verify is useful, or not?
+
+
+    * more data:
+        public enum AssocStr
+        {
+            Command = 1,
+            Executable,
+            FriendlyDocName,
+            FriendlyAppName,
+            NoOpen,
+            ShellNewValue,
+            DDECommand,
+            DDEIfExec,
+            DDEApplication,
+            DDETopic,
+            InfoTip,
+            QuickTip,
+            TileInfo,
+            ContentType,
+            DefaultIcon,
+            ShellExtension,
+            DropTarget,
+            DelegateExecute,
+            Supported_Uri_Protocols,
+            ProgID,
+            AppID,
+            AppPublisher,
+            AppIconReference,
+            Max
+        }
 
 
 
@@ -24,12 +59,3 @@
 .\waasa.exe --csvdebug .\windev.csv --dumpfile .\windev-new.json --opensfile .\windev.txt
 
 .\waasa.exe --dumpfile .\windev-new.json --opensfile .\windev.txt --infoobjid AppX43hnxtbyyps62jhe9sqpdzxn1790zetc
-
-
-
-## wpf
-
-https://www.simplilearn.com/tutorials/c-sharp-tutorial/c-sharp-gui
-http://csharp.net-informations.com/gui/gui_tutorial.htm
-https://learn.microsoft.com/en-us/dotnet/desktop/wpf/controls/how-to-group-sort-and-filter-data-in-the-datagrid-control?view=netframeworkdesktop-4.8
-

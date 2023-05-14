@@ -20,7 +20,7 @@ namespace waasa
     }
 
 
-    class Validator
+    public class Validator
     {
         private Dictionary<string, cTested> tests { get; } = new Dictionary<string, cTested>();
 
@@ -119,6 +119,15 @@ namespace waasa
                 if (app.Assumption != null && tests.ContainsKey(app.Extension)) {
                     app.Result = tests[app.Extension].Result;
                 }
+            }
+        }
+
+        public string ResultFor(string extension)
+        {
+            if (tests.ContainsKey(extension)) {
+                return tests[extension].Result;
+            } else {
+                return "";
             }
         }
     }

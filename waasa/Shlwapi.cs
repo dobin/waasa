@@ -9,11 +9,15 @@ using System.Runtime.InteropServices;
 public class Shlwapi
 {
     [DllImport("Shlwapi.dll", SetLastError = true, CharSet = CharSet.Auto)]
-    static extern uint AssocQueryString(AssocF flags, AssocStr str, string pszAssoc, string pszExtra, [Out] StringBuilder pszOut, [In][Out] ref uint pcchOut);
+
+    static extern uint AssocQueryString(
+        AssocF flags, AssocStr str, string pszAssoc, string pszExtra, 
+        [Out] StringBuilder pszOut, [In][Out] ref uint pcchOut);
 
     [Flags]
     public enum AssocF
     {
+        None = 0x0,
         Init_NoRemapCLSID = 0x1,
         Init_ByExeName = 0x2,
         Open_ByExeName = 0x2,
@@ -47,13 +51,16 @@ public class Shlwapi
 
         // First call is to get the required size of output buffer
         AssocQueryString(AssocF.Verify, assocStr, doctype, null, null, ref pcchOut);
-
+        //Console.WriteLine(String.Format("Len: {0}: {1}", assocStr, pcchOut));
         StringBuilder pszOut = new StringBuilder((int)pcchOut);
 
-        // Second call gets the actual string
-        AssocQueryString(AssocF.Verify, assocStr, doctype, null, pszOut, ref pcchOut);
-
-        return pszOut.ToString();
+        if (pcchOut > 0) {
+            // Second call gets the actual string
+            AssocQueryString(AssocF.Verify, assocStr, doctype, null, pszOut, ref pcchOut);
+            return pszOut.ToString();
+        } else {
+            return "";
+        }
     }
 
     [Serializable]
@@ -79,6 +86,14 @@ public class Shlwapi
             r += String.Format("DDECommand: {0}\n", DDECommand);
             r += String.Format("DDEIfExec: {0}\n", DDEIfExec);
             r += String.Format("DDEApplication: {0}", DDEApplication);
+
+            byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(FriendlyAppName);
+            StringBuilder hex = new StringBuilder(byteArray.Length * 2);
+            foreach (byte b in byteArray)
+                hex.AppendFormat("{0:x2} ", b);
+            string hexString = hex.ToString();
+            Console.WriteLine("-> Command: " + hexString);
+
             return r;
         }
     }
@@ -86,7 +101,6 @@ public class Shlwapi
     public static Assoc Query(string data)
     {
         Assoc assoc = new Assoc();
-
         assoc.FriendlyAppName = Shlwapi.AssocQueryString(Shlwapi.AssocStr.FriendlyAppName, data);
         assoc.Command = Shlwapi.AssocQueryString(Shlwapi.AssocStr.Command, data);
         assoc.FriendlyDocName = Shlwapi.AssocQueryString(Shlwapi.AssocStr.FriendlyDocName, data);
@@ -95,18 +109,6 @@ public class Shlwapi
         assoc.DDECommand = Shlwapi.AssocQueryString(Shlwapi.AssocStr.DDECommand, data);
         assoc.DDEIfExec = Shlwapi.AssocQueryString(Shlwapi.AssocStr.DDEIfExec, data);
         assoc.DDEApplication = Shlwapi.AssocQueryString(Shlwapi.AssocStr.DDEApplication, data);
-
-        if (false) {
-            Console.WriteLine("FriendlyAppName: " + assoc.FriendlyAppName);
-            Console.WriteLine("Command: " + assoc.Command);
-            Console.WriteLine("FriendlyDocName: " + assoc.FriendlyDocName);
-            Console.WriteLine("NoOpen: " + assoc.NoOpen);
-            Console.WriteLine("ShellNewValue: " + assoc.ShellNewValue);
-            Console.WriteLine("DDECommand: " + assoc.DDECommand);
-            Console.WriteLine("DDEIfExec: " + assoc.DDEIfExec);
-            Console.WriteLine("DDEApplication: " + assoc.DDEApplication);
-        }
-
         return assoc;
     }
 }

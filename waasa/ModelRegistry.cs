@@ -41,24 +41,29 @@ namespace waasa
             SubDirectories.Add(name.ToLower(), dir);
         }
 
-        public void Print(int n)
+        public string toStr(int n)
         {
+            string ret = "";
+
             string indent = new String(' ', n*2);
             foreach (var key in Keys) {
                 string realKey = "(Default)";
                 if (key.Key != "") {
                     realKey = key.Key;
                 }
-                Console.WriteLine(String.Format("{0}{1}: {2}", indent, realKey, key.Value));
+                 ret += String.Format("{0}{1}: {2}\n", indent, realKey, key.Value);
             }
 
             foreach (var dirEl in SubDirectories) {
-                Console.WriteLine(String.Format("{0}{1}\\", indent, dirEl.Key));
+                ret += String.Format("{0}{1}\\ \n", indent, dirEl.Key);
                 var dir = dirEl.Value;
-                dir.Print(n + 1);
+                ret += dir.toStr(n + 1);
             }
+
+            return ret;
         }
 
+        /*
         public void GetKey()
         {
 
@@ -70,9 +75,7 @@ namespace waasa
         public void AddKey()
         {
 
-        }
-
-
+        }*/
     }
 
     [Serializable]
