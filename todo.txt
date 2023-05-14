@@ -13,6 +13,14 @@
 + Validator: Not well integrated, separate augmentation - in analyzer?
 
 
+* add search field in GUI for extension
+
+
+* Show interesting: 
+  * Without file extension
+  * Windows internal ()
+  * 
+
 * FromRegistry: Skips directories, how to make it better?
 
 * Shlwapi:

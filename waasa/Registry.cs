@@ -15,6 +15,7 @@ namespace waasa
         public String Assumption { get; set; }
         public String AppName { get; set; }
         public String AppPath { get; set; }
+        public String DdeExec { get; set; }
 
         public string SysFileAssoc { get; set; }
         public string WinFileAssoc { get; set; }
@@ -51,12 +52,12 @@ namespace waasa
     }
 
 
-    public class _Registry
+    public class Registry
     {
         private _GatheredData GatheredData;
 
 
-        public _Registry(_GatheredData gatheredData)
+        public Registry(_GatheredData gatheredData)
         {
             GatheredData = gatheredData;
         }
@@ -73,6 +74,7 @@ namespace waasa
                 entry.Assumption = fileExtension.Assumption;
                 entry.AppName = fileExtension.AppName;
                 entry.AppPath = fileExtension.AppPath;
+                entry.DdeExec = GatheredData.ShlwapiAssoc[fileExtension.Extension].DDECommand;
 
                 var extension = fileExtension.Extension;
 

@@ -19,7 +19,7 @@ namespace waasa
     public partial class App : Application
     {
         private _GatheredData GatheredData { get; set; }
-        private _Registry Registry { get; set; }
+        private Registry Registry { get; set; }
         private Validator Validator { get; set; }
         private Analyze Analyzer { get; set; }
 
@@ -33,7 +33,7 @@ namespace waasa
             Validator = new Validator();
             Validator.Load(opensFilepath);
 
-            Registry = new _Registry(GatheredData);
+            Registry = new Registry(GatheredData);
             Analyzer = new Analyze(GatheredData, Validator, Registry);
         }
 
@@ -188,15 +188,6 @@ namespace waasa
             base.OnStartup(e);
             // Set the shutdown mode to explicit shutdown
             this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-
-            /*
-            var a = Shlwapi.Query(".androidproj");
-            Console.WriteLine("COmmand: " + a.Command);
-            Console.WriteLine("FriendlyAppName: " + a.FriendlyAppName);
-            this.Shutdown();
-            return;
-            */
-            
 
             CommandLine.Parser.Default.ParseArguments<Options>(e.Args)
               .WithParsed<Options>(o =>

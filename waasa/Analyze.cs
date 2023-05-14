@@ -24,10 +24,10 @@ namespace waasa
     {
         public _GatheredData GatheredData { get; set; }
         public Validator Validator { get; set; }
-        private _Registry Registry { get; set; }
+        private Registry Registry { get; set; }
 
 
-        public Analyze(_GatheredData gatheredData, Validator validator, _Registry registry)
+        public Analyze(_GatheredData gatheredData, Validator validator, Registry registry)
         {
             GatheredData = gatheredData;
             Validator = validator;
@@ -81,10 +81,12 @@ namespace waasa
                 assumption = "openwith1";
 
             } else if (assoc.FriendlyAppName == "") {
-                if (assoc.Command == "") {
-                    assumption = "openwith2";
-                } else {
+                if (assoc.Command != "" && ! Registry.hasHKLU(extension)) {
+                    // May also use: Root_DefaultExec
+                    // Basically just .cmd, .com
                     assumption = "exec2";
+                } else { 
+                    assumption = "openwith2";
                 }
                 
             } else if (assoc.Command != "") {

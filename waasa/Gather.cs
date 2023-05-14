@@ -73,8 +73,12 @@ namespace waasa
 
             // HKCR\
             ret += String.Format("HKCR\\{0}\\ \n", extension);
-            var x = HKCR.GetDir(extension);
-            ret += x.toStr(1);
+            if (HKCR.HasDir(extension)) {
+                var x = HKCR.GetDir(extension);
+                ret += x.toStr(1);
+            } else {
+                ret += "  Not found\n";
+            }
             ret += String.Format("\n");
 
             // HKCU\Software\Classes
@@ -82,7 +86,7 @@ namespace waasa
             if (!HKCU_SoftwareClasses.HasDir(extension)) {
                 ret += String.Format("HKCU\\Software\\Classes\\{0} not found\n", extension);
             } else {
-                x = HKCU_SoftwareClasses.GetDir(extension);
+                var x = HKCU_SoftwareClasses.GetDir(extension);
                 ret += String.Format("HKCU\\Software\\Classes\\{0}\\ \n", extension);
                 ret += x.toStr(1);
             }
@@ -96,21 +100,21 @@ namespace waasa
             string ret = "";
 
             // HKCR
+            ret += String.Format("HKCR\\{0}\\ \n", objid);
             if (!HKCR.HasDir(objid)) {
-                ret += String.Format("HKCR\\{0} not found\n", objid);
+                ret += String.Format("  not found\n", objid);
             } else {
                 var x = HKCR.GetDir(objid);
-                ret += String.Format("HKCR\\{0}\\ \n", objid);
                 ret += x.toStr(1);
             }
 
             // HKCU\Software\Classes
             ret += String.Format("\n");
+            ret += String.Format("HKCU\\Software\\Classes\\{0}\\ \n", objid);
             if (!HKCU_SoftwareClasses.HasDir(objid)) {
-                ret += String.Format("HKCU\\Software\\Classes\\{0} not found", objid);
+                ret += "  Not found";
             } else {
                 var x = HKCU_SoftwareClasses.GetDir(objid);
-                ret += @"HKCR\" + objid + "\\";
                 ret += x.toStr(1);
             }
 
@@ -155,7 +159,7 @@ namespace waasa
 
         public void GatherListedExtensions()
         {
-            foreach (var key in Registry.ClassesRoot.GetSubKeyNames()) {
+            foreach (var key in Microsoft.Win32.Registry.ClassesRoot.GetSubKeyNames()) {
                 if (key.StartsWith(".")) {
                     GatheredData.ListedExtensions.Add(key);
                 }
@@ -166,27 +170,27 @@ namespace waasa
         public void GatherRegistryHKCR()
         {
             Console.WriteLine("GatherRegistryHKCR");
-            GatheredData.HKCR = FromRegistry(Registry.ClassesRoot, "");
+            GatheredData.HKCR = FromRegistry(Microsoft.Win32.Registry.ClassesRoot, "");
             Console.WriteLine("  Finished");
         }
 
         public void GatherHKCR_SystemFileAssociations()
         {
             Console.WriteLine("GatherHKCR_SystemFileAssociations");
-            GatheredData.HKCR_SystemFileAssociations = FromRegistry(Registry.ClassesRoot, @"SystemFileAssociations");
+            GatheredData.HKCR_SystemFileAssociations = FromRegistry(Microsoft.Win32.Registry.ClassesRoot, @"SystemFileAssociations");
             Console.WriteLine("  Finished: " + GatheredData.HKCR.SubDirectories.Count);
         }
         public void GatherHKCR_FileTypeAssociations()
         {
             Console.WriteLine("GatherHKCR_FileTypeAssociations");
-            GatheredData.HKCR_FileTypeAssociations = FromRegistry(Registry.ClassesRoot, @"Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\PackageRepository\Extensions\windows.fileTypeAssociation");
+            GatheredData.HKCR_FileTypeAssociations = FromRegistry(Microsoft.Win32.Registry.ClassesRoot, @"Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\PackageRepository\Extensions\windows.fileTypeAssociation");
             Console.WriteLine("  Finished");
         }
 
         public void GatherRegistryHKCU_SoftwareClasses()
         {
             Console.WriteLine("GatherRegistryHKCU_SoftwareClasses");
-            GatheredData.HKCU_SoftwareClasses = FromRegistry(Registry.CurrentUser, @"SOFTWARE\Classes");
+            GatheredData.HKCU_SoftwareClasses = FromRegistry(Microsoft.Win32.Registry.CurrentUser, @"SOFTWARE\Classes");
             Console.WriteLine("  Finished");
         }
 
@@ -194,14 +198,14 @@ namespace waasa
         public void GatherRegistryHKCU_ExplorerFileExts()
         {
             Console.WriteLine("GatherRegistryHKCU_ExplorerFileExts");
-            GatheredData.HKCU_ExplorerFileExts = FromRegistry(Registry.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts");
+            GatheredData.HKCU_ExplorerFileExts = FromRegistry(Microsoft.Win32.Registry.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts");
             Console.WriteLine("  Finished");
         }
 
         public void GatherRegistryHKCU_ApplicationAssociationToasts()
         {
             Console.WriteLine("GatherRegistryHKCU_ApplicationAssociationToasts");
-            GatheredData.HKCU_ApplicationAssociationToasts = FromRegistry(Registry.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\ApplicationAssociationToasts");
+            GatheredData.HKCU_ApplicationAssociationToasts = FromRegistry(Microsoft.Win32.Registry.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\ApplicationAssociationToasts");
             Console.WriteLine("  Finished");
         }
 
