@@ -15,17 +15,50 @@ using System.Windows.Shapes;
 using System.Diagnostics;
 using System.IO;
 
+using System.Text.Json;
+
+
 namespace waasa
 {
     public partial class MainWindow : Window
     {
         private _GatheredData GatheredData;
+        private string DumpFilepath;
+        private string OpensFilepath;
+        private List<_FileExtension> FileExtensions;
 
-        public MainWindow(_GatheredData gatheredData, List<_FileExtension> fileExtensions)
+        public MainWindow(string dumpFilepath, string opensFilepath)
         {
             InitializeComponent();
-            dataGrid.ItemsSource = fileExtensions;
-            GatheredData = gatheredData;
+            DumpFilepath = dumpFilepath;
+            OpensFilepath = opensFilepath;
+
+            load();
+            //dataGrid.ItemsSource = fileExtensions;
+            //GatheredData = gatheredData;
+        }
+
+        private void load()
+        {
+            Console.WriteLine("Dump: " + DumpFilepath);
+            if (!File.Exists(DumpFilepath)) {
+                Console.WriteLine("  Not found. No data.");
+                return;
+            }
+            string jsonString = File.ReadAllText(DumpFilepath);
+            GatheredData = JsonSerializer.Deserialize<_GatheredData>(jsonString)!;
+            parseGatheredData();
+        }
+
+        private void parseGatheredData() { 
+            var Validator = new Validator();
+            Validator.LoadFromFile(OpensFilepath);
+
+            var Registry = new VirtRegistry(GatheredData);
+            var Analyzer = new Analyzer(GatheredData, Validator, Registry);
+            FileExtensions = Analyzer.AnalyzeGatheredData();
+
+            dataGrid.ItemsSource = FileExtensions;
         }
 
 
@@ -49,19 +82,36 @@ namespace waasa
             Console.WriteLine($"ButtonExec{fe.Extension} {fe.Result} clicked the button!");
         }
 
-
         private void ButtonBrowserDownload(object sender, RoutedEventArgs e)
         {
             _FileExtension fe = (_FileExtension)(sender as Button).DataContext;
             Console.WriteLine($"ButtonExec{fe.Extension} {fe.Result} clicked the button!");
         }
 
-
         private void ButtonDetails(object sender, RoutedEventArgs e)
         {
             _FileExtension fe = (_FileExtension)(sender as Button).DataContext;
             WindowInfo secondWindow = new WindowInfo(GatheredData, fe);
             secondWindow.Show();
+        }
+
+        private void Menu_Scan(object sender, RoutedEventArgs e)
+        {
+            var gather = new Gatherer();
+            GatheredData = gather.GatherAll();
+            parseGatheredData();
+        }
+        private void Menu_SaveCsv(object sender, RoutedEventArgs e)
+        {
+            var Registry = new VirtRegistry(GatheredData);
+            AppSharedFunctionality.handleCsvDebug("output.csv", FileExtensions, Registry);
+        }
+        private void Menu_CreateFiles(object sender, RoutedEventArgs e)
+        {
+            AppSharedFunctionality.handleFiles(FileExtensions);
+        }
+        private void Menu_LoadFile(object sender, RoutedEventArgs e)
+        {
         }
     }
 }

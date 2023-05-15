@@ -16,42 +16,11 @@ using System.Globalization;
 
 namespace waasa
 {
-    public partial class App : Application
+    class AppSharedFunctionality
     {
-        private _GatheredData GatheredData { get; set; }
-        private VirtRegistry Registry { get; set; }
-        private Validator Validator { get; set; }
-        private Analyzer Analyzer { get; set; }
 
-
-        private void loadAll(string dumpFilepath, string opensFilepath)
+        static public void handleCsv(string filepath, List<_FileExtension> fileExtensions)
         {
-            Console.WriteLine("Dump: " + dumpFilepath);
-            string jsonString = File.ReadAllText(dumpFilepath);
-            GatheredData = JsonSerializer.Deserialize<_GatheredData>(jsonString)!;
-
-            Validator = new Validator();
-            Validator.LoadFromFile(opensFilepath);
-
-            Registry = new VirtRegistry(GatheredData);
-            Analyzer = new Analyzer(GatheredData, Validator, Registry);
-        }
-
-
-        void handleGui()
-        {
-            var fileExtensions = Analyzer.AnalyzeGatheredData();
-
-            this.ShutdownMode = ShutdownMode.OnMainWindowClose;
-            MainWindow mainWindow = new MainWindow(GatheredData, fileExtensions);
-            mainWindow.Show();
-        }
-
-
-        void handleCsv(string filepath)
-        {
-            var fileExtensions = Analyzer.AnalyzeGatheredData();
-
             Console.WriteLine("Writing CSV to: " + filepath + " with " + fileExtensions.Count);
             using (StreamWriter writer = new StreamWriter(filepath)) {
                 foreach (var fileExtension in fileExtensions) {
@@ -61,29 +30,20 @@ namespace waasa
         }
 
 
-        void handleCsvDebug(string filepath)
+        static public void handleCsvDebug(string filepath, List<_FileExtension> fileExtensions, VirtRegistry registry)
         {
-            var fileExtensions = Analyzer.AnalyzeGatheredData();
-            var fileExtensionsDebug = Registry.GetFileExtensionDebug(fileExtensions);
+            var fileExtensionsDebug = registry.GetFileExtensionDebug(fileExtensions);
 
             Console.WriteLine("Writing CSVDebug to: " + filepath + " with " + fileExtensionsDebug.Count);
             using var writer = new StreamWriter(filepath);
-            var config = new CsvConfiguration(CultureInfo.InvariantCulture) {};
+            var config = new CsvConfiguration(CultureInfo.InvariantCulture) { };
             using var csv = new CsvWriter(writer, config);
             csv.WriteRecords(fileExtensionsDebug);
         }
 
 
-        void testAll()
+        static public void handleFiles(List<_FileExtension> fileExtensions)
         {
-            var fileExtensions = Analyzer.AnalyzeGatheredData();
-            Validator.PrintStats(fileExtensions);
-        }
-
-
-        void handleFiles()
-        {
-            var fileExtensions = Analyzer.AnalyzeGatheredData();
             foreach (var app in fileExtensions) {
                 var output = "output";
                 var filename = "test" + app.Extension;
@@ -97,6 +57,50 @@ namespace waasa
                 }
                 File.Create(output + "\\" + directory + "\\" + filename);
             }
+        }
+    }
+
+
+    public partial class App : Application
+    {
+        private _GatheredData GatheredData { get; set; }
+        private VirtRegistry Registry { get; set; }
+        private Validator Validator { get; set; }
+        private Analyzer Analyzer { get; set; }
+
+
+        private bool loadAll(string dumpFilepath, string opensFilepath)
+        {
+            Console.WriteLine("Dump: " + dumpFilepath);
+            if (! File.Exists(dumpFilepath)) {
+                Console.WriteLine("  Not found. No data.");
+                return false;
+            }
+            string jsonString = File.ReadAllText(dumpFilepath);
+            GatheredData = JsonSerializer.Deserialize<_GatheredData>(jsonString)!;
+
+            Validator = new Validator();
+            Validator.LoadFromFile(opensFilepath);
+
+            Registry = new VirtRegistry(GatheredData);
+            Analyzer = new Analyzer(GatheredData, Validator, Registry);
+
+            return true;
+        }
+
+
+        void handleGui(string dumpFilepath, string opensFilepath)
+        {
+            this.ShutdownMode = ShutdownMode.OnMainWindowClose;
+            MainWindow mainWindow = new MainWindow(dumpFilepath, opensFilepath);
+            mainWindow.Show();
+        }
+
+
+        void testAll()
+        {
+            var fileExtensions = Analyzer.AnalyzeGatheredData();
+            Validator.PrintStats(fileExtensions);
         }
 
 
@@ -196,24 +200,28 @@ namespace waasa
                      this.Shutdown();
                      return;
                  }
-
-                 loadAll(o.DumpInputFile, o.OpensInputFile);
-
-                 Console.WriteLine("");
                  if (o.Gui) {
-                     handleGui();
+                     handleGui(o.DumpInputFile, o.OpensInputFile);
                      return;
-                 } else if (o.TestAll) {
+                 }
+
+                 var loaded = loadAll(o.DumpInputFile, o.OpensInputFile);
+                 Console.WriteLine("");
+                 
+                if (o.TestAll) {
                      testAll();
                      this.Shutdown();
                  } else if (o.Csv != null) {
-                     handleCsv(o.Csv);
+                     var fileExtensions = Analyzer.AnalyzeGatheredData();
+                     AppSharedFunctionality.handleCsv(o.Csv, fileExtensions);
                      this.Shutdown();
                  } else if (o.CsvDebug != null) {
-                     handleCsvDebug(o.CsvDebug);
+                     var fileExtensions = Analyzer.AnalyzeGatheredData();
+                     AppSharedFunctionality.handleCsvDebug(o.CsvDebug, fileExtensions, Registry);
                      this.Shutdown();
                  } else if (o.Files) {
-                     handleFiles();
+                     var fileExtensions = Analyzer.AnalyzeGatheredData();
+                     AppSharedFunctionality.handleFiles(fileExtensions);
                      this.Shutdown();
                  } else if (o.InfoExt != null) {
                      handleExt(o.InfoExt);

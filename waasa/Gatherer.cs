@@ -142,6 +142,7 @@ namespace waasa
 
         public _GatheredData GatherAll()
         {
+            Console.WriteLine("Gather system data");
             GatherListedExtensions();
             
             GatherRegistryHKCR();

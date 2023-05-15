@@ -6,7 +6,24 @@
         xmlns:local="clr-namespace:waasa"
         mc:Ignorable="d"
         Title="MainWindow" Height="850" Width="1400">
-    <Grid>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="File">
+                <MenuItem Header="Aquire Dump" Click="Menu_Scan" />
+                <MenuItem Header="Load Dump File" Click="Menu_LoadFile" />
+                <Separator/>
+                <MenuItem Header="Save as CSV" Click="Menu_SaveCsv" />
+                <MenuItem Header="Save as HTML" Click="Menu_SaveCsv" />
+                <Separator/>
+                <MenuItem Header="Exit"/>
+            </MenuItem>
+            <MenuItem Header="Features">
+                <MenuItem Header="Create files" Click="Menu_CreateFiles" />
+            </MenuItem>
+            <MenuItem Header="Options">
+            </MenuItem>
+        </Menu>
+
         <DataGrid Name="dataGrid" AutoGenerateColumns="False" CanUserSortColumns="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Extension" Binding="{Binding Extension}" SortDirection="Ascending" />
@@ -31,5 +48,5 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-    </Grid>
+    </DockPanel>
 </Window>
