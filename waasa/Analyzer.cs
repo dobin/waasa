@@ -101,8 +101,6 @@ namespace waasa
             } else {
                 if (Registry.countUserOpenWithProgids(extension) < 2) {
                     assumption = "exec4";
-
-
                 } else {
                     assumption = "recommended4";
                 }

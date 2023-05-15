@@ -130,43 +130,6 @@ namespace waasa
             return "";
         }
 
-        /*
-        public string getXml1(string extension)
-        {
-            foreach (var xml in GatheredData.AppAssocXml) {
-                if (xml.Extension == extension) {
-                    return xml.Progid;
-                }
-            }
-            return "";
-        }
-
-        public string getXml2(string extension)
-        {
-            foreach (var xml in GatheredData.DefaultAssocXml) {
-                if (xml.Extension == extension) {
-                    return xml.Progid;
-                }
-            }
-            return "";
-        }
-
-        public bool hasXml(string extension)
-        {
-            foreach (var xml in GatheredData.AppAssocXml) {
-                if (xml.Extension == extension) {
-                    return true;
-                }
-            }
-
-            foreach (var xml in GatheredData.DefaultAssocXml) {
-                if (xml.Extension == extension) {
-                    return true;
-                }
-            }
-
-            return false;
-        }*/
 
         public bool hasHKLU(string extension)
         {

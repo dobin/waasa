@@ -11,7 +11,6 @@ using System.Security.AccessControl;
 using FILETIME = System.Runtime.InteropServices.ComTypes.FILETIME;
 using System.IO;
 //using YamlDotNet.Serialization;
-using System.Xml;
 
 namespace waasa
 {
@@ -46,9 +45,6 @@ namespace waasa
 
         public Dictionary<string, Shlwapi.Assoc> ShlwapiAssoc { get; set; } = new Dictionary<string, Shlwapi.Assoc>();
 
-        //public List<_XmlAssociation> AppAssocXml { get; set; } = new List<_XmlAssociation>();
-        //public List<_XmlAssociation> DefaultAssocXml { get; set; } = new List<_XmlAssociation>();
-
         public void PrintStats()
         {
             Console.WriteLine("GatheredData:");
@@ -60,8 +56,6 @@ namespace waasa
             Console.WriteLine("  HKCR_SystemFileAssociations          : " + HKCR_SystemFileAssociations.SubDirectories.Count);
             Console.WriteLine("  HKCR_FileTypeAssociations            : " + HKCR_FileTypeAssociations.SubDirectories.Count);
             Console.WriteLine("  HKCR_PackageRepository               : " + HKCR_PackageRepository.SubDirectories.Count);
-            //Console.WriteLine("  AppAssocXml                          : " + AppAssocXml.Count);
-            //Console.WriteLine("  DefaultAssocXml                      : " + DefaultAssocXml.Count);
             Console.WriteLine("  ShlwapiAssoc                         : " + ShlwapiAssoc.Count);
         }
 
@@ -149,20 +143,14 @@ namespace waasa
         public _GatheredData GatherAll()
         {
             GatherListedExtensions();
-
+            
             GatherRegistryHKCR();
             GatherRegistryHKCU_ExplorerFileExts();
             GatherRegistryHKCU_ApplicationAssociationToasts();
             GatherRegistryHKCU_SoftwareClasses();
-
             GatherHKCR_SystemFileAssociations();
             GatherHKCR_FileTypeAssociations();
-
             GatherHKCR_PackageRepository();
-
-            //GatherAppAssocXml();
-            //GatherDefaultAssocXml();
-
             GatherShlwapi();
 
             GatheredData.PrintStats();
@@ -245,16 +233,6 @@ namespace waasa
             Console.WriteLine("  Finished");
         }
 
-        public void GatherAppAssocXml()
-        {
-            //GatheredData.AppAssocXml = FromXml(@"AppAssoc.xml");
-        }
-
-        public void GatherDefaultAssocXml()
-        {
-            //GatheredData.DefaultAssocXml = FromXml("C:\\Windows\\System32\\OEMDefaultAssociations.xml");
-        }
-
         private _RegDirectory FromRegistry(RegistryKey registryKey, string path, HashSet<string> excludes = null)
         {
             // Open initial directory
@@ -291,41 +269,6 @@ namespace waasa
             }
 
             return rootDir;
-        }
-
-
-        private List<_XmlAssociation> FromXml(string filepath)
-        {
-            List<_XmlAssociation> xmls = new List<_XmlAssociation>();
-
-            XmlReaderSettings settings = new XmlReaderSettings();
-            settings.IgnoreWhitespace = true;
-            using (var fileStream = File.OpenText(filepath))
-            using (XmlReader reader = XmlReader.Create(fileStream, settings)) {
-                while (reader.Read()) {
-                    switch (reader.NodeType) {
-                        case XmlNodeType.Element:
-                            if (reader.Name != "Association") {
-                                continue;
-                            }
-
-                            _XmlAssociation xml = new _XmlAssociation();
-                            xml.Extension = reader.GetAttribute("Identifier");
-                            xml.Progid = reader.GetAttribute("ProgId");
-                            xml.AppName = reader.GetAttribute("ApplicationName");
-
-                            xml.NewBrowserProgId = reader.GetAttribute("NewBrowserProgId");
-                            xml.ApplyOnUpgrade = reader.GetAttribute("ApplyOnUpgrade");
-                            xml.OverwriteIfProgIdIs = reader.GetAttribute("OverwriteIfProgIdIs");
-
-                            xmls.Add(xml);
-
-                            break;
-                    }
-                }
-            }
-
-            return xmls;
         }
     }
 }
