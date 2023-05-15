@@ -31,8 +31,8 @@ namespace waasa
 
         public Dictionary<string, Shlwapi.Assoc> ShlwapiAssoc { get; set; } = new Dictionary<string, Shlwapi.Assoc>();
 
-        public List<_XmlAssociation> AppAssocXml { get; set; } = new List<_XmlAssociation>();
-        public List<_XmlAssociation> DefaultAssocXml { get; set; } = new List<_XmlAssociation>();
+        //public List<_XmlAssociation> AppAssocXml { get; set; } = new List<_XmlAssociation>();
+        //public List<_XmlAssociation> DefaultAssocXml { get; set; } = new List<_XmlAssociation>();
 
         public void PrintStats()
         {
@@ -44,8 +44,8 @@ namespace waasa
             Console.WriteLine("  HKCU_SoftwareClasses                 : " + HKCU_SoftwareClasses.Keys.Count);
             Console.WriteLine("  HKCR_SystemFileAssociations          : " + HKCR_SystemFileAssociations.SubDirectories.Count);
             Console.WriteLine("  HKCR_FileTypeAssociations            : " + HKCR_FileTypeAssociations.SubDirectories.Count);
-            Console.WriteLine("  AppAssocXml                          : " + AppAssocXml.Count);
-            Console.WriteLine("  DefaultAssocXml                      : " + DefaultAssocXml.Count);
+            //Console.WriteLine("  AppAssocXml                          : " + AppAssocXml.Count);
+            //Console.WriteLine("  DefaultAssocXml                      : " + DefaultAssocXml.Count);
             Console.WriteLine("  ShlwapiAssoc                         : " + ShlwapiAssoc.Count);
         }
 
@@ -123,7 +123,7 @@ namespace waasa
     }
 
 
-    class Gather
+    class Gatherer
     {
         public _GatheredData GatheredData = new _GatheredData();
 
@@ -139,8 +139,8 @@ namespace waasa
             GatherHKCR_SystemFileAssociations();
             GatherHKCR_FileTypeAssociations();
 
-            GatherAppAssocXml();
-            GatherDefaultAssocXml();
+            //GatherAppAssocXml();
+            //GatherDefaultAssocXml();
 
             GatherShlwapi();
 
@@ -211,12 +211,12 @@ namespace waasa
 
         public void GatherAppAssocXml()
         {
-            GatheredData.AppAssocXml = FromXml(@"AppAssoc.xml");
+            //GatheredData.AppAssocXml = FromXml(@"AppAssoc.xml");
         }
 
         public void GatherDefaultAssocXml()
         {
-            GatheredData.DefaultAssocXml = FromXml("C:\\Windows\\System32\\OEMDefaultAssociations.xml");
+            //GatheredData.DefaultAssocXml = FromXml("C:\\Windows\\System32\\OEMDefaultAssociations.xml");
         }
 
         private _RegDirectory FromRegistry(RegistryKey registryKey, string path)

@@ -52,12 +52,12 @@ namespace waasa
     }
 
 
-    public class Registry
+    public class VirtRegistry
     {
         private _GatheredData GatheredData;
 
 
-        public Registry(_GatheredData gatheredData)
+        public VirtRegistry(_GatheredData gatheredData)
         {
             GatheredData = gatheredData;
         }
@@ -77,16 +77,6 @@ namespace waasa
                 entry.DdeExec = GatheredData.ShlwapiAssoc[fileExtension.Extension].DDECommand;
 
                 var extension = fileExtension.Extension;
-
-                /*
-                entry.Xml1Choice = getXml1(extension);
-                entry.Xml1Exec = isExecutableObjid(entry.Xml1Choice);
-                entry.Xml1Toast = hasToast(extension, entry.Xml1Choice);
-
-                entry.Xml2Choice = getXml2(extension);
-                entry.Xml2Exec = isExecutableObjid(entry.Xml2Choice);
-                entry.Xml2Toast = hasToast(extension, entry.Xml2Choice);
-                */
 
                 entry.SysFileAssoc = getSysFileAssoc(extension);
                 entry.WinFileAssoc = getWinFileAssoc(extension);
@@ -138,6 +128,7 @@ namespace waasa
             return "";
         }
 
+        /*
         public string getXml1(string extension)
         {
             foreach (var xml in GatheredData.AppAssocXml) {
@@ -173,7 +164,7 @@ namespace waasa
             }
 
             return false;
-        }
+        }*/
 
         public bool hasHKLU(string extension)
         {

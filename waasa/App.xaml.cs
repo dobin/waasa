@@ -19,9 +19,9 @@ namespace waasa
     public partial class App : Application
     {
         private _GatheredData GatheredData { get; set; }
-        private Registry Registry { get; set; }
+        private VirtRegistry Registry { get; set; }
         private Validator Validator { get; set; }
-        private Analyze Analyzer { get; set; }
+        private Analyzer Analyzer { get; set; }
 
 
         private void loadAll(string dumpFilepath, string opensFilepath)
@@ -31,16 +31,16 @@ namespace waasa
             GatheredData = JsonSerializer.Deserialize<_GatheredData>(jsonString)!;
 
             Validator = new Validator();
-            Validator.Load(opensFilepath);
+            Validator.LoadFromFile(opensFilepath);
 
-            Registry = new Registry(GatheredData);
-            Analyzer = new Analyze(GatheredData, Validator, Registry);
+            Registry = new VirtRegistry(GatheredData);
+            Analyzer = new Analyzer(GatheredData, Validator, Registry);
         }
 
 
         void handleGui()
         {
-            var fileExtensions = Analyzer.AnalyzeAll();
+            var fileExtensions = Analyzer.AnalyzeGatheredData();
 
             this.ShutdownMode = ShutdownMode.OnMainWindowClose;
             MainWindow mainWindow = new MainWindow(GatheredData, fileExtensions);
@@ -50,7 +50,7 @@ namespace waasa
 
         void handleCsv(string filepath)
         {
-            var fileExtensions = Analyzer.AnalyzeAll();
+            var fileExtensions = Analyzer.AnalyzeGatheredData();
 
             Console.WriteLine("Writing CSV to: " + filepath + " with " + fileExtensions.Count);
             using (StreamWriter writer = new StreamWriter(filepath)) {
@@ -63,7 +63,7 @@ namespace waasa
 
         void handleCsvDebug(string filepath)
         {
-            var fileExtensions = Analyzer.AnalyzeAll();
+            var fileExtensions = Analyzer.AnalyzeGatheredData();
             var fileExtensionsDebug = Registry.GetFileExtensionDebug(fileExtensions);
 
             Console.WriteLine("Writing CSVDebug to: " + filepath + " with " + fileExtensionsDebug.Count);
@@ -76,15 +76,14 @@ namespace waasa
 
         void testAll()
         {
-            var fileExtensions = Analyzer.AnalyzeAll();
-            Validator.Validate(fileExtensions);
+            var fileExtensions = Analyzer.AnalyzeGatheredData();
             Validator.PrintStats(fileExtensions);
         }
 
 
         void handleFiles()
         {
-            var fileExtensions = Analyzer.AnalyzeAll();
+            var fileExtensions = Analyzer.AnalyzeGatheredData();
             foreach (var app in fileExtensions) {
                 var output = "output";
                 var filename = "test" + app.Extension;
@@ -123,7 +122,7 @@ namespace waasa
         void dumpToJson(string filepath)
         {
             Console.WriteLine("Gathering all data from current system");
-            var gather = new Gather();
+            var gather = new Gatherer();
             var gatheredData = gather.GatherAll();
 
             using (StreamWriter writer = new StreamWriter(filepath)) {

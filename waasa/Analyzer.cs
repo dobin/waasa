@@ -20,14 +20,14 @@ namespace waasa
     }
 
 
-    public class Analyze
+    public class Analyzer
     {
         public _GatheredData GatheredData { get; set; }
         public Validator Validator { get; set; }
-        private Registry Registry { get; set; }
+        private VirtRegistry Registry { get; set; }
 
 
-        public Analyze(_GatheredData gatheredData, Validator validator, Registry registry)
+        public Analyzer(_GatheredData gatheredData, Validator validator, VirtRegistry registry)
         {
             GatheredData = gatheredData;
             Validator = validator;
@@ -35,7 +35,8 @@ namespace waasa
         }
 
 
-        public List<_FileExtension> AnalyzeAll()
+        // Analyze all GatheredData to produce FileExtensions
+        public List<_FileExtension> AnalyzeGatheredData()
         {
             List<_FileExtension> fileExtensions = new List<_FileExtension>();
             foreach (var extension in GatheredData.ListedExtensions) {
@@ -50,7 +51,7 @@ namespace waasa
         {
             var data = AnalyzeExtension(extension);
             _FileExtension fileExtension = new _FileExtension();
-            fileExtension.Result = Validator.ResultFor(extension);
+            fileExtension.Result = Validator.GetEffectiveResultFor(extension);
             fileExtension.Extension = extension;
             fileExtension.Assumption = data.Item1;
             fileExtension.AppName = data.Item2;
@@ -69,6 +70,7 @@ namespace waasa
         }
 
 
+        // This implements the main algorithm to categorize file extension
         public Tuple<string, string, string> AnalyzeExtension(string extension)
         {
             var assoc = GetShlwapiBy(extension);

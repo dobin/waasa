@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 
 
+// Interface to query windows shlwapi.dll for file associations
 public class Shlwapi
 {
     [DllImport("Shlwapi.dll", SetLastError = true, CharSet = CharSet.Auto)]
