@@ -21,13 +21,28 @@ namespace waasa
     {
         public List<string> ListedExtensions { get; set; } = new List<string>();
 
-        public _RegDirectory HKCR { get; set; }
+
+        // HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\
         public _RegDirectory HKCU_ExplorerFileExts { get; set; }
+
+        // HKCU\\SOFTWARE\Microsoft\Windows\CurrentVersion\ApplicationAssociationToasts
         public _RegDirectory HKCU_ApplicationAssociationToasts { get; set; }
+
+        // HKCU\\Software\\Classes\\
         public _RegDirectory HKCU_SoftwareClasses { get; set; }
 
+
+        // HKCR\\
+        public _RegDirectory HKCR { get; set; }
+
+        // HKCR\\SystemFileAssociations
         public _RegDirectory HKCR_SystemFileAssociations { get; set; }
+
+        // HKCR\\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\PackageRepository\Extensions\windows.fileTypeAssociation
         public _RegDirectory HKCR_FileTypeAssociations { get; set; }
+
+        // HKCR\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\PackageRepository\
+        public _RegDirectory HKCR_PackageRepository { get; set; }
 
         public Dictionary<string, Shlwapi.Assoc> ShlwapiAssoc { get; set; } = new Dictionary<string, Shlwapi.Assoc>();
 
@@ -44,6 +59,7 @@ namespace waasa
             Console.WriteLine("  HKCU_SoftwareClasses                 : " + HKCU_SoftwareClasses.Keys.Count);
             Console.WriteLine("  HKCR_SystemFileAssociations          : " + HKCR_SystemFileAssociations.SubDirectories.Count);
             Console.WriteLine("  HKCR_FileTypeAssociations            : " + HKCR_FileTypeAssociations.SubDirectories.Count);
+            Console.WriteLine("  HKCR_PackageRepository               : " + HKCR_PackageRepository.SubDirectories.Count);
             //Console.WriteLine("  AppAssocXml                          : " + AppAssocXml.Count);
             //Console.WriteLine("  DefaultAssocXml                      : " + DefaultAssocXml.Count);
             Console.WriteLine("  ShlwapiAssoc                         : " + ShlwapiAssoc.Count);
@@ -54,6 +70,8 @@ namespace waasa
             return ShlwapiAssoc[extension].ToString();
         }
 
+
+        // Gather human-readable information about a extension
         public string GetExtensionInfo(string extension)
         {
             string ret = "";
@@ -95,6 +113,7 @@ namespace waasa
         }
 
 
+        // Gather human-readable information about a objid
         public string GetObjidInfo(string objid)
         {
             string ret = "";
@@ -139,6 +158,8 @@ namespace waasa
             GatherHKCR_SystemFileAssociations();
             GatherHKCR_FileTypeAssociations();
 
+            GatherHKCR_PackageRepository();
+
             //GatherAppAssocXml();
             //GatherDefaultAssocXml();
 
@@ -148,6 +169,7 @@ namespace waasa
 
             return GatheredData;
         }
+
 
         public void GatherShlwapi()
         {
@@ -170,7 +192,11 @@ namespace waasa
         public void GatherRegistryHKCR()
         {
             Console.WriteLine("GatherRegistryHKCR");
-            GatheredData.HKCR = FromRegistry(Microsoft.Win32.Registry.ClassesRoot, "");
+            HashSet<string> excludes = new HashSet<string>
+                { "Interface", "Extensions", "Local Settings", "WOW6432Node", "Installer" ,  
+                  "ActivatableClasses", "AppId", "CID", "Record", "TypeLib"};
+
+            GatheredData.HKCR = FromRegistry(Microsoft.Win32.Registry.ClassesRoot, "", excludes);
             Console.WriteLine("  Finished");
         }
 
@@ -185,6 +211,16 @@ namespace waasa
             Console.WriteLine("GatherHKCR_FileTypeAssociations");
             GatheredData.HKCR_FileTypeAssociations = FromRegistry(Microsoft.Win32.Registry.ClassesRoot, @"Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\PackageRepository\Extensions\windows.fileTypeAssociation");
             Console.WriteLine("  Finished");
+        }
+
+
+        private void GatherHKCR_PackageRepository()
+        {
+            HashSet<string> excludes = new HashSet<string>() {
+                "Extensions", // Really?
+            };
+            GatheredData.HKCR_PackageRepository = FromRegistry(Microsoft.Win32.Registry.ClassesRoot, @"Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\PackageRepository");
+
         }
 
         public void GatherRegistryHKCU_SoftwareClasses()
@@ -219,17 +255,13 @@ namespace waasa
             //GatheredData.DefaultAssocXml = FromXml("C:\\Windows\\System32\\OEMDefaultAssociations.xml");
         }
 
-        private _RegDirectory FromRegistry(RegistryKey registryKey, string path)
+        private _RegDirectory FromRegistry(RegistryKey registryKey, string path, HashSet<string> excludes = null)
         {
-            //Console.WriteLine("FromRegistry: " + path);
-
+            // Open initial directory
             _RegDirectory rootDir = new _RegDirectory(registryKey.Name + "\\" + path);
-
             var reg = registryKey.OpenSubKey(path);
             if (reg == null) {
                 throw new InvalidOperationException("Registry key not found: " + registryKey.Name + "\\" + path);
-                //Console.WriteLine("Registry key not found: " + registryKey.Name + " with path: " + path);
-                return rootDir;
             }
 
             // Keys
@@ -247,19 +279,20 @@ namespace waasa
                     fuck = path + "\\" + dirName;
                 }
 
-                // Skip unecessary directories
-                if (path != "Interface" && path != "Extensions" && path != "Local Settings" 
-                    && path != "WOW6432Node" && path != "Installer" && path != "ActivatableClasses"
-                    && path != "AppId" && path != "CID" && path != "Record" && path != "TypeLib" 
-                ) {
-                    var dirRes = FromRegistry(registryKey, fuck);
-                    //rootDir.SubDirectories.Add(dirName, dirRes);
-                    rootDir.AddDir(dirName, dirRes);
+                // Skip directories which are excluded (on root)
+                if (excludes != null) {
+                    if (excludes.Contains(fuck)) {
+                        continue;
+                    }
                 }
+
+                var dirRes = FromRegistry(registryKey, fuck);
+                rootDir.AddDir(dirName, dirRes);
             }
 
             return rootDir;
         }
+
 
         private List<_XmlAssociation> FromXml(string filepath)
         {
@@ -294,6 +327,5 @@ namespace waasa
 
             return xmls;
         }
-
     }
 }

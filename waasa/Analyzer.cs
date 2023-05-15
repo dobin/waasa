@@ -111,24 +111,21 @@ namespace waasa
                         }
 
                         if (appPath == "") {
-                            // Windows SystemApps related
+                            // Windows SystemApps related (Userchoice)
                             if (Registry.getUserChoice(extension) != "") {
                                 var exec = Registry.GetSystemApp(Registry.getUserChoice(extension));
-                                appPath += ".1" + exec;
+                                appPath += exec;
                             }
 
                         }
-
                         if (appPath == "") {
+                            // Windows SystemApps related ()
                             if (Registry.countRootProgids(extension) == 1) {
                                 var exec = Registry.GetSystemApp(Registry.getRootProgids(extension));
-                                appPath += ".2." + exec;
+                                appPath += exec;
                             }
                         }
                     }
-
-
-
                 } else {
                     assumption = "recommended4";
                 }

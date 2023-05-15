@@ -52,6 +52,8 @@ namespace waasa
     }
 
 
+    // VirtRegistry parses, processes, accumulates and checks information
+    // from our virtual registry at GatheredData
     public class VirtRegistry
     {
         private _GatheredData GatheredData;
@@ -433,21 +435,25 @@ namespace waasa
 
         public string GetSystemApp(string objid)
         {
+            var packageid = "";
+
             // PackageID
-            if (GatheredData.HKCR.HasDir(objid)) {
-                var obj = GatheredData.HKCR.GetDir(objid);
-                var packageid = obj.GetDir("shell").GetDir("open").Keys["PackageId"];
-
-                return packageid;
+            if (!GatheredData.HKCR.HasDir(objid)) {
+                return "";
             }
-
-            // Check if its a valid objid first
-            // TODO
+            var obj = GatheredData.HKCR.GetDir(objid);
+            packageid = obj.GetDir("shell").GetDir("open").Keys["PackageId"];
 
             // Check if its a package
-            // Computer\HKEY_CURRENT_USER\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\Repository\Packages\Microsoft.Windows.SecHealthUI_10.0.19041.1865_neutral__cw5n1h2txyewy
-
-            return objid;
+            // Computer\HKEY_CLASSES_ROOT\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\PackageRepository\
+            //   Packages\Microsoft.Windows.SecHealthUI_10.0.19041.1865_neutral__cw5n1h2txyewy
+            if (GatheredData.HKCR_PackageRepository.GetDir("Packages").HasDir(packageid)) {
+                var dir = GatheredData.HKCR_PackageRepository.GetDir("Packages").GetDir(packageid);
+                if (dir.Keys.ContainsKey("Path")) {
+                    return dir.Keys["Path"] + "?"; 
+                }
+            }
+            return "";
         }
 
         public bool appExists(string objid)
@@ -593,6 +599,50 @@ namespace waasa
                     return contenttype;
                 }
             }
+            return "";
+        }
+
+        public string GetExecutableForObjid(string objid)
+        {
+            //Console.WriteLine("XXX: 1");
+
+            if (GatheredData.HKCR.HasDir(objid)) {
+                //Console.WriteLine("XXX: 2");
+                var objdir = GatheredData.HKCR.GetDir(objid);
+                if (objdir.HasDir("Shell")) {
+                    //Console.WriteLine("XXX: 33");
+                    var shell = objdir.GetDir("shell");
+
+                    if (shell.Keys.ContainsKey("") && shell.Keys[""].ToLower() == "open") {
+                    } else {
+                        //Console.WriteLine("objid bad: " + objid);
+                        //return false;
+                    }
+
+                    if (shell.HasDir("open")) {
+                        //Console.WriteLine("XXX: 4");
+                        var open = shell.GetDir("open");
+                        if (open.HasDir("command")) {
+                            //Console.WriteLine("XXX: 5");
+                            var command = open.GetDir("command");
+                            if (command.Keys.ContainsKey("") && command.Keys[""] != "") {
+                                //Console.WriteLine("XXX 6: " + objid);
+
+                                // check integrity of \Shell\(Default) so it points to a valid command
+                                if (!shell.Keys.ContainsKey("")) {
+                                    //Console.WriteLine(objid + ": No chosen");
+                                }
+                                if (shell.Keys.ContainsKey("") && shell.Keys[""].ToLower() != "open") {
+                                    //Console.WriteLine(objid + ": No open: " + shell.Keys[""]);
+                                }
+
+                                return command.Keys[""];
+                            }
+                        }
+                    }
+                }
+            }
+
             return "";
         }
 
