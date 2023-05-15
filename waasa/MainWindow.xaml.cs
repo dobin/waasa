@@ -16,26 +16,32 @@ using System.Diagnostics;
 using System.IO;
 
 using System.Text.Json;
-
+using System.ComponentModel;
 
 namespace waasa
 {
     public partial class MainWindow : Window
     {
+        // UI mostly done with ChatGPT
         private _GatheredData GatheredData;
         private string DumpFilepath;
         private string OpensFilepath;
         private List<_FileExtension> FileExtensions;
 
+        ICollectionView collectionView;
+        private string searchFilter = "";
+
+
         public MainWindow(string dumpFilepath, string opensFilepath)
         {
             InitializeComponent();
+
+            DataContext = new MyViewModel(this);
+
             DumpFilepath = dumpFilepath;
             OpensFilepath = opensFilepath;
 
             load();
-            //dataGrid.ItemsSource = fileExtensions;
-            //GatheredData = gatheredData;
         }
 
         private void load()
@@ -58,9 +64,28 @@ namespace waasa
             var Analyzer = new Analyzer(GatheredData, Validator, Registry);
             FileExtensions = Analyzer.AnalyzeGatheredData();
 
+            collectionView = CollectionViewSource.GetDefaultView(FileExtensions);
+            collectionView.Filter = obj =>
+            {
+                if (obj is _FileExtension fileExtension) {
+                    if (searchFilter == "") {
+                        return true;
+                    }
+
+                    if (fileExtension.Extension.ToLower().Contains(searchFilter.ToLower())) {
+                        return true;
+                    }
+                    if (fileExtension.AppPath.ToLower().Contains(searchFilter.ToLower())) {
+                        return true;
+                    }
+                }
+
+                return false;
+            };
+
+            // UI
             dataGrid.ItemsSource = FileExtensions;
         }
-
 
         private void ButtonExec(object sender, RoutedEventArgs e)
         {
@@ -74,7 +99,6 @@ namespace waasa
             startInfo.Arguments = filepath;
             Process.Start(startInfo);
         }
-
 
         private void ButtonDownload(object sender, RoutedEventArgs e)
         {
@@ -101,17 +125,102 @@ namespace waasa
             GatheredData = gather.GatherAll();
             parseGatheredData();
         }
+
+        private void Menu_Filter(object sender, RoutedEventArgs e)
+        {
+            SetSearchFilter();
+        }
+
         private void Menu_SaveCsv(object sender, RoutedEventArgs e)
         {
             var Registry = new VirtRegistry(GatheredData);
             AppSharedFunctionality.handleCsvDebug("output.csv", FileExtensions, Registry);
         }
+
         private void Menu_CreateFiles(object sender, RoutedEventArgs e)
         {
             AppSharedFunctionality.handleFiles(FileExtensions);
         }
+
         private void Menu_LoadFile(object sender, RoutedEventArgs e)
         {
+        }
+
+        public void SetSearchFilter()
+        {
+            WindowSearch secondWindow = new WindowSearch();
+            if (secondWindow.ShowDialog() == true) {
+                searchFilter = secondWindow.UserInput;
+                collectionView.Refresh();
+            }
+        }
+    }
+
+
+    public class MyViewModel : INotifyPropertyChanged
+    {
+        MainWindow mywindow;
+
+        public MyViewModel(MainWindow mainwindow) : base()
+        {
+
+            mywindow = mainwindow;
+        }
+
+        private ICommand searchCommand;
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public ICommand SearchCommand
+        {
+            get
+            {
+                if (searchCommand == null) {
+                    searchCommand = new RelayCommand(
+                        param => this.Search(),
+                        param => this.CanSearch()
+                    );
+                }
+                return searchCommand;
+            }
+        }
+
+        private void Search()
+        {
+            mywindow.SetSearchFilter();
+        }
+
+        private bool CanSearch()
+        {
+            return true;
+        }
+    }
+
+    public class RelayCommand : ICommand
+    {
+        private readonly Action<object> _execute;
+        private readonly Predicate<object> _canExecute;
+
+        public RelayCommand(Action<object> execute, Predicate<object> canExecute = null)
+        {
+            _execute = execute;
+            _canExecute = canExecute;
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return _canExecute == null || _canExecute(parameter);
+        }
+
+        public void Execute(object parameter)
+        {
+            _execute(parameter);
+        }
+
+        public event EventHandler CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
         }
     }
 }

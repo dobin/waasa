@@ -5,7 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:waasa"
         mc:Ignorable="d"
-        Title="MainWindow" Height="850" Width="1400">
+        Title="Waasa" Height="850" Width="1400"
+>
+    <Window.InputBindings>
+        <KeyBinding Key="F" Modifiers="Control" Command="{Binding SearchCommand}" />
+    </Window.InputBindings>
+
+
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
@@ -21,6 +27,7 @@
                 <MenuItem Header="Create files" Click="Menu_CreateFiles" />
             </MenuItem>
             <MenuItem Header="Options">
+                <MenuItem Header="Filter (ctrl-f)" Click="Menu_Filter" />
             </MenuItem>
         </Menu>
 
@@ -38,10 +45,14 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Button Content="Exec" Click="ButtonExec"/>
-                                <Button Content="Download" Click="ButtonDownload"/>
-                                <Button Content="Browser" Click="ButtonBrowserDownload"/>
-                                <Button Content="Details" Click="ButtonDetails"/>
+                                <Button Content="Exec" Click="ButtonExec" 
+                                        ToolTip="Attempt to start a test file with that extension. Only makes sense on the same computer you aquired the dump."/>
+                                <Button Content="Download" Click="ButtonDownload" 
+                                        ToolTip="Attempt to download this file extension" />
+                                <Button Content="Browser" Click="ButtonBrowserDownload"
+                                        ToolTip="Attempt to download this file extension with the browser" />
+                                <Button Content="Details" Click="ButtonDetails"
+                                        ToolTip="Show registry data of that extension"/>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
