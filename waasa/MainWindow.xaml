@@ -31,7 +31,7 @@
             </MenuItem>
         </Menu>
 
-        <DataGrid Name="dataGrid" AutoGenerateColumns="False" CanUserSortColumns="True">
+        <DataGrid Name="dataGrid" AutoGenerateColumns="False" CanUserSortColumns="True" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Extension" Binding="{Binding Extension}" SortDirection="Ascending" />
                 <DataGridTextColumn Header="Result" Binding="{Binding Result}" />
@@ -45,13 +45,13 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Button Content="Exec" Click="ButtonExec" 
+                                <Button Content="Exec" Click="ButtonExec" Margin="1,0,1,0"
                                         ToolTip="Attempt to start a test file with that extension. Only makes sense on the same computer you aquired the dump."/>
-                                <Button Content="Download" Click="ButtonDownload" 
+                                <Button Content="Download" Click="ButtonDownload" Margin="1,0,1,0"
                                         ToolTip="Attempt to download this file extension" />
-                                <Button Content="Browser" Click="ButtonBrowserDownload"
+                                <Button Content="Browser" Click="ButtonBrowserDownload" Margin="1,0,1,0"
                                         ToolTip="Attempt to download this file extension with the browser" />
-                                <Button Content="Details" Click="ButtonDetails"
+                                <Button Content="Details" Click="ButtonDetails" Margin="1,0,1,0"
                                         ToolTip="Show registry data of that extension"/>
                             </StackPanel>
                         </DataTemplate>
