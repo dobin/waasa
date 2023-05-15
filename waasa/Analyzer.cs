@@ -102,32 +102,34 @@ namespace waasa
                 if (Registry.countUserOpenWithProgids(extension) < 2) {
                     assumption = "exec4";
 
-                    // get real destination
-                    if (appPath == "") {
-                        // Content-Type -> Media player related
-                        if (Registry.getRootContentType(extension) != "") {
-                            var exec = Registry.ContentTypeExec(Registry.getRootContentType(extension));
-                            appPath = exec;
-                        }
 
-                        if (appPath == "") {
-                            // Windows SystemApps related (Userchoice)
-                            if (Registry.getUserChoice(extension) != "") {
-                                var exec = Registry.GetSystemApp(Registry.getUserChoice(extension));
-                                appPath += exec;
-                            }
-
-                        }
-                        if (appPath == "") {
-                            // Windows SystemApps related ()
-                            if (Registry.countRootProgids(extension) == 1) {
-                                var exec = Registry.GetSystemApp(Registry.getRootProgids(extension));
-                                appPath += exec;
-                            }
-                        }
-                    }
                 } else {
                     assumption = "recommended4";
+                }
+            }
+
+            // get real destination
+            if (appPath == "") {
+                // Content-Type -> Media player related
+                if (Registry.getRootContentType(extension) != "") {
+                    var exec = Registry.ContentTypeExec(Registry.getRootContentType(extension));
+                    appPath = exec;
+                }
+
+                if (appPath == "") {
+                    // Windows SystemApps related (Userchoice)
+                    if (Registry.getUserChoice(extension) != "") {
+                        var exec = Registry.GetSystemApp(Registry.getUserChoice(extension));
+                        appPath += exec;
+                    }
+
+                }
+                if (appPath == "") {
+                    // Windows SystemApps related ()
+                    if (Registry.countRootProgids(extension) == 1) {
+                        var exec = Registry.GetSystemApp(Registry.getRootProgids(extension));
+                        appPath += exec;
+                    }
                 }
             }
 

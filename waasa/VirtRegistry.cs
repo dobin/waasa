@@ -442,6 +442,12 @@ namespace waasa
                 return "";
             }
             var obj = GatheredData.HKCR.GetDir(objid);
+            if (!obj.HasDir("shell") || !obj.GetDir("shell").HasDir("open")) {
+                return "";
+            }
+            if (!obj.GetDir("shell").GetDir("open").Keys.ContainsKey("PackageId")) {
+                return "";
+            }
             packageid = obj.GetDir("shell").GetDir("open").Keys["PackageId"];
 
             // Check if its a package
