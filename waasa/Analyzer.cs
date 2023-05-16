@@ -79,11 +79,11 @@ namespace waasa
             string appName = assoc.FriendlyAppName;
             string appPath = assoc.Command;
 
-            if (assoc.FriendlyAppName == "Pick an application") {
+            if (assoc.FriendlyAppName.StartsWith("Pick an app")) {
                 assumption = "openwith1";
 
             } else if (assoc.FriendlyAppName == "") {
-                if (assoc.Command != "" && !Registry.isValidRootProgids(extension)) {
+                if (assoc.Command != "" && !Registry.isValidRootProgids(extension) && Registry.hasRootDefault(extension)) {
                     // May also use: Root_DefaultExec
                     // Basically just .cmd, .com
                     assumption = "exec2";
@@ -92,12 +92,7 @@ namespace waasa
                 }
                 
             } else if (assoc.Command != "") {
-                // Hmmm
-                if (! Registry.isValidUserProgids(extension) && Registry.countUserOpenWithList(extension) == "0") {
-                    assumption = "openwith3";
-                } else {
-                    assumption = "exec3";
-                }
+                assumption = "exec3";
             } else {
                 if (Registry.countUserOpenWithProgids(extension) < 2) {
                     assumption = "exec4";
