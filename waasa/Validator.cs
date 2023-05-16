@@ -26,6 +26,10 @@ namespace waasa
         // Parse opens.txt
         public void LoadFromFile(string opensFilename)
         {
+            if (! File.Exists(opensFilename)) {
+                return;
+            }
+
             Console.WriteLine("Validator: " + opensFilename);
             using (var fileStream = File.OpenRead(opensFilename))
             using (var streamReader = new StreamReader(fileStream, System.Text.Encoding.UTF8, true, 512)) {

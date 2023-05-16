@@ -71,11 +71,12 @@ namespace waasa
 
         private bool loadAll(string dumpFilepath, string opensFilepath)
         {
-            Console.WriteLine("Dump: " + dumpFilepath);
             if (! File.Exists(dumpFilepath)) {
-                Console.WriteLine("  Not found. No data.");
+                Console.WriteLine("  Did not find dumpfile: " + dumpFilepath);
+                Console.WriteLine("  try: waasa.exe --dump dump.json");
                 return false;
             }
+            Console.WriteLine("Dump: " + dumpFilepath);
             string jsonString = File.ReadAllText(dumpFilepath);
             GatheredData = JsonSerializer.Deserialize<_GatheredData>(jsonString)!;
 
@@ -206,6 +207,10 @@ namespace waasa
                  }
 
                  var loaded = loadAll(o.DumpInputFile, o.OpensInputFile);
+                 if (! loaded) {
+                     this.Shutdown();
+                     return;
+                 }
                  Console.WriteLine("");
                  
                 if (o.TestAll) {
