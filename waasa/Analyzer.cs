@@ -83,7 +83,7 @@ namespace waasa
                 assumption = "openwith1";
 
             } else if (assoc.FriendlyAppName == "") {
-                if (assoc.Command != "" && ! Registry.hasHKLU(extension)) {
+                if (assoc.Command != "" && !Registry.isValidRootProgids(extension)) {
                     // May also use: Root_DefaultExec
                     // Basically just .cmd, .com
                     assumption = "exec2";
