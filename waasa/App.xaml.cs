@@ -104,6 +104,15 @@ namespace waasa
             Validator.PrintStats(fileExtensions);
         }
 
+        void testOne(string extension)
+        {
+            var fileExtensions = Analyzer.AnalyzeGatheredData();
+            foreach (var fileExtension in fileExtensions) {
+                if (fileExtension.Extension == extension) {
+                    Console.WriteLine(String.Format("{0};{1};{2}", fileExtension.Extension, fileExtension.Result, fileExtension.Assumption));
+                }
+            }
+        }
 
         void handleExt(string extension)
         {
@@ -212,9 +221,12 @@ namespace waasa
                      return;
                  }
                  Console.WriteLine("");
-                 
-                if (o.TestAll) {
+
+                 if (o.TestAll) {
                      testAll();
+                     this.Shutdown();
+                 } else if (o.TestOne != null) {
+                     testOne(o.TestOne);
                      this.Shutdown();
                  } else if (o.Csv != null) {
                      var fileExtensions = Analyzer.AnalyzeGatheredData();
