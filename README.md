@@ -7,11 +7,15 @@ Shows which file extensions gets opened by which program.
 
 From a fresh Windows 10 VM with Visual Studio installed:
 
-* [Result CSV File](https://raw.githubusercontent.com/dobin/waasa/master/data/windev.csv)
-* [Dump File](https://raw.githubusercontent.com/dobin/waasa/master/data/windev.json)
+* [Result CSV File](https://github.com/dobin/waasa/blob/master/data/windev.csv)
+* [Dump File Download](https://raw.githubusercontent.com/dobin/waasa/master/data/windev.json)
 
 
 ## Usage GUI
+
+```
+> .\waasa.exe --gui
+```
 
 ![Waasa GUI](https://raw.githubusercontent.com/dobin/waasa/master/doc/gui.png)
 
@@ -23,17 +27,17 @@ Click: File -> Aquire Dump
 
 Create a dump:
 ```
-> .\waasa.exe -dump dump.json
+> .\waasa.exe --dump dump.json
 ```
 
 Create CSV from dump:
 ```
-> .\waasa.exe -dumpfile dump.json --csv output.csv
+> .\waasa.exe --dumpfile dump.json --csv output.csv
 ```
 
 Create all files in `./output/`:
 ```
-> .\waasa.exe -dumpfile dump.json --files
+> .\waasa.exe --dumpfile dump.json --files
 ```
 
 
