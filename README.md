@@ -1,22 +1,59 @@
 # Windows App Attack Surface Analyzer
 
-Shows which file extensions gets opened by which program. 
+Shows which file extensions gets opened by which program.
 
 
-## Usage 
+## Examples
 
+From a fresh Windows 10 VM with Visual Studio installed:
+
+* [Result CSV File](https://raw.githubusercontent.com/dobin/waasa/master/data/windev.csv)
+* [Dump File](https://raw.githubusercontent.com/dobin/waasa/master/data/windev.json)
+
+
+## Usage GUI
+
+![Waasa GUI](https://raw.githubusercontent.com/dobin/waasa/master/doc/gui.png)
+
+
+Click: File -> Aquire Dump
+
+
+## Usage Console
+
+Create a dump:
 ```
-AppSurface.exe [console|gui|csv|json|yaml] <file.txt>
+> .\waasa.exe -dump dump.json
+```
+
+Create CSV from dump:
+```
+> .\waasa.exe -dumpfile dump.json --csv output.csv
+```
+
+Create all files in `./output/`:
+```
+> .\waasa.exe -dumpfile dump.json --files
 ```
 
 
-## Outputs 
+## Notes about the results
 
-Analysis
-* Console (example)
-* CSV (example)
-* HTML (exmaple)
+Windows basically knows three types of actions when clicking a file: 
+1) Execute the associated program
+2) Show "Open With" dialog, where a program is preselected (recommended)
+3) Show "Open With" dialog, no preselection or recommendation
 
-Full dump: 
-* JSON (example)
-* YAML (example)
+Because of Windows restrictions, waasa will treat 1) and 2) mostly as the same. 
+Which makes sense from an attackers perspective too, as users will likely click "Open With Recommended"
+entry. 
+
+
+The results are mostly based on Windows `shlwap` interface, which gives a lot of wrong results. 
+I tried to improve the algorihmn, but there are still misidentifications possible. Double check
+your results (by manually clicking on the files). 
+
+
+![OpenWith 1](https://raw.githubusercontent.com/dobin/waasa/master/doc/openwith-1.png)
+![Recommended](https://raw.githubusercontent.com/dobin/waasa/master/doc/recommended-1.png)
+
