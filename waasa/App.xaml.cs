@@ -16,17 +16,55 @@ using System.Globalization;
 
 namespace waasa
 {
+    class _CsvEntry
+    {
+        public string Extension { get; set; }
+        public string Assumption { get; set; }
+
+        public string Judgement { get; set; }
+
+        public string AppName { get; set; }
+        public string AppPath { get; set; }
+
+
+        public _CsvEntry(_FileExtension fileExtension)
+        {
+            Extension = fileExtension.Extension;
+
+            Assumption = fileExtension.Assumption;
+            if (fileExtension.Assumption.StartsWith("exec")) {
+                Assumption = "program execution";
+            }
+            if (fileExtension.Assumption.StartsWith("openwith")) {
+                Assumption = "open-with list";
+            }
+            if (fileExtension.Assumption.StartsWith("recommended")) {
+                Assumption = "recommended list";
+            }
+
+            Judgement = fileExtension.Judgement;
+            AppName = fileExtension.AppName;
+            AppPath = fileExtension.AppPath;
+        }
+    }
+
     class AppSharedFunctionality
     {
 
         static public void handleCsv(string filepath, List<_FileExtension> fileExtensions)
         {
             Console.WriteLine("Writing CSV to: " + filepath + " with " + fileExtensions.Count);
-            using (StreamWriter writer = new StreamWriter(filepath)) {
-                foreach (var fileExtension in fileExtensions) {
-                    writer.WriteLine(String.Format("{0};{1};{2}", fileExtension.Extension, fileExtension.Result, fileExtension.Assumption));
-                }
+
+            // Convert
+            List<_CsvEntry> csvEntries = new List<_CsvEntry>();
+            foreach (var fileExtension in fileExtensions) {
+                csvEntries.Add(new _CsvEntry(fileExtension));
             }
+
+            using var writer = new StreamWriter(filepath);
+            var config = new CsvConfiguration(CultureInfo.InvariantCulture) { };
+            using var csv = new CsvWriter(writer, config);
+            csv.WriteRecords(csvEntries);
         }
 
 
@@ -200,7 +238,7 @@ namespace waasa
         {
             base.OnStartup(e);
             // Set the shutdown mode to explicit shutdown
-            this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            //this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
             CommandLine.Parser.Default.ParseArguments<Options>(e.Args)
               .WithParsed<Options>(o =>
@@ -224,32 +262,25 @@ namespace waasa
 
                  if (o.TestAll) {
                      testAll();
-                     this.Shutdown();
                  } else if (o.TestOne != null) {
                      testOne(o.TestOne);
-                     this.Shutdown();
                  } else if (o.Csv != null) {
                      var fileExtensions = Analyzer.AnalyzeGatheredData();
                      AppSharedFunctionality.handleCsv(o.Csv, fileExtensions);
-                     this.Shutdown();
                  } else if (o.CsvDebug != null) {
                      var fileExtensions = Analyzer.AnalyzeGatheredData();
                      AppSharedFunctionality.handleCsvDebug(o.CsvDebug, fileExtensions, Registry);
-                     this.Shutdown();
                  } else if (o.Files) {
                      var fileExtensions = Analyzer.AnalyzeGatheredData();
                      AppSharedFunctionality.handleFiles(fileExtensions);
-                     this.Shutdown();
                  } else if (o.InfoExt != null) {
                      handleExt(o.InfoExt);
-                     this.Shutdown();
                  } else if (o.InfoObj != null) {
                      handleObjid(o.InfoObj);
-                     this.Shutdown();
                  } else if (o.Assoc != null) {
                      handleAssoc(o.Assoc);
-                     this.Shutdown();
                  }
+                 this.Shutdown();
              });
         }
     }
