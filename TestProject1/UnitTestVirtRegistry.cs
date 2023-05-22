@@ -38,14 +38,17 @@ namespace TestProject1
             Assert.AreEqual("vxdfile", Registry.getRootDefault(".386"));
             Assert.AreEqual("system", Registry.getRootPerceivedType(".386"));
             Assert.AreEqual("{098f2470-bae0-11cd-b579-08002b30bfeb}", Registry.getRootPersistentHandler(".386"));
+            Assert.AreEqual(0, Registry.countRootProgids(".386"));
 
             Assert.AreEqual("appx9rkaq77s0jzh1tyccadx9ghba15r6t3h", Registry.getRootProgid(".3fr"));
 
             Assert.AreEqual("VLC.3g2", Registry.getRootDefault(".3g2"));
             Assert.AreEqual(6, Registry.countRootProgids(".3g2"));
             Assert.AreEqual("video/3gpp2", Registry.getRootContentType(".3g2"));
-            
+            Assert.AreEqual("", Registry.GetExecutableForObjid(".3g2"));
+
             Assert.IsTrue(Registry.GetExecutableForObjid(".fluid").Contains("OneDrive\\23"));
+            
 
             // isValidRootDefault()
             // isValidRootProgids()
