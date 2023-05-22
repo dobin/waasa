@@ -21,4 +21,10 @@
     <ProjectReference Include="..\waasa\waasa.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="gathereddata-small.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

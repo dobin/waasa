@@ -120,7 +120,7 @@ namespace waasa
                 if (appPath == "") {
                     // Windows SystemApps related ()
                     if (Registry.countRootProgids(extension) == 1) {
-                        var exec = Registry.GetSystemApp(Registry.getRootProgids(extension));
+                        var exec = Registry.GetSystemApp(Registry.getRootProgid(extension));
                         appPath += exec;
                     }
                 }

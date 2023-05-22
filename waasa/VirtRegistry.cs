@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Animation;
 
 namespace waasa
 {
@@ -102,7 +103,7 @@ namespace waasa
                 entry.HKLU_has = hasHKLU(extension);
 
                 entry.Root_CntProgids = countRootProgids(extension);
-                entry.Root_ProgidOne = getRootProgids(extension);
+                entry.Root_ProgidOne = getRootProgid(extension);
                 entry.Root_ProgidOneExec = isExecutableObjid(entry.Root_ProgidOne);
                 entry.Root_ProgidOneToast = hasToast(extension, entry.Root_ProgidOne);
 
@@ -141,82 +142,50 @@ namespace waasa
         }
 
 
-        // HK_LocalUser
         public string getUserChoice(string extension)
         {
-            // HKLU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\
-            if (GatheredData.HKCU_ExplorerFileExts.HasDir(extension)) {
-                // HKLU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\<extension>\
-                var explorerExtensionDir = GatheredData.HKCU_ExplorerFileExts.GetDir(extension);
-
-                ///if (explorerExtensionDir.SubDirectories.ContainsKey("UserChoice")) {
-                if (explorerExtensionDir.HasDir("UserChoice")) {
-                    // HKLU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\<extension>\UserChoice\
-                    var userChoiceDir = explorerExtensionDir.GetDir("UserChoice");
-
-                    // HKLU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\<extension>\UserChoice\Progid
-                    if (userChoiceDir.Keys.ContainsKey("ProgId")) {
-
-                        var progid = userChoiceDir.Keys["ProgId"];
-                        return progid;
-                        //return true;
-                    }
-                }
-            }
-            return "";
+            string path = String.Format("{0}\\UserChoice\\Progid", extension);
+            var res = GatheredData.HKCU_ExplorerFileExts.GetKey(path);
+            return res;
         }
 
-
-        // HK_LocalUser
         public int countUserOpenWithProgids(string extension)
         {
-            if (GatheredData.HKCU_ExplorerFileExts.HasDir(extension)) {
-                // HKLU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\<extension>\
-                var explorerExtensionDir = GatheredData.HKCU_ExplorerFileExts.GetDir(extension);
-
-                if (explorerExtensionDir.HasDir("OpenWithProgids")) {
-                    // HKLU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\<extension>\OpenWithProgids\
-                    var openWithProgidsDir = explorerExtensionDir.GetDir("OpenWithProgids");
-                    return openWithProgidsDir.Keys.Count;
-                }
+            string path = String.Format("{0}\\OpenWithProgids", extension);
+            var res = GatheredData.HKCU_ExplorerFileExts.GetDir(path);
+            if (res == null) {
+                return 0;
             }
-            return 0;
+            return res.Keys.Count;
+
         }
+
         public string getUserOpenWithProgids(string extension)
         {
-            if (GatheredData.HKCU_ExplorerFileExts.HasDir(extension)) {
-                // HKLU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\<extension>\
-                var explorerExtensionDir = GatheredData.HKCU_ExplorerFileExts.GetDir(extension);
-
-                if (explorerExtensionDir.HasDir("OpenWithProgids")) {
-                    // HKLU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\<extension>\OpenWithProgids\
-                    var openWithProgidsDir = explorerExtensionDir.GetDir("OpenWithProgids");
-                    if (openWithProgidsDir.Keys.Count == 1) {
-                        return openWithProgidsDir.Keys.First().Key;
-                    }
-                }
+            if (countUserOpenWithProgids(extension) == 1) {
+                string path = String.Format("{0}\\OpenWithProgids", extension);
+                var res = GatheredData.HKCU_ExplorerFileExts.GetDir(path);
+                return res.Keys.First().Key;
             }
             return "";
         }
+
         public bool allUserProgidsValid(string extension)
         {
-            if (GatheredData.HKCU_ExplorerFileExts.HasDir(extension)) {
-                // HKLU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\<extension>\
-                var explorerExtensionDir = GatheredData.HKCU_ExplorerFileExts.GetDir(extension);
+            string path = String.Format("{0}\\OpenWithProgids", extension);
+            var openWithProgidsDir = GatheredData.HKCU_ExplorerFileExts.GetDir(path);
+            if (openWithProgidsDir == null) {
+                return true;
+            }   
 
-                if (explorerExtensionDir.HasDir("OpenWithProgids")) {
-                    // HKLU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\<extension>\OpenWithProgids\
-                    var openWithProgidsDir = explorerExtensionDir.GetDir("OpenWithProgids");
+            foreach (var openWithProgid in openWithProgidsDir.Keys) {
+                var objid = openWithProgid.Key;
 
-                    foreach (var openWithProgid in openWithProgidsDir.Keys) {
-                        var objid = openWithProgid.Key;
-
-                        if (!hasToast(extension, objid)) {
-                            return false;
-                        }
-                    }
+                if (!hasToast(extension, objid)) {
+                    return false;
                 }
             }
+
             return true;
         }
 
@@ -224,116 +193,78 @@ namespace waasa
         // HK_LocalUser
         public string countUserOpenWithList(string extension)
         {
-            if (GatheredData.HKCU_ExplorerFileExts.HasDir(extension)) {
-                // HKLU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\<extension>\
-                var explorerExtensionDir = GatheredData.HKCU_ExplorerFileExts.GetDir(extension);
-                if (explorerExtensionDir.HasDir("OpenWithList")) {
-                    // HKLU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\<extension>\OpenWithProgids\
-                    var openWithProgidsDir = explorerExtensionDir.GetDir("OpenWithList");
-
-                    if (openWithProgidsDir.Keys.Count == 2) {
-                        foreach (var l in openWithProgidsDir.Keys) {
-                            if (l.Key.ToLower() != "MRUList") {
-                                return l.Value;
-                            }
-                        }
-                    }
-
-                    return openWithProgidsDir.Keys.Count.ToString();
-                }
+            var path = String.Format("{0}\\OpenWithList", extension);
+            var res = GatheredData.HKCU_ExplorerFileExts.GetDir(path);
+            if (res == null) {
+                return "";
             }
-            return "";
+            return res.Keys.Count.ToString();
         }
+
         public string getUserOpenWithList(string extension)
         {
-            if (GatheredData.HKCU_ExplorerFileExts.HasDir(extension)) {
-                // HKLU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\<extension>\
-                var explorerExtensionDir = GatheredData.HKCU_ExplorerFileExts.GetDir(extension);
-
-                if (explorerExtensionDir.HasDir("OpenWithList")) {
-                    // HKLU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\<extension>\OpenWithProgids\
-                    var openWithProgidsDir = explorerExtensionDir.GetDir("OpenWithList");
-                    if (openWithProgidsDir.Keys.Count == 1) {
-                        return openWithProgidsDir.Keys.First().Key;
-                    }
-                }
-            }
-            return "";
+            var path = String.Format("{0}\\OpenWithList", extension);
+            var openWithListDir = GatheredData.HKCU_ExplorerFileExts.GetDir(path);
+            if (openWithListDir == null || openWithListDir.Keys.Count != 1) {
+                return "";
+            }   
+            return openWithListDir.Keys.First().Key;
         }
+
         public bool isUserListValid(string extension)
         {
-            if (GatheredData.HKCU_ExplorerFileExts.HasDir(extension)) {
-                // HKCR\<extension>\
-                var rootExtensionDir = GatheredData.HKCU_ExplorerFileExts.GetDir(extension);
+            var path = String.Format("{0}\\OpenWithList", extension);
+            var openWithProgidsDir = GatheredData.HKCU_ExplorerFileExts.GetDir(path);
+            if (openWithProgidsDir == null) {
+                return true;
+            }
+            foreach (var k in openWithProgidsDir.Keys) {
+                if (k.Key.ToLower() == "MRUList") {
+                    continue;
+                }
 
-                // HKCR\<extension>\OpenWithProgids\
-                if (rootExtensionDir.HasDir("OpenWithList")) {
-                    var openWithProgidsDir = rootExtensionDir.GetDir("OpenWithList");
-
-                    foreach (var k in openWithProgidsDir.Keys) {
-                        if (k.Key.ToLower() == "MRUList") {
-                            continue;
-                        }
-
-                        var app = k.Value;
-                        if (!appExists(app)) {
-                            return false;
-                        }
-                    }
+                var app = k.Value;
+                if (!appExists(app)) {
+                    return false;
                 }
             }
+
             return true;
         }
 
         // HK_CurrentRoot
         public int countRootProgids(string extension)
         {
-            if (GatheredData.HKCR.HasDir(extension)) {
-                // HKCR\<extension>\
-                var rootExtensionDir = GatheredData.HKCR.GetDir(extension);
-
-                // HKCR\<extension>\OpenWithProgids\
-                if (rootExtensionDir.HasDir("OpenWithProgids")) {
-                    var openWithProgidsDir = rootExtensionDir.GetDir("OpenWithProgids");
-                    return openWithProgidsDir.Keys.Count;
-                }
+            var path = String.Format("{0}\\OpenWithProgids", extension);
+            var res = GatheredData.HKCR.GetDir(path);
+            if (res == null) {
+                return 0;
             }
-            return 0;
+            return res.Keys.Count;
         }
-        public string getRootProgids(string extension)
+
+        public string getRootProgid(string extension)
         {
-            if (GatheredData.HKCR.HasDir(extension)) {
-                // HKCR\<extension>\
-                var rootExtensionDir = GatheredData.HKCR.GetDir(extension);
-
-                // HKCR\<extension>\OpenWithProgids\
-                if (rootExtensionDir.HasDir("OpenWithProgids")) {
-                    var openWithProgidsDir = rootExtensionDir.GetDir("OpenWithProgids");
-
-                    if (openWithProgidsDir.Keys.Count == 1) {
-                        return openWithProgidsDir.Keys.First().Key;
-                    }
-                }
+            var path = String.Format("{0}\\OpenWithProgids", extension);
+            var res = GatheredData.HKCR.GetDir(path);
+            if (res == null || res.Keys.Count != 1) {
+                return "";
             }
-            return "";
+            return res.Keys.First().Key;
         }
+
         public bool allRootProgidsValid(string extension)
         {
-            if (GatheredData.HKCR.HasDir(extension)) {
-                // HKCR\<extension>\
-                var rootExtensionDir = GatheredData.HKCR.GetDir(extension);
+            var path = String.Format("{0}\\OpenWithProgids", extension);
+            var res = GatheredData.HKCR.GetDir(path);
+            if (res == null) {
+                return true;
+            }
+            foreach (var k in res.Keys) {
+                var objid = k.Key;
 
-                // HKCR\<extension>\OpenWithProgids\
-                if (rootExtensionDir.HasDir("OpenWithProgids")) {
-                    var openWithProgidsDir = rootExtensionDir.GetDir("OpenWithProgids");
-
-                    foreach (var openWithProgid in openWithProgidsDir.Keys) {
-                        var objid = openWithProgid.Key;
-
-                        if (!hasToast(extension, objid)) {
-                            return false;
-                        }
-                    }
+                if (!hasToast(extension, objid)) {
+                    return false;
                 }
             }
             return true;
@@ -342,55 +273,39 @@ namespace waasa
         // HK_CurrentRoot
         public int countRootOpenWithList(string extension)
         {
-            if (GatheredData.HKCR.HasDir(extension)) {
-                // HKCR\<extension>\
-                var rootExtensionDir = GatheredData.HKCR.GetDir(extension);
-
-                // HKCR\<extension>\OpenWithProgids\
-                if (rootExtensionDir.HasDir("OpenWithList")) {
-                    var openWithProgidsDir = rootExtensionDir.GetDir("OpenWithList");
-                    return openWithProgidsDir.Keys.Count;
-                }
+            var path = String.Format("{0}\\OpenWithList", extension);
+            var res = GatheredData.HKCR.GetDir(path);
+            if (res == null) {
+                return 0;
             }
-            return 0;
+            return res.Keys.Count;
         }
+
         public string getRootOpenWithList(string extension)
         {
-            if (GatheredData.HKCR.HasDir(extension)) {
-                // HKCR\<extension>\
-                var rootExtensionDir = GatheredData.HKCR.GetDir(extension);
-
-                // HKCR\<extension>\OpenWithProgids\
-                if (rootExtensionDir.HasDir("OpenWithList")) {
-                    var openWithProgidsDir = rootExtensionDir.GetDir("OpenWithList");
-
-                    if (openWithProgidsDir.Keys.Count == 1) {
-                        return openWithProgidsDir.Keys.First().Key;
-                    }
-                }
+            var path = String.Format("{0}\\OpenWithList", extension);
+            var res = GatheredData.HKCR.GetDir(path);
+            if (res == null || res.Keys.Count != 1) {
+                return "";
             }
-            return "";
+            return res.Keys.First().Key;
         }
+
         public bool isRootListValid(string extension)
         {
-            if (GatheredData.HKCR.HasDir(extension)) {
-                // HKCR\<extension>\
-                var rootExtensionDir = GatheredData.HKCR.GetDir(extension);
+            var path = String.Format("{0}\\OpenWithList", extension);
+            var res = GatheredData.HKCR.GetDir(path);
+            if (res == null) {
+                return true;
+            }
+            foreach (var k in res.Keys) {
+                if (k.Key.ToLower() == "MRUList") {
+                    continue;
+                }
 
-                // HKCR\<extension>\OpenWithProgids\
-                if (rootExtensionDir.HasDir("OpenWithList")) {
-                    var openWithProgidsDir = rootExtensionDir.GetDir("OpenWithList");
-
-                    foreach (var k in openWithProgidsDir.Keys) {
-                        if (k.Key.ToLower() == "MRUList") {
-                            continue;
-                        }
-
-                        var app = k.Value;
-                        if (!appExists(app)) {
-                            return false;
-                        }
-                    }
+                var app = k.Value;
+                if (!appExists(app)) {
+                    return false;
                 }
             }
             return true;
@@ -398,298 +313,144 @@ namespace waasa
 
         public string GetSystemApp(string objid)
         {
-            var packageid = "";
-
             // PackageID
             if (!GatheredData.HKCR.HasDir(objid)) {
                 return "";
             }
-            var obj = GatheredData.HKCR.GetDir(objid);
-            if (!obj.HasDir("shell") || !obj.GetDir("shell").HasDir("open")) {
+
+            var shellopenPackageid = String.Format("{0}\\shell\\open\\PackageId", objid);
+            var packageid = GatheredData.HKCR.GetKey(shellopenPackageid);
+            if (packageid == null) {
                 return "";
             }
-            if (!obj.GetDir("shell").GetDir("open").Keys.ContainsKey("PackageId")) {
-                return "";
-            }
-            packageid = obj.GetDir("shell").GetDir("open").Keys["PackageId"];
 
             // Check if its a package
             // Computer\HKEY_CLASSES_ROOT\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\PackageRepository\
             //   Packages\Microsoft.Windows.SecHealthUI_10.0.19041.1865_neutral__cw5n1h2txyewy
-            if (GatheredData.HKCR_PackageRepository.GetDir("Packages").HasDir(packageid)) {
-                var dir = GatheredData.HKCR_PackageRepository.GetDir("Packages").GetDir(packageid);
-                if (dir.Keys.ContainsKey("Path")) {
-                    return dir.Keys["Path"] + "?"; 
-                }
+            var path = String.Format("Packages\\{0}", packageid);
+            var res = GatheredData.HKCR_PackageRepository.GetDir(path);
+            if (res == null) {
+                return "";
             }
+            if (res.Keys.ContainsKey("Path")) {
+                return "? " + res.Keys["Path"];
+            }
+
             return "";
         }
 
         public bool appExists(string objid)
         {
-            var root = GatheredData.HKCR.GetDir("Applications");
-            if (root.HasDir(objid)) {
-                var app = root.GetDir(objid);
-                if (app.HasDir("shell")) {
-                    return true;
-                }
+            var path = String.Format("Applications\\{0}", objid);
+            var res = GatheredData.HKCR.GetDir(path);   
+            if (res == null) {
+                return false;
             }
-            return false;
+            return true;
         }
 
         // HK_CurrentRoot
         public bool hasRootDefault(string extension)
         {
-            if (GatheredData.HKCR.HasDir(extension)) {
-                // HKCR\<extension>\
-                var rootExtensionDir = GatheredData.HKCR.GetDir(extension);
-
-                // HKCR\<extension>\(Default)
-                if (rootExtensionDir.Keys.ContainsKey("")) {
-                    var def = rootExtensionDir.Keys[""];
-                    if (def != "") {
-                        return true;
-                    }
-                }
+            var ret = GatheredData.HKCR.GetKey(extension + "\\(Default)");
+            if (ret == null) {
+                return false;
+            }
+            if (ret != "") {
+                return true;
             }
             return false;
         }
+
         public string getRootDefault(string extension)
         {
-            if (GatheredData.HKCR.HasDir(extension)) {
-                // HKCR\<extension>\
-                var rootExtensionDir = GatheredData.HKCR.GetDir(extension);
-
-                // HKCR\<extension>\(Default)
-                if (rootExtensionDir.Keys.ContainsKey("")) {
-                    var def = rootExtensionDir.Keys[""];
-                    if (def != "") {
-                        return def;
-                    }
-                }
-            }
-            return "";
+            var ret = GatheredData.HKCR.GetKey(extension + "\\(Default)");
+            return ret;
         }
 
         // HK_CurrentRoot
         public bool isValidRootDefault(string extension)
         {
-            if (GatheredData.HKCR.HasDir(extension)) {
-                // HKCR\<extension>\
-                var rootExtensionDir = GatheredData.HKCR.GetDir(extension);
-
-                // HKCR\<extension>\(Default)
-                if (rootExtensionDir.Keys.ContainsKey("")) {
-                    var def = rootExtensionDir.Keys[""];
-                    if (def != "") {
-                        // We have a objid. check if its valid
-                        if (isExecutableObjid(def) && hasToast(extension, def)) {
-                            return true;
-                        }
-                    }
-                }
+            var def = GatheredData.HKCR.GetKey(extension + "\\(Default)");
+            if (isExecutableObjid(def) && hasToast(extension, def)) {
+                return true;
             }
             return false;
         }
 
         public string getRootPersistentHandler(string extension)
         {
-            if (GatheredData.HKCR.HasDir(extension)) {
-                // HKCR\<extension>\
-                var rootExtensionDir = GatheredData.HKCR.GetDir(extension);
-
-                // HKCR\<extension>\PersistentHandler\
-                if (rootExtensionDir.HasDir("PersistentHandler")) {
-                    var openWithProgidsDir = rootExtensionDir.GetDir("PersistentHandler");
-
-                    if (openWithProgidsDir.Keys.ContainsKey("")) {
-                        var persistentHandler = openWithProgidsDir.Keys[""];
-                        return persistentHandler;
-                    }
-                }
-            }
-            return "";
+            var path = String.Format("{0}\\PersistentHandler\\(Default)", extension);
+            var res = GatheredData.HKCR.GetKey(path);
+            return res;
         }
 
         public string ContentTypeExec(string mimetype)
         {
-            var regContentType = GatheredData.HKCR.GetDir("MIME").GetDir("Database").GetDir("Content Type");
-            if (regContentType.HasDir(mimetype)) {
-                if (regContentType.GetDir(mimetype).Keys.ContainsKey("CLSID")) {
-                    var clsid = regContentType.GetDir(mimetype).Keys["CLSID"];
-
-                    var x = getClsidExe(clsid);
-
-                    return x + "?";
-                }
-            }
-
-            return "";
+            var path = String.Format("MIME\\Database\\Content Type\\{0}\\CLSID", mimetype);
+            var clsid = GatheredData.HKCR.GetKey(path);
+            var ret = getClsidExe(clsid);
+            return "? " + ret;
         }
 
         public string getClsidExe(string clsid)
         {
-            var root = GatheredData.HKCR.GetDir("CLSID");
-            var ret = "";
-
-            if (root.HasDir(clsid)) {
-                if (root.GetDir(clsid).HasDir("InprocServer32")) {
-                    if (root.GetDir(clsid).GetDir("InprocServer32").Keys.ContainsKey("")) {
-                        var exec = root.GetDir(clsid).GetDir("InprocServer32").Keys[""];
-                        return exec;
-                    }
-                }
-            }
-
-            return "";
+            var path = String.Format("CLSID\\{0}\\InprocServer32\\(Default)", clsid);
+            var ret = GatheredData.HKCR.GetKey(path);
+            return ret;
         }
 
         public string getRootContentType(string extension)
         {
-            if (GatheredData.HKCR.HasDir(extension)) {
-                // HKCR\<extension>\
-                var rootExtensionDir = GatheredData.HKCR.GetDir(extension);
-
-                if (rootExtensionDir.Keys.ContainsKey("Content Type")) {
-                    var contenttype = rootExtensionDir.Keys["Content Type"];
-                    return contenttype;
-                }
-            }
-            return "";
+            var path = String.Format("{0}\\Content Type", extension);
+            var res = GatheredData.HKCR.GetKey(path);
+            return res;
         }
+
         public string getRootPerceivedType(string extension)
         {
-            if (GatheredData.HKCR.HasDir(extension)) {
-                // HKCR\<extension>\
-                var rootExtensionDir = GatheredData.HKCR.GetDir(extension);
-
-                if (rootExtensionDir.Keys.ContainsKey("PerceivedType")) {
-                    var contenttype = rootExtensionDir.Keys["PerceivedType"];
-                    return contenttype;
-                }
-            }
-            return "";
+            var path = String.Format("{0}\\PerceivedType", extension);
+            var res = GatheredData.HKCR.GetKey(path);
+            return res;
         }
 
         public string GetExecutableForObjid(string objid)
         {
-            //Console.WriteLine("XXX: 1");
-
-            if (GatheredData.HKCR.HasDir(objid)) {
-                //Console.WriteLine("XXX: 2");
-                var objdir = GatheredData.HKCR.GetDir(objid);
-                if (objdir.HasDir("Shell")) {
-                    //Console.WriteLine("XXX: 33");
-                    var shell = objdir.GetDir("shell");
-
-                    if (shell.Keys.ContainsKey("") && shell.Keys[""].ToLower() == "open") {
-                    } else {
-                        //Console.WriteLine("objid bad: " + objid);
-                        //return false;
-                    }
-
-                    if (shell.HasDir("open")) {
-                        //Console.WriteLine("XXX: 4");
-                        var open = shell.GetDir("open");
-                        if (open.HasDir("command")) {
-                            //Console.WriteLine("XXX: 5");
-                            var command = open.GetDir("command");
-                            if (command.Keys.ContainsKey("") && command.Keys[""] != "") {
-                                //Console.WriteLine("XXX 6: " + objid);
-
-                                // check integrity of \Shell\(Default) so it points to a valid command
-                                if (!shell.Keys.ContainsKey("")) {
-                                    //Console.WriteLine(objid + ": No chosen");
-                                }
-                                if (shell.Keys.ContainsKey("") && shell.Keys[""].ToLower() != "open") {
-                                    //Console.WriteLine(objid + ": No open: " + shell.Keys[""]);
-                                }
-
-                                return command.Keys[""];
-                            }
-                        }
-                    }
-                }
-            }
-
-            return "";
+            var path = String.Format("{0}\\shell\\open\\command\\(Default)", objid);
+            var res = GatheredData.HKCR.GetKey(path);
+            return res;
         }
 
 
         public bool isExecutableObjid(string objid)
         {
-            //Console.WriteLine("XXX: 1");
-
-            if (GatheredData.HKCR.HasDir(objid)) {
-                //Console.WriteLine("XXX: 2");
-                var objdir = GatheredData.HKCR.GetDir(objid);
-                if (objdir.HasDir("Shell")) {
-                    //Console.WriteLine("XXX: 33");
-                    var shell = objdir.GetDir("shell");
-
-                    if (shell.Keys.ContainsKey("") && shell.Keys[""].ToLower() == "open") {
-                    } else {
-                        //Console.WriteLine("objid bad: " + objid);
-                        //return false;
-                    }
-
-                    if (shell.HasDir("open")) {
-                        //Console.WriteLine("XXX: 4");
-                        var open = shell.GetDir("open");
-                        if (open.HasDir("command")) {
-                            //Console.WriteLine("XXX: 5");
-                            var command = open.GetDir("command");
-                            if (command.Keys.ContainsKey("") && command.Keys[""] != "") {
-                                //Console.WriteLine("XXX 6: " + objid);
-
-                                // check integrity of \Shell\(Default) so it points to a valid command
-                                if (!shell.Keys.ContainsKey("")) {
-                                    //Console.WriteLine(objid + ": No chosen");
-                                }
-                                if (shell.Keys.ContainsKey("") && shell.Keys[""].ToLower() != "open") {
-                                    //Console.WriteLine(objid + ": No open: " + shell.Keys[""]);
-                                }
-
-                                return true;
-                            }
-                        }
-                    }
-                }
+            var path = String.Format("{0}\\shell\\open\\command\\(Default)", objid);
+            var res = GatheredData.HKCR.GetKey(path);
+            if (res == null) {
+                return false;
             }
-
-            return false;
-        }
-
-
-        // HK_CurrentRoot
-        public bool hasValidRootProgidsToasts(string extension)
-        {
-            if (GatheredData.HKCR.HasDir(extension)) {
-                // HKCR\<extension>\
-                var rootExtensionDir = GatheredData.HKCR.GetDir(extension);
-
-                // HKCR\<extension>\OpenWithProgids\
-                if (rootExtensionDir.HasDir("OpenWithProgids")) {
-                    var openWithProgidsDir = rootExtensionDir.GetDir("OpenWithProgids");
-
-                    foreach (var entry in openWithProgidsDir.Keys) {
-                        var objid = entry.Key;
-                        //Console.WriteLine("A: " + entry.Key);
-                        if (!hasToast(extension, objid)) {
-                            return false;
-                        }
-                    }
-                }
-            }
-
             return true;
         }
 
+        public bool hasValidRootProgidsToasts(string extension)
+        {
+            var path = String.Format("{0}\\OpenWithProgids", extension);
+            var res = GatheredData.HKCR.GetDir(path);
+            if (res == null) {
+                return true;
+            }
+            foreach (var k in res.Keys) {
+                var objid = k.Key;
+                if (!hasToast(extension, objid)) {
+                    return false;
+                }
+            }
+            return true;
+        }
 
         public bool hasToast(string extension, string objid)
         {
             string keyToSearch = objid + "_" + extension;
-
             if (GatheredData.HKCU_ApplicationAssociationToasts.Keys.ContainsKey(keyToSearch)) {
                 return true;
             } else {
@@ -697,131 +458,62 @@ namespace waasa
             }
         }
 
-
-        public bool validTrippleNames(string extension)
-        {
-            var hkcuOpenWithObjid = "";
-            var hkcrOpenWithObjid = "";
-            var hkcrDefault = "";
-
-            //if (AppLink.OpenWithProgids[0].Objid == AppData.OpenWithProgids[0].Objid && AppData.Default != null) {
-            if (GatheredData.HKCU_ExplorerFileExts.HasDir(extension)) {
-                if (GatheredData.HKCU_ExplorerFileExts.GetDir(extension).HasDir("OpenWithProgids")) {
-                    hkcuOpenWithObjid = GatheredData.HKCU_ExplorerFileExts.GetDir(extension)?.GetDir("OpenWithProgids")?.Keys.First().Key;
-                }
-            }
-
-            if (GatheredData.HKCR.HasDir(extension)) {
-                if (GatheredData.HKCR.GetDir(extension).HasDir("OpenWithProgids")) {
-                    if (GatheredData.HKCR.GetDir(extension).GetDir("OpenWithProgids").Keys.Count == 1) {
-                        hkcrOpenWithObjid = GatheredData.HKCR.GetDir(extension).GetDir("OpenWithProgids").Keys.First().Key;
-                    }
-                }
-            }
-
-            if (GatheredData.HKCR.HasDir(extension)) {
-                if (GatheredData.HKCR.GetDir(extension).Keys.ContainsKey("")) {
-                    hkcrDefault = GatheredData.HKCR.GetDir(extension).Keys[""];
-                }
-            }
-
-            //var hkcuOpenWithObjid = GatheredData.HKCU_ExplorerFileExts.GetDir(extension)?.GetDir("OpenWithProgids")?.Keys.First().Key;
-            //var hkcrOpenWithObjid = GatheredData.HKCR.GetDir(extension)?.GetDir("OpenWithProgids")?.Keys.First().Key;
-            //var hkcrDefault = GatheredData.HKCR.GetDir(extension)?.Keys[""];
-
-            if (hkcuOpenWithObjid == hkcrOpenWithObjid && hkcrOpenWithObjid == hkcrDefault
-                && hkcrDefault != ""
-            ) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-
-
         public bool isValidUserProgids(string extension)
         {
-            string objid = "";
-            _RegDirectory root = null;
-
-            if (GatheredData.HKCU_ExplorerFileExts.HasDir(extension)) {
-                root = GatheredData.HKCU_ExplorerFileExts.GetDir(extension);
-            } else {
+            var path = String.Format("{0}\\OpenWithProgids", extension);
+            var res = GatheredData.HKCU_ExplorerFileExts.GetDir(path);
+            if (res == null) {
                 return false;
             }
-
-            if (root.HasDir("OpenWithProgids")) {
-                var progids = root.GetDir("OpenWithProgids");
-                if (progids.Keys.Count != 1) {
-                    return false;
-                } else {
-                    objid = progids.Keys.First().Key;
-                }
+            if (res.Keys.Count != 1) {
+                return false;
             }
-
+            var objid = res.Keys.First().Key;
             if (!hasToast(extension, objid)) {
                 return false;
             }
-
             if (!isExecutableObjid(objid)) {
                 return false;
             }
-
             return true;
         }
 
         public string getSysFileAssoc(string extension)
         {
-            string ret = "";
-            if (GatheredData.HKCR_SystemFileAssociations.HasDir(extension)) {
-                ret += "yes:";
-
-                var d = GatheredData.HKCR_SystemFileAssociations.GetDir(extension);
-                if (d.HasDir("shellex")) {
-                    ret += "shell";
-                } else {
-                    ret += "noshell";
-                }
+            var path = String.Format("{0}\\shellex\\");
+            var res = GatheredData.HKCR_SystemFileAssociations.GetDir(path);
+            if ( res == null) {
+                return "";
             }
-            return ret;
+            return "shell";
         }
 
         public string getWinFileAssoc(string extension)
         {
-            string ret = "";
-            if (GatheredData.HKCR_FileTypeAssociations.HasDir(extension)) {
-                ret += "yes:";
-
-                var d = GatheredData.HKCR_FileTypeAssociations.GetDir(extension);
-                if (d.SubDirectories.Count == 1) {
-                    ret += d.SubDirectories.First().Key;
-                } else {
-                    ret += d.SubDirectories.Count;
-                }
+            var path = String.Format("{0}");
+            var res = GatheredData.HKCR_FileTypeAssociations.GetDir(extension);
+            if (res == null) {
+                return "";
             }
-            return ret;
+            var d = GatheredData.HKCR_FileTypeAssociations.GetDir(extension);
+            if (d.SubDirectories.Count == 1) {
+                return d.SubDirectories.First().Key;
+            } else {
+                return d.SubDirectories.Count.ToString();
+            }
         }
-
 
         public bool isValidRootProgids(string extension)
         {
-            string objid = "";
-            _RegDirectory root = null;
-
-            if (GatheredData.HKCR.HasDir(extension)) {
-                root = GatheredData.HKCR.GetDir(extension);
-            } else {
+            var path = String.Format("{0}\\OpenWithProgids", extension);
+            var res = GatheredData.HKCR.GetDir(path);
+            if (res == null) {
                 return false;
             }
-
-            if (root.HasDir("OpenWithProgids")) {
-                var progids = root.GetDir("OpenWithProgids");
-                if (progids.Keys.Count != 1) {
-                    return false;
-                } else {
-                    objid = progids.Keys.First().Key;
-                }
+            if (res.Keys.Count != 1) {
+                return false;
             }
+            var objid = res.Keys.First().Key;
 
             if (!hasToast(extension, objid)) {
                 return false;

@@ -1,0 +1,387 @@
+{
+  "HKCU_ExplorerFileExts": {
+    "Name": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts",
+    "SubDirectories": {
+      ".": {
+        "Name": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.",
+        "SubDirectories": {
+          "openwithlist": {
+            "Name": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.\\OpenWithList",
+            "SubDirectories": {},
+            "Keys": {}
+          }
+        },
+        "Keys": {}
+      },
+      ".0": {
+        "Name": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.0",
+        "SubDirectories": {
+          "openwithlist": {
+            "Name": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.0\\OpenWithList",
+            "SubDirectories": {},
+            "Keys": {}
+          }
+        },
+        "Keys": {}
+      },
+      ".001": {
+        "Name": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.001",
+        "SubDirectories": {
+          "openwithlist": {
+            "Name": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.001\\OpenWithList",
+            "SubDirectories": {},
+            "Keys": {
+              "a": "{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\\OpenWith.exe",
+              "mrulist": "a"
+            }
+          }
+        },
+        "Keys": {}
+      },
+      ".314z--20e09d033744ceef20f9c4328d444273eef5bed4": {
+        "Name": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.314Z--20e09d033744ceef20f9c4328d444273eef5bed4",
+        "SubDirectories": {
+          "openwithlist": {
+            "Name": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.314Z--20e09d033744ceef20f9c4328d444273eef5bed4\\OpenWithList",
+            "SubDirectories": {},
+            "Keys": {
+              "a": "chrome.exe",
+              "b": "ab",
+              "c": "abc",
+              "d": "abcd",
+              "e": "abcde",
+              "mrulist": "abcdef",
+              "f": "a"
+            }
+          }
+        },
+        "Keys": {}
+      },
+      ".386": {
+        "Name": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.386",
+        "SubDirectories": {
+          "openwithlist": {
+            "Name": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.386\\OpenWithList",
+            "SubDirectories": {},
+            "Keys": {}
+          },
+          "openwithprogids": {
+            "Name": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.386\\OpenWithProgids",
+            "SubDirectories": {},
+            "Keys": {
+              "vxdfile": "System.Byte[]"
+            }
+          }
+        },
+        "Keys": {}
+      },
+      ".3ds": {
+        "Name": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.3ds",
+        "SubDirectories": {
+          "openwithlist": {
+            "Name": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.3ds\\OpenWithList",
+            "SubDirectories": {},
+            "Keys": {
+              "a": "{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\\OpenWith.exe",
+              "mrulist": "a"
+            }
+          }
+        },
+        "Keys": {}
+      },
+      ".3fr": {
+        "Name": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.3fr",
+        "SubDirectories": {
+          "openwithlist": {
+            "Name": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.3fr\\OpenWithList",
+            "SubDirectories": {},
+            "Keys": {
+              "a": "ImageGlass.exe",
+              "mrulist": "a"
+            }
+          },
+          "openwithprogids": {
+            "Name": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.3fr\\OpenWithProgids",
+            "SubDirectories": {},
+            "Keys": {
+              "imageglass.assocfile.3fr": "System.Byte[]"
+            }
+          }
+        },
+        "Keys": {}
+      },
+      ".3g2": {
+        "Name": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.3g2",
+        "SubDirectories": {
+          "openwithlist": {
+            "Name": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.3g2\\OpenWithList",
+            "SubDirectories": {},
+            "Keys": {
+              "a": "Microsoft.ZuneVideo_8wekyb3d8bbwe!Microsoft.ZuneVideo",
+              "mrulist": "a"
+            }
+          },
+          "openwithprogids": {
+            "Name": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.3g2\\OpenWithProgids",
+            "SubDirectories": {},
+            "Keys": {
+              "wmp11.assocfile.3g2": "System.Byte[]",
+              "vlc.3g2": "System.Byte[]"
+            }
+          },
+          "userchoice": {
+            "Name": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.3g2\\UserChoice",
+            "SubDirectories": {},
+            "Keys": {
+              "hash": "YMaQYNvb+wk=",
+              "progid": "AppX6eg8h5sxqq90pv53845wmnbewywdqq5h"
+            }
+          }
+        },
+        "Keys": {}
+      },
+      ".3ga": {
+        "Name": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.3ga",
+        "SubDirectories": {
+          "openwithlist": {
+            "Name": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.3ga\\OpenWithList",
+            "SubDirectories": {},
+            "Keys": {
+              "a": "vlc.exe",
+              "mrulist": "a"
+            }
+          },
+          "openwithprogids": {
+            "Name": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.3ga\\OpenWithProgids",
+            "SubDirectories": {},
+            "Keys": {
+              "vlc.3ga": "System.Byte[]"
+            }
+          }
+        },
+        "Keys": {}
+      },
+      ".3gp": {
+        "Name": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.3gp",
+        "SubDirectories": {
+          "openwithlist": {
+            "Name": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.3gp\\OpenWithList",
+            "SubDirectories": {},
+            "Keys": {
+              "a": "Microsoft.ZuneVideo_8wekyb3d8bbwe!Microsoft.ZuneVideo",
+              "mrulist": "a"
+            }
+          },
+          "openwithprogids": {
+            "Name": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.3gp\\OpenWithProgids",
+            "SubDirectories": {},
+            "Keys": {
+              "wmp11.assocfile.3gp": "System.Byte[]",
+              "vlc.3gp": "System.Byte[]"
+            }
+          },
+          "userchoice": {
+            "Name": "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.3gp\\UserChoice",
+            "SubDirectories": {},
+            "Keys": {
+              "hash": "tXPxVPiIyFg=",
+              "progid": "AppX6eg8h5sxqq90pv53845wmnbewywdqq5h"
+            }
+          }
+        },
+        "Keys": {}
+      }
+    }
+  },
+  "HKCR": {
+    "Name": "HKEY_CLASSES_ROOT\\",
+    "SubDirectories": {
+      ".386": {
+        "Name": "HKEY_CLASSES_ROOT\\.386",
+        "SubDirectories": {
+          "persistenthandler": {
+            "Name": "HKEY_CLASSES_ROOT\\.386\\PersistentHandler",
+            "SubDirectories": {},
+            "Keys": {
+              "": "{098f2470-bae0-11cd-b579-08002b30bfeb}"
+            }
+          }
+        },
+        "Keys": {
+          "": "vxdfile",
+          "perceivedtype": "system"
+        }
+      },
+      ".3ds": {
+        "Name": "HKEY_CLASSES_ROOT\\.3ds",
+        "SubDirectories": {
+          "openwithprogids": {
+            "Name": "HKEY_CLASSES_ROOT\\.3ds\\OpenWithProgids",
+            "SubDirectories": {},
+            "Keys": {}
+          }
+        },
+        "Keys": {}
+      },
+      ".3fr": {
+        "Name": "HKEY_CLASSES_ROOT\\.3fr",
+        "SubDirectories": {
+          "imageglass.assocfile.3fr": {
+            "Name": "HKEY_CLASSES_ROOT\\.3fr\\ImageGlass.AssocFile.3FR",
+            "SubDirectories": {
+              "shellnew": {
+                "Name": "HKEY_CLASSES_ROOT\\.3fr\\ImageGlass.AssocFile.3FR\\ShellNew",
+                "SubDirectories": {},
+                "Keys": {}
+              }
+            },
+            "Keys": {}
+          },
+          "openwithprogids": {
+            "Name": "HKEY_CLASSES_ROOT\\.3fr\\OpenWithProgids",
+            "SubDirectories": {},
+            "Keys": {
+              "appx9rkaq77s0jzh1tyccadx9ghba15r6t3h": "System.Byte[]"
+            }
+          },
+          "shellex": {
+            "Name": "HKEY_CLASSES_ROOT\\.3fr\\ShellEx",
+            "SubDirectories": {
+              "{e357fccd-a995-4576-b01f-234630154e96}": {
+                "Name": "HKEY_CLASSES_ROOT\\.3fr\\ShellEx\\{e357fccd-a995-4576-b01f-234630154e96}",
+                "SubDirectories": {},
+                "Keys": {
+                  "": "{C7657C4A-9F68-40fa-A4DF-96BC08EB3551}"
+                }
+              }
+            },
+            "Keys": {}
+          }
+        },
+        "Keys": {
+          "": "ImageGlass.AssocFile.3FR",
+          "content type": "image/3FR",
+          "perceivedtype": "image"
+        }
+      },
+      ".fluid": {
+        "Name": "HKEY_CLASSES_ROOT\\.fluid",
+        "SubDirectories": {
+          "shell": {
+            "Name": "HKEY_CLASSES_ROOT\\.fluid\\shell",
+            "SubDirectories": {
+              "open": {
+                "Name": "HKEY_CLASSES_ROOT\\.fluid\\shell\\open",
+                "SubDirectories": {
+                  "command": {
+                    "Name": "HKEY_CLASSES_ROOT\\.fluid\\shell\\open\\command",
+                    "SubDirectories": {},
+                    "Keys": {
+                      "": "\"C:\\Users\\UEX17250\\AppData\\Local\\Microsoft\\OneDrive\\23.002.0102.0006\\OneDriveFileLauncher.exe\" \"%1\""
+                    }
+                  }
+                },
+                "Keys": {}
+              }
+            },
+            "Keys": {}
+          }
+        },
+        "Keys": {}
+      },
+      ".3g2": {
+        "Name": "HKEY_CLASSES_ROOT\\.3g2",
+        "SubDirectories": {
+          "openwithprogids": {
+            "Name": "HKEY_CLASSES_ROOT\\.3g2\\OpenWithProgids",
+            "SubDirectories": {},
+            "Keys": {
+              "appx6eg8h5sxqq90pv53845wmnbewywdqq5h": "System.Byte[]",
+              "appxhjhjmgrfm2d7rd026az898dy2p1pcsyt": "System.Byte[]",
+              "appxk0g4vb8gvt7b93tg50ybcy892pge6jmt": "System.Byte[]",
+              "appxqj98qxeaynz6dv4459ayz6bnqxbyaqcs": "System.Byte[]",
+              "microsoft.photomanager.videotype": "",
+              "wmp11.assocfile.3g2": "System.Byte[]"
+            }
+          },
+          "shellex": {
+            "Name": "HKEY_CLASSES_ROOT\\.3g2\\ShellEx",
+            "SubDirectories": {
+              "{bb2e617c-0920-11d1-9a0b-00c04fc2d6c1}": {
+                "Name": "HKEY_CLASSES_ROOT\\.3g2\\ShellEx\\{BB2E617C-0920-11D1-9A0B-00C04FC2D6C1}",
+                "SubDirectories": {},
+                "Keys": {
+                  "": "{9DBD2C50-62AD-11D0-B806-00C04FD706EC}"
+                }
+              },
+              "{e357fccd-a995-4576-b01f-234630154e96}": {
+                "Name": "HKEY_CLASSES_ROOT\\.3g2\\ShellEx\\{e357fccd-a995-4576-b01f-234630154e96}",
+                "SubDirectories": {},
+                "Keys": {
+                  "": "{9DBD2C50-62AD-11D0-B806-00C04FD706EC}"
+                }
+              }
+            },
+            "Keys": {}
+          }
+        },
+        "Keys": {
+          "": "VLC.3g2",
+          "content type": "video/3gpp2",
+          "perceivedtype": "video",
+          "vlc.backup": "WMP11.AssocFile.3G2"
+        }
+      },
+      ".3ga": {
+        "Name": "HKEY_CLASSES_ROOT\\.3ga",
+        "SubDirectories": {},
+        "Keys": {
+          "": "VLC.3ga"
+        }
+      },
+      ".3gp": {
+        "Name": "HKEY_CLASSES_ROOT\\.3gp",
+        "SubDirectories": {
+          "openwithprogids": {
+            "Name": "HKEY_CLASSES_ROOT\\.3gp\\OpenWithProgids",
+            "SubDirectories": {},
+            "Keys": {
+              "appx6eg8h5sxqq90pv53845wmnbewywdqq5h": "System.Byte[]",
+              "appxhjhjmgrfm2d7rd026az898dy2p1pcsyt": "System.Byte[]",
+              "appxk0g4vb8gvt7b93tg50ybcy892pge6jmt": "System.Byte[]",
+              "appxqj98qxeaynz6dv4459ayz6bnqxbyaqcs": "System.Byte[]",
+              "microsoft.photomanager.videotype": "",
+              "wmp11.assocfile.3gp": "System.Byte[]"
+            }
+          },
+          "shellex": {
+            "Name": "HKEY_CLASSES_ROOT\\.3gp\\ShellEx",
+            "SubDirectories": {
+              "{bb2e617c-0920-11d1-9a0b-00c04fc2d6c1}": {
+                "Name": "HKEY_CLASSES_ROOT\\.3gp\\ShellEx\\{BB2E617C-0920-11D1-9A0B-00C04FC2D6C1}",
+                "SubDirectories": {},
+                "Keys": {
+                  "": "{9DBD2C50-62AD-11D0-B806-00C04FD706EC}"
+                }
+              },
+              "{e357fccd-a995-4576-b01f-234630154e96}": {
+                "Name": "HKEY_CLASSES_ROOT\\.3gp\\ShellEx\\{e357fccd-a995-4576-b01f-234630154e96}",
+                "SubDirectories": {},
+                "Keys": {
+                  "": "{9DBD2C50-62AD-11D0-B806-00C04FD706EC}"
+                }
+              }
+            },
+            "Keys": {}
+          }
+        },
+        "Keys": {
+          "": "VLC.3gp",
+          "content type": "video/3gpp",
+          "perceivedtype": "video",
+          "vlc.backup": "WMP11.AssocFile.3GP"
+        }
+      }
+    }
+  }
+}

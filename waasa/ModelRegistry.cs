@@ -20,38 +20,106 @@ namespace waasa
             Name = name;
         }
 
-        public bool HasDir(string name)
+        // aaa\bbb\ccc
+        public bool HasDir(string path)
         {
-            if (SubDirectories.ContainsKey(name.ToLower())) {
-                return true;
+            if (path.Contains("\\")) {
+                int i = path.IndexOf("\\");
+                string currentDir = path.Substring(0, i);
+                string restPath = path.Substring(i + 1);
+
+                if (SubDirectories.ContainsKey(currentDir.ToLower())) {
+                    var dir = SubDirectories[currentDir.ToLower()];
+                    return dir.HasDir(restPath);
+                } else {
+                    return false;
+                }
             } else {
-                return false;
+                if (SubDirectories.ContainsKey(path.ToLower())) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
         }
-        public _RegDirectory GetDir(string name)
+        public _RegDirectory GetDir(string path)
         {
-            if (SubDirectories.ContainsKey(name.ToLower())) {
-                return SubDirectories[name.ToLower()];
-            }
+            if (path.Contains("\\")) {
+                int i = path.IndexOf("\\");
+                string currentDir = path.Substring(0, i);
+                string restPath = path.Substring(i + 1);
 
-            return null;
+                if (SubDirectories.ContainsKey(currentDir.ToLower())) {
+                    var dir = SubDirectories[currentDir.ToLower()];
+                    return dir.GetDir(restPath);
+                } else {
+                    return null;
+                }
+            } else {
+                if (SubDirectories.ContainsKey(path.ToLower())) {
+                    return SubDirectories[path.ToLower()];
+                } else {
+                    return null;
+                }
+            }
         }
         public void AddDir(string name, _RegDirectory dir)
         {
             SubDirectories.Add(name.ToLower(), dir);
         }
 
+
+        public void AddKey(string key, string value)
+        {
+            Keys.Add(key.ToLower(), value);
+        }
+
+
+        public string GetKey(string path)
+        {
+            path = path.ToLower();
+            if (path.Contains("\\") && !path.StartsWith("\\")) {
+                // Directories
+                int i = path.IndexOf("\\");
+                string currentDir = path.Substring(0, i);
+                string restPath = path.Substring(i + 1);
+                if (SubDirectories.ContainsKey(currentDir)) {
+                    var dir = SubDirectories[currentDir];
+                    return dir.GetKey(restPath);
+                } else {
+                    return "";
+                }
+            } else {
+                // Key
+                string keyname = path;
+                // Clean
+                if (keyname.StartsWith("\\")) {
+                    keyname = keyname.Substring(1);
+                }
+                
+                if (keyname == "(default)") {
+                    keyname = "";
+                }
+
+                if (Keys.ContainsKey(keyname)) {
+                    return Keys[keyname];
+                } else {
+                    return "";
+                }
+            }
+        }
+
         public string toStr(int n)
         {
             string ret = "";
 
-            string indent = new String(' ', n*2);
+            string indent = new String(' ', n * 2);
             foreach (var key in Keys) {
                 string realKey = "(Default)";
                 if (key.Key != "") {
                     realKey = key.Key;
                 }
-                 ret += String.Format("{0}{1}: {2}\n", indent, realKey, key.Value);
+                ret += String.Format("{0}{1}: {2}\n", indent, realKey, key.Value);
             }
 
             foreach (var dirEl in SubDirectories) {
@@ -62,20 +130,6 @@ namespace waasa
 
             return ret;
         }
-
-        /*
-        public void GetKey()
-        {
-
-        }
-        public void HasKey()
-        {
-
-        }
-        public void AddKey()
-        {
-
-        }*/
     }
 
     [Serializable]

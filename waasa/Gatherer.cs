@@ -246,7 +246,7 @@ namespace waasa
             // Keys
             foreach (var key in reg.GetValueNames()) {
                 var value = Convert.ToString(reg.GetValue(key));
-                rootDir.Keys.Add(key, value);
+                rootDir.AddKey(key, value);
             }
 
             // Directories
