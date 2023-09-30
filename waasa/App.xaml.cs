@@ -164,9 +164,9 @@ namespace waasa
         }
 
 
-        void handleAssoc(string data)
+        void handleAssoc(string ext)
         {
-            var a = Analyzer.GetShlwapiBy(data);
+            var a = Analyzer.GetShlwapiBy(ext);
             Console.WriteLine("Assoc:\n" + a.ToString());
         }
 
@@ -214,18 +214,18 @@ namespace waasa
             public string TestOne { get; set; }
 
             // Debug
-            [Option("ext", Required = false, HelpText = "")]
+            [Option("ext", Required = false, HelpText = "Print information about an extension from typical Registry keys")]
             public string InfoExt { get; set; }
 
-            [Option("obj", Required = false, HelpText = "")]
+            [Option("obj", Required = false, HelpText = "Print information about an ObjId from typical Registry keys")]
             public string InfoObj { get; set; }
 
-            [Option("assoc", Required = false, HelpText = "")]
+            [Option("assoc", Required = false, HelpText = "Print information about an extension from Windows shlwAPI")]
             public string Assoc { get; set; }
 
 
             // Generate
-            [Option("files", Required = false, HelpText = "")]
+            [Option("files", Required = false, HelpText = "Generate a file of each extension into output/")]
             public bool Files { get; set; }
 
             // Other
@@ -243,42 +243,40 @@ namespace waasa
             CommandLine.Parser.Default.ParseArguments<Options>(e.Args)
               .WithParsed<Options>(o =>
              {
-                 if (o.Dump != null) {
-                     dumpToJson(o.Dump);
-                     this.Shutdown();
-                     return;
-                 }
-                 if (o.Gui) {
-                     handleGui(o.DumpInputFile, o.OpensInputFile);
-                     return;
-                 }
-
-                 var loaded = loadAll(o.DumpInputFile, o.OpensInputFile);
-                 if (! loaded) {
-                     this.Shutdown();
-                     return;
-                 }
-                 Console.WriteLine("");
-
                  if (o.TestAll) {
+                     loadAll(o.DumpInputFile, o.OpensInputFile);
                      testAll();
                  } else if (o.TestOne != null) {
+                     loadAll(o.DumpInputFile, o.OpensInputFile);
                      testOne(o.TestOne);
                  } else if (o.Csv != null) {
+                     loadAll(o.DumpInputFile, o.OpensInputFile);
                      var fileExtensions = Analyzer.AnalyzeGatheredData();
                      AppSharedFunctionality.handleCsv(o.Csv, fileExtensions);
                  } else if (o.CsvDebug != null) {
+                     loadAll(o.DumpInputFile, o.OpensInputFile);
                      var fileExtensions = Analyzer.AnalyzeGatheredData();
                      AppSharedFunctionality.handleCsvDebug(o.CsvDebug, fileExtensions, Registry);
                  } else if (o.Files) {
+                     loadAll(o.DumpInputFile, o.OpensInputFile);
                      var fileExtensions = Analyzer.AnalyzeGatheredData();
                      AppSharedFunctionality.handleFiles(fileExtensions);
                  } else if (o.InfoExt != null) {
+                     loadAll(o.DumpInputFile, o.OpensInputFile);
                      handleExt(o.InfoExt);
                  } else if (o.InfoObj != null) {
+                     loadAll(o.DumpInputFile, o.OpensInputFile);
                      handleObjid(o.InfoObj);
                  } else if (o.Assoc != null) {
+                     loadAll(o.DumpInputFile, o.OpensInputFile);
                      handleAssoc(o.Assoc);
+                 } else if (o.Dump != null) {
+                    dumpToJson(o.Dump);
+                    this.Shutdown();
+                    return;
+                 } else {
+                    handleGui(o.DumpInputFile, o.OpensInputFile);
+                    return;
                  }
                  this.Shutdown();
              });

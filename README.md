@@ -17,13 +17,15 @@ From a fresh Windows 10 VM with Visual Studio installed:
 > .\waasa.exe --gui
 ```
 
+Then click: File -> Aquire Dump
+
 ![Waasa GUI](https://raw.githubusercontent.com/dobin/waasa/master/doc/gui.png)
 
 
-Click: File -> Aquire Dump
-
-
 ## Usage Console
+
+* It uses `./dump.json` as default dump filename
+
 
 Create a dump:
 ```
