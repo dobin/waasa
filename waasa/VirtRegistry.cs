@@ -327,7 +327,7 @@ namespace waasa
             // Check if its a package
             // Computer\HKEY_CLASSES_ROOT\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\PackageRepository\
             //   Packages\Microsoft.Windows.SecHealthUI_10.0.19041.1865_neutral__cw5n1h2txyewy
-            var path = String.Format("Packages\\{0}", packageid);
+            var path = String.Format("{0}", packageid);
             var res = GatheredData.HKCR_PackageRepository.GetDir(path);
             if (res == null) {
                 return "";

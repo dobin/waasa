@@ -208,8 +208,8 @@ namespace waasa
             HashSet<string> excludes = new HashSet<string>() {
                 "Extensions", // Really?
             };
-            GatheredData.HKCR_PackageRepository = FromRegistry(Microsoft.Win32.Registry.ClassesRoot, @"Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\PackageRepository");
-
+            //GatheredData.HKCR_PackageRepository = FromRegistry(Microsoft.Win32.Registry.ClassesRoot, @"Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\PackageRepository\Packages");
+            GatheredData.HKCR_PackageRepository = FromRegistry(Microsoft.Win32.Registry.CurrentUser, @"Software\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\Repository\Packages");
         }
 
         public void GatherRegistryHKCU_SoftwareClasses()

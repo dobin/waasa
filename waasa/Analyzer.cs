@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Printing.IndexedProperties;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 
 namespace waasa
@@ -56,6 +58,7 @@ namespace waasa
             fileExtension.Assumption = data.Item1;
             fileExtension.AppName = data.Item2;
             fileExtension.AppPath = data.Item3;
+
             return fileExtension;
         }
 
@@ -78,6 +81,8 @@ namespace waasa
             string assumption = "";
             string appName = assoc.FriendlyAppName;
             string appPath = assoc.Command;
+            string progId = assoc.Progid;
+            string appId = assoc.AppId;
 
             if (assoc.FriendlyAppName.StartsWith("Pick an app")) {
                 assumption = "openwith1";
@@ -100,13 +105,36 @@ namespace waasa
                     assumption = "recommended4";
                 }
             }
-
+            
             // get real destination
             if (appPath == "") {
-                // Content-Type -> Media player related
-                if (Registry.getRootContentType(extension) != "") {
-                    var exec = Registry.ContentTypeExec(Registry.getRootContentType(extension));
-                    appPath = exec;
+                // Attempt to resolve from MS Store packages
+                if (appPath == "")
+                {
+                    // Check if HKCR\<progId> exists
+                    if (GatheredData.HKCR.HasDir(progId))
+                    {
+                        // take HKCR\<progId>\shell\open\packageId
+                        var id = GatheredData.HKCR.GetKey(progId + "\\shell\\open\\PackageId");
+                        if (id != "")
+                        {
+                            // Use that to index into PackageRepository
+                            if (GatheredData.HKCR_PackageRepository.HasDir(id))
+                            {
+                                //GatheredData.ShlwapiAssoc[progid];
+                                appPath = GatheredData.HKCR_PackageRepository.GetKey(id + "\\PackageRootFolder");
+                                //Console.WriteLine("YYYY: " + appPath);
+                            }
+                        }
+                    }
+                }
+
+                if (appPath == "") { 
+                    // Content-Type -> Media player related
+                    if (Registry.getRootContentType(extension) != "") {
+                        var exec = Registry.ContentTypeExec(Registry.getRootContentType(extension));
+                        appPath = exec;
+                    }
                 }
 
                 if (appPath == "") {
@@ -124,6 +152,7 @@ namespace waasa
                         appPath += exec;
                     }
                 }
+
             }
 
             return new Tuple<string, string, string>(assumption, appName, appPath);
