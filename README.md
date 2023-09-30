@@ -1,20 +1,12 @@
 # Windows App Attack Surface Analyzer
 
-Shows which file extensions gets opened by which program.
-
-
-## Examples
-
-From a fresh Windows 10 VM with Visual Studio installed:
-
-* [Result CSV File](https://github.com/dobin/waasa/blob/master/data/windev.csv)
-* [Dump File Download](https://raw.githubusercontent.com/dobin/waasa/master/data/windev.json)
+Shows which file extensions gets opened by which program (executables).
 
 
 ## Usage GUI
 
 ```
-> .\waasa.exe --gui
+> .\waasa.exe
 ```
 
 Then click: File -> Aquire Dump
@@ -41,6 +33,15 @@ Create all files in `./output/`:
 ```
 > .\waasa.exe --dumpfile dump.json --files
 ```
+
+
+## Example Results
+
+From a fresh Windows 10 VM with Visual Studio installed:
+
+* [Result CSV File](https://github.com/dobin/waasa/blob/master/data/windev.csv)
+* [Dump File Download](https://raw.githubusercontent.com/dobin/waasa/master/data/windev.json)
+
 
 
 ## Notes about the results
