@@ -5,10 +5,7 @@ Shows which file extensions gets opened by which program (executables).
 
 ## Usage GUI
 
-
 Double click `waasa.exe`.
-
-Then click: File -> Aquire Dump
 
 ![Waasa GUI](https://raw.githubusercontent.com/dobin/waasa/master/doc/gui.png)
 
@@ -16,9 +13,10 @@ Then click: File -> Aquire Dump
 ## Usage Console
 
 * It uses `./waasa.json` as default dump filename by default
+* You can copy `waasa.json` to another machine for analysis
 
 
-Create a dump:
+Create a dump (optional):
 ```
 > .\waasa.exe --dump
 ```
