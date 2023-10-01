@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using waasa.Models;
 using waasa.Services;
 
+
 namespace TestProject1
 {
 
@@ -26,7 +27,8 @@ namespace TestProject1
             }
             string jsonString = File.ReadAllText(filename);
             var GatheredData = JsonSerializer.Deserialize<_GatheredData>(jsonString)!;
-            var Registry = new VirtRegistry(GatheredData);
+            var Registry = new VirtRegistry();
+            Registry.Load(GatheredData);
             return Registry;
         }
 

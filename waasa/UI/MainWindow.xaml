@@ -15,8 +15,8 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
-                <MenuItem Header="Aquire Dump" Click="Menu_Scan" />
-                <MenuItem Header="Load Dump File" Click="Menu_LoadFile" />
+                <MenuItem Header="Aquire Dump" Click="Menu_DumpData" />
+                <MenuItem Header="Load Dump File" Click="Menu_LoadDumpFile" />
                 <Separator/>
                 <MenuItem Header="Save as CSV" Click="Menu_SaveCsv" />
                 <MenuItem Header="Save as HTML" Click="Menu_SaveCsv" />

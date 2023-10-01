@@ -1,63 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
 using System.IO;
-using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
 using System.Windows;
 using CommandLine;
-using System.Runtime.InteropServices;
-using System.Text;
 using CsvHelper;
 using CsvHelper.Configuration;
 using System.Globalization;
 using waasa.Services;
 using waasa.Models;
 
-namespace waasa
-{
-    class _CsvEntry
-    {
-        public string Extension { get; set; }
-        public string Assumption { get; set; }
 
-        public string Judgement { get; set; }
-
-        public string AppName { get; set; }
-        public string AppPath { get; set; }
-
-
-        public _CsvEntry(_FileExtension fileExtension)
-        {
-            Extension = fileExtension.Extension;
-
-            Assumption = fileExtension.Assumption;
-            if (fileExtension.Assumption.StartsWith("exec")) {
-                Assumption = "program execution";
-            }
-            if (fileExtension.Assumption.StartsWith("openwith")) {
-                Assumption = "open-with list";
-            }
-            if (fileExtension.Assumption.StartsWith("recommended")) {
-                Assumption = "recommended list";
-            }
-
-            Judgement = fileExtension.Judgement;
-            AppName = fileExtension.AppName;
-            AppPath = fileExtension.AppPath;
-        }
-    }
-
-    class AppSharedFunctionality
-    {
-
-        static public void handleCsv(string filepath, List<_FileExtension> fileExtensions)
-        {
+namespace waasa {
+    /// <summary>
+    /// Functionality which is also used in the GUI
+    /// </summary>
+    class AppSharedFunctionality {
+        static public void usageCreateResultsCsv(string filepath, List<_FileExtension> fileExtensions) {
             Console.WriteLine("Writing CSV to: " + filepath + " with " + fileExtensions.Count);
 
-            // Convert
             List<_CsvEntry> csvEntries = new List<_CsvEntry>();
             foreach (var fileExtension in fileExtensions) {
                 csvEntries.Add(new _CsvEntry(fileExtension));
@@ -70,8 +31,7 @@ namespace waasa
         }
 
 
-        static public void handleCsvDebug(string filepath, List<_FileExtension> fileExtensions, VirtRegistry registry)
-        {
+        static public void usageCreateResultsCsvDebug(string filepath, List<_FileExtension> fileExtensions, VirtRegistry registry) {
             var fileExtensionsDebug = registry.GetFileExtensionDebug(fileExtensions);
 
             Console.WriteLine("Writing CSVDebug to: " + filepath + " with " + fileExtensionsDebug.Count);
@@ -82,8 +42,7 @@ namespace waasa
         }
 
 
-        static public void handleFiles(List<_FileExtension> fileExtensions)
-        {
+        static public void usageCreateTestFiles(List<_FileExtension> fileExtensions) {
             foreach (var app in fileExtensions) {
                 var output = "output";
                 var filename = "test" + app.Extension;
@@ -100,52 +59,53 @@ namespace waasa
         }
     }
 
-
-    public partial class App : Application
-    {
+    /// <summary>
+    /// The main function?
+    /// </summary>
+    public partial class App : Application {
         private _GatheredData GatheredData { get; set; }
-        private VirtRegistry Registry { get; set; }
-        private Validator Validator { get; set; }
-        private Analyzer Analyzer { get; set; }
+        private VirtRegistry Registry { get; set; } = new VirtRegistry();
+        private Validator Validator { get; set; } = new Validator();
+        private Analyzer Analyzer { get; set; } = new Analyzer();
 
 
-        private bool loadAll(string dumpFilepath, string opensFilepath)
-        {
-            if (! File.Exists(dumpFilepath)) {
-                Console.WriteLine("  Did not find dumpfile: " + dumpFilepath);
-                Console.WriteLine("  try: waasa.exe --dump dump.json");
-                return false;
+        /// <summary>
+        /// Init everything required, from dumpFilePath and opensFilepath
+        /// </summary>
+        private void init(string dumpFilepath, string opensFilepath) {
+            if (!File.Exists(dumpFilepath)) {
+                Console.WriteLine("Dump file doesnt exist, creating: " + dumpFilepath);
+                UsageDumpDataToFile(dumpFilepath);
             }
-            Console.WriteLine("Dump: " + dumpFilepath);
+            Console.WriteLine("Using data from file: " + dumpFilepath);
+
             string jsonString = File.ReadAllText(dumpFilepath);
             GatheredData = JsonSerializer.Deserialize<_GatheredData>(jsonString)!;
-
-            Validator = new Validator();
+            Registry.Load(GatheredData);
             Validator.LoadFromFile(opensFilepath);
-
-            Registry = new VirtRegistry(GatheredData);
-            Analyzer = new Analyzer(GatheredData, Validator, Registry);
-
-            return true;
+            Analyzer.Load(GatheredData, Validator, Registry);
         }
 
 
-        void handleGui(string dumpFilepath, string opensFilepath)
-        {
+        void UsageGui(string dumpFilepath, string opensFilepath) {
             this.ShutdownMode = ShutdownMode.OnMainWindowClose;
+
+            if (!File.Exists(dumpFilepath)) {
+                UsageDumpDataToFile(dumpFilepath);
+            }
+
             MainWindow mainWindow = new MainWindow(dumpFilepath, opensFilepath);
             mainWindow.Show();
         }
 
 
-        void testAll()
-        {
+        void UsageTestAll() {
             var fileExtensions = Analyzer.AnalyzeGatheredData();
             Validator.PrintStats(fileExtensions);
         }
 
-        void testOne(string extension)
-        {
+
+        void UsageTestOne(string extension) {
             var fileExtensions = Analyzer.AnalyzeGatheredData();
             foreach (var fileExtension in fileExtensions) {
                 if (fileExtension.Extension == extension) {
@@ -154,28 +114,25 @@ namespace waasa
             }
         }
 
-        void handleExt(string extension)
-        {
+
+        void UsageTestExt(string extension) {
             Console.WriteLine(GatheredData.GetExtensionInfo(extension));
         }
 
 
-        void handleObjid(string objid)
-        {
+        void UsageTestObjid(string objid) {
             Console.WriteLine(GatheredData.GetObjidInfo(objid));
         }
 
 
-        void handleAssoc(string ext)
-        {
+        void UsageTestWinApi(string ext) {
             var a = Analyzer.GetShlwapiBy(ext);
             Console.WriteLine("Assoc:\n" + a.ToString());
         }
 
 
-        void dumpToJson(string filepath)
-        {
-            Console.WriteLine("Gathering all data from current system");
+        void UsageDumpDataToFile(string filepath) {
+            Console.WriteLine("Gathering all data from current system and store it in: " + filepath);
             var gather = new Gatherer();
             var gatheredData = gather.GatherAll();
 
@@ -186,26 +143,25 @@ namespace waasa
         }
 
 
-        public class Options
-        {
+        public class Options {
             [Option("verbose", Required = false, HelpText = "More detailed output")]
             public bool Verbose { get; set; }
 
             // Input
-            [Option("dumpfile", Required = false, Default = "dump.json", HelpText = "Path to the dump file")]
+            [Option("dumpfile", Required = false, Default = "waasa.json", HelpText = "Path to the dump file")]
             public string DumpInputFile { get; set; }
 
             [Option("opensfile", Required = false, Default = "opens.txt", HelpText = "Path to the opens.txt")]
             public string OpensInputFile { get; set; }
 
             // Output to file
-            [Option("csv", Required = false, HelpText = "")]
+            [Option("csv", Required = false, HelpText = "The output CSV filename")]
             public string Csv { get; set; }
 
-            [Option("csvdebug", Required = false, HelpText = "")]
+            [Option("csvdebug", Required = false, HelpText = "The debug output CSV filename")]
             public string CsvDebug { get; set; }
 
-            [Option("dump", Required = false, HelpText = "")]
+            [Option("dump", Required = false, HelpText = "The waasa JSON output filename")]
             public string Dump { get; set; }
 
             // Testing
@@ -225,63 +181,56 @@ namespace waasa
             [Option("assoc", Required = false, HelpText = "Print information about an extension from Windows shlwAPI")]
             public string Assoc { get; set; }
 
-
             // Generate
             [Option("files", Required = false, HelpText = "Generate a file of each extension into output/")]
             public bool Files { get; set; }
-
-            // Other
-            [Option("gui", Required = false, HelpText = "")]
-            public bool Gui { get; set; }
         }
 
 
-        protected override void OnStartup(StartupEventArgs e)
-        {
+        protected override void OnStartup(StartupEventArgs e) {
             base.OnStartup(e);
             // Set the shutdown mode to explicit shutdown
             //this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
             CommandLine.Parser.Default.ParseArguments<Options>(e.Args)
-              .WithParsed<Options>(o =>
-             {
-                 if (o.TestAll) {
-                     loadAll(o.DumpInputFile, o.OpensInputFile);
-                     testAll();
-                 } else if (o.TestOne != null) {
-                     loadAll(o.DumpInputFile, o.OpensInputFile);
-                     testOne(o.TestOne);
-                 } else if (o.Csv != null) {
-                     loadAll(o.DumpInputFile, o.OpensInputFile);
-                     var fileExtensions = Analyzer.AnalyzeGatheredData();
-                     AppSharedFunctionality.handleCsv(o.Csv, fileExtensions);
-                 } else if (o.CsvDebug != null) {
-                     loadAll(o.DumpInputFile, o.OpensInputFile);
-                     var fileExtensions = Analyzer.AnalyzeGatheredData();
-                     AppSharedFunctionality.handleCsvDebug(o.CsvDebug, fileExtensions, Registry);
-                 } else if (o.Files) {
-                     loadAll(o.DumpInputFile, o.OpensInputFile);
-                     var fileExtensions = Analyzer.AnalyzeGatheredData();
-                     AppSharedFunctionality.handleFiles(fileExtensions);
-                 } else if (o.InfoExt != null) {
-                     loadAll(o.DumpInputFile, o.OpensInputFile);
-                     handleExt(o.InfoExt);
-                 } else if (o.InfoObj != null) {
-                     loadAll(o.DumpInputFile, o.OpensInputFile);
-                     handleObjid(o.InfoObj);
-                 } else if (o.Assoc != null) {
-                     loadAll(o.DumpInputFile, o.OpensInputFile);
-                     handleAssoc(o.Assoc);
-                 } else if (o.Dump != null) {
-                    dumpToJson(o.Dump);
-                    this.Shutdown();
-                    return;
-                 } else {
-                    handleGui(o.DumpInputFile, o.OpensInputFile);
-                    return;
-                 }
-                 this.Shutdown();
-             });
+              .WithParsed<Options>(o => {
+                  if (o.TestAll) {
+                      init(o.DumpInputFile, o.OpensInputFile);
+                      UsageTestAll();
+                  } else if (o.TestOne != null) {
+                      init(o.DumpInputFile, o.OpensInputFile);
+                      UsageTestOne(o.TestOne);
+                  } else if (o.Csv != null) {
+                      init(o.DumpInputFile, o.OpensInputFile);
+                      var fileExtensions = Analyzer.AnalyzeGatheredData();
+                      AppSharedFunctionality.usageCreateResultsCsv(o.Csv, fileExtensions);
+                  } else if (o.CsvDebug != null) {
+                      init(o.DumpInputFile, o.OpensInputFile);
+                      var fileExtensions = Analyzer.AnalyzeGatheredData();
+                      AppSharedFunctionality.usageCreateResultsCsvDebug(o.CsvDebug, fileExtensions, Registry);
+                  } else if (o.Files) {
+                      init(o.DumpInputFile, o.OpensInputFile);
+                      var fileExtensions = Analyzer.AnalyzeGatheredData();
+                      AppSharedFunctionality.usageCreateTestFiles(fileExtensions);
+                  } else if (o.InfoExt != null) {
+                      init(o.DumpInputFile, o.OpensInputFile);
+                      UsageTestExt(o.InfoExt);
+                  } else if (o.InfoObj != null) {
+                      init(o.DumpInputFile, o.OpensInputFile);
+                      UsageTestObjid(o.InfoObj);
+                  } else if (o.Assoc != null) {
+                      init(o.DumpInputFile, o.OpensInputFile);
+                      UsageTestWinApi(o.Assoc);
+                  } else if (o.Dump != null) {
+                      UsageDumpDataToFile(o.Dump);
+                      this.Shutdown();
+                      return;
+                  } else {
+                      UsageGui(o.DumpInputFile, o.OpensInputFile);
+                      return;
+                  }
+                  this.Shutdown();
+              });
         }
     }
 }

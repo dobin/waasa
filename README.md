@@ -5,9 +5,8 @@ Shows which file extensions gets opened by which program (executables).
 
 ## Usage GUI
 
-```
-> .\waasa.exe
-```
+
+Double click `waasa.exe`.
 
 Then click: File -> Aquire Dump
 
@@ -16,22 +15,22 @@ Then click: File -> Aquire Dump
 
 ## Usage Console
 
-* It uses `./dump.json` as default dump filename
+* It uses `./waasa.json` as default dump filename by default
 
 
 Create a dump:
 ```
-> .\waasa.exe --dump dump.json
+> .\waasa.exe --dump
 ```
 
 Create CSV from dump:
 ```
-> .\waasa.exe --dumpfile dump.json --csv output.csv
+> .\waasa.exe --csv output.csv
 ```
 
 Create all files in `./output/`:
 ```
-> .\waasa.exe --dumpfile dump.json --files
+> .\waasa.exe --files
 ```
 
 
@@ -41,7 +40,6 @@ From a fresh Windows 10 VM with Visual Studio installed:
 
 * [Result CSV File](https://github.com/dobin/waasa/blob/master/data/windev.csv)
 * [Dump File Download](https://raw.githubusercontent.com/dobin/waasa/master/data/windev.json)
-
 
 
 ## Notes about the results
@@ -55,11 +53,9 @@ Because of Windows restrictions, waasa will treat 1) and 2) mostly as the same.
 Which makes sense from an attackers perspective too, as users will likely click "Open With Recommended"
 entry. 
 
-
 The results are mostly based on Windows `shlwap` interface, which gives a lot of wrong results. 
 I tried to improve the algorihmn, but there are still misidentifications possible. Double check
 your results (by manually clicking on the files). 
-
 
 ![OpenWith 1](https://raw.githubusercontent.com/dobin/waasa/master/doc/openwith-1.png)
 ![Recommended](https://raw.githubusercontent.com/dobin/waasa/master/doc/recommended-1.png)

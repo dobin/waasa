@@ -8,10 +8,8 @@ using waasa.Models;
 using static System.Net.Mime.MediaTypeNames;
 
 
-namespace waasa.Services
-{
-    public class _FileExtension
-    {
+namespace waasa.Services {
+    public class _FileExtension {
         public string Extension { get; set; }
         public string Result { get; set; }
         public string Assumption { get; set; }
@@ -23,15 +21,17 @@ namespace waasa.Services
     }
 
 
-    public class Analyzer
-    {
+    public class Analyzer {
         public _GatheredData GatheredData { get; set; }
         public Validator Validator { get; set; }
         private VirtRegistry Registry { get; set; }
 
 
-        public Analyzer(_GatheredData gatheredData, Validator validator, VirtRegistry registry)
-        {
+        public Analyzer() {
+        }
+
+
+        public void Load(_GatheredData gatheredData, Validator validator, VirtRegistry registry) {
             GatheredData = gatheredData;
             Validator = validator;
             Registry = registry;
@@ -39,11 +39,9 @@ namespace waasa.Services
 
 
         // Analyze all GatheredData to produce FileExtensions
-        public List<_FileExtension> AnalyzeGatheredData()
-        {
+        public List<_FileExtension> AnalyzeGatheredData() {
             List<_FileExtension> fileExtensions = new List<_FileExtension>();
-            foreach (var extension in GatheredData.ListedExtensions)
-            {
+            foreach (var extension in GatheredData.ListedExtensions) {
                 var fileExtension = AnalyzeSingle(extension);
                 fileExtensions.Add(fileExtension);
             }
@@ -51,8 +49,7 @@ namespace waasa.Services
         }
 
 
-        public _FileExtension AnalyzeSingle(string extension)
-        {
+        public _FileExtension AnalyzeSingle(string extension) {
             var data = AnalyzeExtension(extension);
             _FileExtension fileExtension = new _FileExtension();
             fileExtension.Result = Validator.GetEffectiveResultFor(extension);
@@ -65,22 +62,17 @@ namespace waasa.Services
         }
 
 
-        public Shlwapi.Assoc GetShlwapiBy(string ext)
-        {
-            if (GatheredData.ShlwapiAssoc.ContainsKey(ext))
-            {
+        public Shlwapi.Assoc GetShlwapiBy(string ext) {
+            if (GatheredData.ShlwapiAssoc.ContainsKey(ext)) {
                 return GatheredData.ShlwapiAssoc[ext];
-            }
-            else
-            {
+            } else {
                 return null;
             }
         }
 
 
         // This implements the main algorithm to categorize file extension
-        public Tuple<string, string, string> AnalyzeExtension(string extension)
-        {
+        public Tuple<string, string, string> AnalyzeExtension(string extension) {
             var assoc = GetShlwapiBy(extension);
 
             string assumption = "";
@@ -89,57 +81,39 @@ namespace waasa.Services
             string progId = assoc.Progid;
             string appId = assoc.AppId;
 
-            if (assoc.FriendlyAppName.StartsWith("Pick an app"))
-            {
+            if (assoc.FriendlyAppName.StartsWith("Pick an app")) {
                 assumption = "openwith1";
 
-            }
-            else if (assoc.FriendlyAppName == "")
-            {
-                if (assoc.Command != "" && !Registry.isValidRootProgids(extension) && Registry.hasRootDefault(extension))
-                {
+            } else if (assoc.FriendlyAppName == "") {
+                if (assoc.Command != "" && !Registry.isValidRootProgids(extension) && Registry.hasRootDefault(extension)) {
                     // May also use: Root_DefaultExec
                     // Basically just .cmd, .com
                     assumption = "exec2";
-                }
-                else
-                {
+                } else {
                     assumption = "openwith2";
                 }
 
-            }
-            else if (assoc.Command != "")
-            {
+            } else if (assoc.Command != "") {
                 assumption = "exec3";
-            }
-            else
-            {
-                if (Registry.countUserOpenWithProgids(extension) < 2)
-                {
+            } else {
+                if (Registry.countUserOpenWithProgids(extension) < 2) {
                     assumption = "exec4";
-                }
-                else
-                {
+                } else {
                     assumption = "recommended4";
                 }
             }
 
             // get real destination
-            if (appPath == "")
-            {
+            if (appPath == "") {
                 // Attempt to resolve from MS Store packages
-                if (appPath == "")
-                {
+                if (appPath == "") {
                     // Check if HKCR\<progId> exists
-                    if (GatheredData.HKCR.HasDir(progId))
-                    {
+                    if (GatheredData.HKCR.HasDir(progId)) {
                         // take HKCR\<progId>\shell\open\packageId
                         var id = GatheredData.HKCR.GetKey(progId + "\\shell\\open\\PackageId");
-                        if (id != "")
-                        {
+                        if (id != "") {
                             // Use that to index into PackageRepository
-                            if (GatheredData.HKCR_PackageRepository.HasDir(id))
-                            {
+                            if (GatheredData.HKCR_PackageRepository.HasDir(id)) {
                                 //GatheredData.ShlwapiAssoc[progid];
                                 appPath = GatheredData.HKCR_PackageRepository.GetKey(id + "\\PackageRootFolder");
                                 //Console.WriteLine("YYYY: " + appPath);
@@ -148,31 +122,25 @@ namespace waasa.Services
                     }
                 }
 
-                if (appPath == "")
-                {
+                if (appPath == "") {
                     // Content-Type -> Media player related
-                    if (Registry.getRootContentType(extension) != "")
-                    {
+                    if (Registry.getRootContentType(extension) != "") {
                         var exec = Registry.ContentTypeExec(Registry.getRootContentType(extension));
                         appPath = exec;
                     }
                 }
 
-                if (appPath == "")
-                {
+                if (appPath == "") {
                     // Windows SystemApps related (Userchoice)
-                    if (Registry.getUserChoice(extension) != "")
-                    {
+                    if (Registry.getUserChoice(extension) != "") {
                         var exec = Registry.GetSystemApp(Registry.getUserChoice(extension));
                         appPath += exec;
                     }
 
                 }
-                if (appPath == "")
-                {
+                if (appPath == "") {
                     // Windows SystemApps related ()
-                    if (Registry.countRootProgids(extension) == 1)
-                    {
+                    if (Registry.countRootProgids(extension) == 1) {
                         var exec = Registry.GetSystemApp(Registry.getRootProgid(extension));
                         appPath += exec;
                     }

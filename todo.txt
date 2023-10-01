@@ -9,7 +9,7 @@
   + HKLU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\
   + HKCR\<>
 + make it possible to give path to opens.txt
-+ args: dump.json, csv result etc.
++ args: waasa.json, csv result etc.
 + Validator: Not well integrated, separate augmentation - in analyzer?
 
 
