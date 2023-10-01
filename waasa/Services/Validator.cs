@@ -10,7 +10,7 @@ using System.Xml;
 using Microsoft.Win32;
 
 
-namespace waasa
+namespace waasa.Services
 {
     // Own opens.txt with fileextension:result entries, and allows queries
     public class Validator
@@ -26,30 +26,38 @@ namespace waasa
         // Parse opens.txt
         public void LoadFromFile(string opensFilename)
         {
-            if (! File.Exists(opensFilename)) {
+            if (!File.Exists(opensFilename))
+            {
                 return;
             }
 
             Console.WriteLine("Validator: " + opensFilename);
             using (var fileStream = File.OpenRead(opensFilename))
-            using (var streamReader = new StreamReader(fileStream, System.Text.Encoding.UTF8, true, 512)) {
-                String line;
-                while ((line = streamReader.ReadLine()) != null) {
+            using (var streamReader = new StreamReader(fileStream, Encoding.UTF8, true, 512))
+            {
+                string line;
+                while ((line = streamReader.ReadLine()) != null)
+                {
                     // Process line
                     var s = line.Split(':');
 
-                    if (s.Count() != 2) {
+                    if (s.Count() != 2)
+                    {
                         Console.WriteLine("Error: Invalid Line: " + line);
                         continue;
                     }
-                    if(s[0] == "" || s[1] == "") {
+                    if (s[0] == "" || s[1] == "")
+                    {
                         Console.WriteLine("Error: Invalid Line: " + line);
                         continue;
                     }
 
-                    if (! tests.ContainsKey(s[0])) {
+                    if (!tests.ContainsKey(s[0]))
+                    {
                         tests.Add(s[0], s[1]);
-                    } else {
+                    }
+                    else
+                    {
                         //Console.WriteLine("Error: Double Entry on line: " + line);
                     }
                 }
@@ -59,34 +67,44 @@ namespace waasa
 
         public string GetEffectiveResultFor(string extension)
         {
-            if (tests.ContainsKey(extension)) {
+            if (tests.ContainsKey(extension))
+            {
                 return tests[extension];
-            } else {
+            }
+            else
+            {
                 return "";
             }
         }
 
 
-        public void PrintStats(List<_FileExtension> fileExtensions) {
+        public void PrintStats(List<_FileExtension> fileExtensions)
+        {
             Console.WriteLine("Missmatches:");
             var n = 0;
             var eExec = 0;
             var eRecommended = 0;
             var eOpenwith = 0;
             var amount = 0;
-            foreach (var app in fileExtensions) {
+            foreach (var app in fileExtensions)
+            {
                 amount++;
-                if (app.Assumption != null && tests.ContainsKey(app.Extension)) {
+                if (app.Assumption != null && tests.ContainsKey(app.Extension))
+                {
                     var effective = app.Assumption;
                     var identified = app.Result;
 
-                    if (effective.StartsWith(identified)) {
+                    if (effective.StartsWith(identified))
+                    {
                         //Console.WriteLine("  OK: " + tests[app.AppData.Name].Result);
-                    } else {
+                    }
+                    else
+                    {
                         Console.WriteLine("  Missmatch: " + app.Extension + ": " + identified + " <-> " + effective);
                         n += 1;
 
-                        switch (identified) {
+                        switch (identified)
+                        {
                             case "exec":
                                 eExec += 1;
                                 break;

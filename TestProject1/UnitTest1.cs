@@ -1,3 +1,5 @@
+
+
 namespace TestProject1
 {
     [TestClass]
@@ -6,10 +8,10 @@ namespace TestProject1
         [TestMethod]
         public void TestRegModelAccess()
         {
-            var d1 = new waasa._RegDirectory("level1");
-            var d21 = new waasa._RegDirectory("level2.1");
-            var d22 = new waasa._RegDirectory("level2.2");
-            var d3 = new waasa._RegDirectory("level3");
+            var d1 = new waasa.Models._RegDirectory("level1");
+            var d21 = new waasa.Models._RegDirectory("level2.1");
+            var d22 = new waasa.Models._RegDirectory("level2.2");
+            var d3 = new waasa.Models._RegDirectory("level3");
 
             d1.AddDir("level2.1", d21);
             d1.AddDir("level2.2", d22);
@@ -28,8 +30,8 @@ namespace TestProject1
         [TestMethod]
         public void TestRegModelDefault()
         {
-            var d1 = new waasa._RegDirectory("level1");
-            var d2 = new waasa._RegDirectory("level2");
+            var d1 = new waasa.Models._RegDirectory("level1");
+            var d2 = new waasa.Models._RegDirectory("level2");
 
             d1.AddDir("level2", d2);
             d1.AddKey("", "default1");
