@@ -3,6 +3,15 @@
 
 namespace waasa.Models {
 
+    public class _FileExtension {
+        public string Extension { get; set; }
+        public string Result { get; set; }
+        public string Assumption { get; set; }
+        public string Judgement { get; set; }
+        public string AppName { get; set; }
+        public string AppPath { get; set; }
+    }
+
     class _CsvEntry {
         public string Extension { get; set; }
         public string Assumption { get; set; }
