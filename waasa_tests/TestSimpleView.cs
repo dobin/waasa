@@ -3,16 +3,13 @@ using waasa.Models;
 using waasa.Services;
 
 
-namespace TestProject1
-{
+namespace waasa_tests {
 
     [TestClass]
-    public class UnitTestVirtRegistry
-    {
+    public class TestSimpleView {
         static string json = @"";
 
-        static GatheredDataSimpleView getData()
-        {
+        static GatheredDataSimpleView getData() {
             var filename = "gathereddata-small.json";
             if (!File.Exists(filename)) {
                 Console.WriteLine("  Not found. No data.");
@@ -43,7 +40,7 @@ namespace TestProject1
             Assert.AreEqual("", Registry.GetExecutableForObjid(".3g2"));
 
             Assert.IsTrue(Registry.GetExecutableForObjid(".fluid").Contains("OneDrive\\23"));
-            
+
 
             // isValidRootDefault()
             // isValidRootProgids()
@@ -51,8 +48,7 @@ namespace TestProject1
         }
 
         [TestMethod]
-        public void TestVirtRegUser()
-        {
+        public void TestVirtRegUser() {
             var Registry = getData();
             Assert.AreEqual("AppX6eg8h5sxqq90pv53845wmnbewywdqq5h", Registry.getUserChoice(".3g2"));
             Assert.AreEqual(2, Registry.countUserOpenWithProgids(".3g2"));

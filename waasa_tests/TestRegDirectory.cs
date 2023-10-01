@@ -1,13 +1,10 @@
 
 
-namespace TestProject1
-{
+namespace waasa_tests {
     [TestClass]
-    public class UnitTest1
-    {
+    public class TestRegDirectory {
         [TestMethod]
-        public void TestRegModelAccess()
-        {
+        public void TestRegModelAccess() {
             var d1 = new waasa.Models._RegDirectory("level1");
             var d21 = new waasa.Models._RegDirectory("level2.1");
             var d22 = new waasa.Models._RegDirectory("level2.2");
@@ -28,8 +25,7 @@ namespace TestProject1
         }
 
         [TestMethod]
-        public void TestRegModelDefault()
-        {
+        public void TestRegModelDefault() {
             var d1 = new waasa.Models._RegDirectory("level1");
             var d2 = new waasa.Models._RegDirectory("level2");
 
