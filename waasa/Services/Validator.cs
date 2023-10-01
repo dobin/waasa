@@ -7,7 +7,9 @@ using waasa.Models;
 
 
 namespace waasa.Services {
-    // Own opens.txt with fileextension:result entries, and allows queries
+    /// <summary>
+    /// Provides reference data for file extension assumption
+    /// </summary>
     public class Validator {
         private Dictionary<string, string> tests { get; } = new Dictionary<string, string>();
 

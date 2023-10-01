@@ -40,7 +40,7 @@ namespace waasa.Services {
         }
 
 
-        public _FileExtension resolveExtension(string extension) {
+        private _FileExtension resolveExtension(string extension) {
             _FileExtension fileExtension = new _FileExtension();
             fileExtension.Extension = extension;
 
@@ -61,7 +61,7 @@ namespace waasa.Services {
 
 
         // This implements the main algorithm to categorize file extension
-        public void analyzeExtension(_FileExtension fileExtension) {
+        private void analyzeExtension(_FileExtension fileExtension) {
             // Logic to decide the assumption (how the file will be opened)
             var assumption = "";
             if (fileExtension.WinApiEntry.FriendlyAppName.StartsWith("Pick an app")) {

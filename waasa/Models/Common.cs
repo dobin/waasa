@@ -13,7 +13,7 @@ namespace waasa.Models {
         public string AppPath { get; set; } = "";
         public string AppPublisher { get; set; } = "";
 
-        // Needed?
+        // Pointer to source
         public Winapi.WinapiEntry WinApiEntry { get; set; }
     }
 

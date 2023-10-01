@@ -124,22 +124,22 @@ public class Winapi {
     }
 
     public static WinapiEntry Query(string ext) {
-        WinapiEntry assoc = new WinapiEntry();
-        assoc.Command = Winapi.AssocQueryString(Winapi.AssocStr.Command, ext);
-        assoc.Executable = Winapi.AssocQueryString(Winapi.AssocStr.Executable, ext);
-        assoc.FriendlyAppName = Winapi.AssocQueryString(Winapi.AssocStr.FriendlyAppName, ext);
-        assoc.FriendlyDocName = Winapi.AssocQueryString(Winapi.AssocStr.FriendlyDocName, ext);
-        assoc.NoOpen = Winapi.AssocQueryString(Winapi.AssocStr.NoOpen, ext);
-        assoc.ShellNewValue = Winapi.AssocQueryString(Winapi.AssocStr.ShellNewValue, ext);
-        assoc.DDECommand = Winapi.AssocQueryString(Winapi.AssocStr.DDECommand, ext);
-        assoc.DDEIfExec = Winapi.AssocQueryString(Winapi.AssocStr.DDEIfExec, ext);
-        assoc.DDEApplication = Winapi.AssocQueryString(Winapi.AssocStr.DDEApplication, ext);
-        assoc.ContentType = Winapi.AssocQueryString(Winapi.AssocStr.CONTENTTYPE, ext);
-        assoc.SupportedUri = Winapi.AssocQueryString(Winapi.AssocStr.SUPPORTED_URI_PROTOCOLS, ext);
-        assoc.Progid = Winapi.AssocQueryString(Winapi.AssocStr.PROGID, ext);
-        assoc.AppId = Winapi.AssocQueryString(Winapi.AssocStr.APPID, ext);
-        assoc.AppPublisher = Winapi.AssocQueryString(Winapi.AssocStr.APPPUBLISHER, ext);
-        return assoc;
+        WinapiEntry entry = new WinapiEntry();
+        entry.Command = Winapi.AssocQueryString(Winapi.AssocStr.Command, ext);
+        entry.Executable = Winapi.AssocQueryString(Winapi.AssocStr.Executable, ext);
+        entry.FriendlyAppName = Winapi.AssocQueryString(Winapi.AssocStr.FriendlyAppName, ext);
+        entry.FriendlyDocName = Winapi.AssocQueryString(Winapi.AssocStr.FriendlyDocName, ext);
+        entry.NoOpen = Winapi.AssocQueryString(Winapi.AssocStr.NoOpen, ext);
+        entry.ShellNewValue = Winapi.AssocQueryString(Winapi.AssocStr.ShellNewValue, ext);
+        entry.DDECommand = Winapi.AssocQueryString(Winapi.AssocStr.DDECommand, ext);
+        entry.DDEIfExec = Winapi.AssocQueryString(Winapi.AssocStr.DDEIfExec, ext);
+        entry.DDEApplication = Winapi.AssocQueryString(Winapi.AssocStr.DDEApplication, ext);
+        entry.ContentType = Winapi.AssocQueryString(Winapi.AssocStr.CONTENTTYPE, ext);
+        entry.SupportedUri = Winapi.AssocQueryString(Winapi.AssocStr.SUPPORTED_URI_PROTOCOLS, ext);
+        entry.Progid = Winapi.AssocQueryString(Winapi.AssocStr.PROGID, ext);
+        entry.AppId = Winapi.AssocQueryString(Winapi.AssocStr.APPID, ext);
+        entry.AppPublisher = Winapi.AssocQueryString(Winapi.AssocStr.APPPUBLISHER, ext);
+        return entry;
     }
 
 }
