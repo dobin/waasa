@@ -52,7 +52,7 @@ namespace waasa {
             Registry.Load(GatheredData);
             validator.LoadFromFile(opensFilepath);
             analyzer.Load(GatheredData, validator, Registry);
-            FileExtensions = analyzer.AnalyzeGatheredData();
+            FileExtensions = analyzer.getResolvedFileExtensions();
 
             // Connect the UI table with our data
             dataGrid.ItemsSource = FileExtensions;

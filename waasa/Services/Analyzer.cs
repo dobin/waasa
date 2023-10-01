@@ -6,10 +6,15 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace waasa.Services {
 
+    /// <summary>
+    /// Merges GatheredData (and its simpleView) with Validator to produce FileExtensions 
+    /// which contain all extensions and their associated path.
+    /// </summary>
     public class Analyzer {
-        public _GatheredData GatheredData { get; set; }
-        public Validator Validator { get; set; }
+        private _GatheredData GatheredData { get; set; }
+        private Validator Validator { get; set; }
         private GatheredDataSimpleView Registry { get; set; }
+        private List<_FileExtension> FileExtensions { get; set; } = new List<_FileExtension>();
 
 
         public Analyzer() {
@@ -17,24 +22,25 @@ namespace waasa.Services {
 
 
         public void Load(_GatheredData gatheredData, Validator validator, GatheredDataSimpleView registry) {
+            Console.WriteLine("Analyzer: Load");
+
             GatheredData = gatheredData;
             Validator = validator;
             Registry = registry;
-        }
 
-
-        // Analyze all GatheredData to produce FileExtensions
-        public List<_FileExtension> AnalyzeGatheredData() {
-            List<_FileExtension> fileExtensions = new List<_FileExtension>();
             foreach (var extension in GatheredData.ListedExtensions) {
-                var fileExtension = HandleExtension(extension);
-                fileExtensions.Add(fileExtension);
+                var fileExtension = resolveExtension(extension);
+                FileExtensions.Add(fileExtension);
             }
-            return fileExtensions;
         }
 
 
-        public _FileExtension HandleExtension(string extension) {
+        public List<_FileExtension> getResolvedFileExtensions() {
+            return FileExtensions;
+        }
+
+
+        public _FileExtension resolveExtension(string extension) {
             _FileExtension fileExtension = new _FileExtension();
             fileExtension.Extension = extension;
 
@@ -48,14 +54,15 @@ namespace waasa.Services {
             fileExtension.WinApiEntry = winapiData;
 
             // Analyze data to clean up and add all information for this extension
-            AnalyzeExtension(fileExtension);
+            analyzeExtension(fileExtension);
 
             return fileExtension;
         }
 
 
         // This implements the main algorithm to categorize file extension
-        public void AnalyzeExtension(_FileExtension fileExtension) {
+        public void analyzeExtension(_FileExtension fileExtension) {
+            // Logic to decide the assumption (how the file will be opened)
             var assumption = "";
             if (fileExtension.WinApiEntry.FriendlyAppName.StartsWith("Pick an app")) {
                 assumption = "openwith1";
@@ -67,23 +74,23 @@ namespace waasa.Services {
                 {
                     // May also use: Root_DefaultExec
                     // Basically just .cmd, .com
-                    assumption = "exec2";
+                    assumption = "exec1";
                 } else {
                     assumption = "openwith2";
                 }
 
             } else if (fileExtension.WinApiEntry.Command != "") {
-                assumption = "exec3";
+                assumption = "exec2";
             } else {
                 if (Registry.countUserOpenWithProgids(fileExtension.Extension) < 2) {
-                    assumption = "exec4";
+                    assumption = "exec3";
                 } else {
-                    assumption = "recommended4";
+                    assumption = "recommended1";
                 }
             }
             fileExtension.Assumption = assumption;
 
-            // get real destination
+            // get real destination path
             var appPath = fileExtension.AppPath;
             if (appPath == "") {
                 // Attempt to resolve from MS Store packages
@@ -108,6 +115,7 @@ namespace waasa.Services {
                     // Content-Type -> Media player related
                     if (Registry.getRootContentType(fileExtension.Extension) != "") {
                         var exec = Registry.ContentTypeExec(Registry.getRootContentType(fileExtension.Extension));
+                        Console.WriteLine("A1: " + fileExtension.Extension + " " + exec);
                         appPath = exec;
                     }
                 }
@@ -116,6 +124,7 @@ namespace waasa.Services {
                     // Windows SystemApps related (Userchoice)
                     if (Registry.getUserChoice(fileExtension.Extension) != "") {
                         var exec = Registry.GetSystemApp(Registry.getUserChoice(fileExtension.Extension));
+                        Console.WriteLine("A2: " + fileExtension.Extension + " " + exec);
                         appPath += exec;
                     }
 
@@ -124,6 +133,7 @@ namespace waasa.Services {
                     // Windows SystemApps related ()
                     if (Registry.countRootProgids(fileExtension.Extension) == 1) {
                         var exec = Registry.GetSystemApp(Registry.getRootProgid(fileExtension.Extension));
+                        Console.WriteLine("A3: " + fileExtension.Extension + " " + exec);
                         appPath += exec;
                     }
                 }

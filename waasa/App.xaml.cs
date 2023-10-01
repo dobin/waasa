@@ -100,13 +100,13 @@ namespace waasa {
 
 
         void UsageTestAll() {
-            var fileExtensions = Analyzer.AnalyzeGatheredData();
+            var fileExtensions = Analyzer.getResolvedFileExtensions();
             Validator.PrintStats(fileExtensions);
         }
 
 
         void UsageTestOne(string extension) {
-            var fileExtensions = Analyzer.AnalyzeGatheredData();
+            var fileExtensions = Analyzer.getResolvedFileExtensions();
             foreach (var fileExtension in fileExtensions) {
                 if (fileExtension.Extension == extension) {
                     Console.WriteLine(String.Format("{0};{1};{2}", fileExtension.Extension, fileExtension.Result, fileExtension.Assumption));
@@ -202,15 +202,15 @@ namespace waasa {
                       UsageTestOne(o.TestOne);
                   } else if (o.Csv != null) {
                       init(o.DumpInputFile, o.OpensInputFile);
-                      var fileExtensions = Analyzer.AnalyzeGatheredData();
+                      var fileExtensions = Analyzer.getResolvedFileExtensions();
                       AppSharedFunctionality.usageCreateResultsCsv(o.Csv, fileExtensions);
                   } else if (o.CsvDebug != null) {
                       init(o.DumpInputFile, o.OpensInputFile);
-                      var fileExtensions = Analyzer.AnalyzeGatheredData();
+                      var fileExtensions = Analyzer.getResolvedFileExtensions();
                       AppSharedFunctionality.usageCreateResultsCsvDebug(o.CsvDebug, fileExtensions, SimpleRegistryView);
                   } else if (o.Files) {
                       init(o.DumpInputFile, o.OpensInputFile);
-                      var fileExtensions = Analyzer.AnalyzeGatheredData();
+                      var fileExtensions = Analyzer.getResolvedFileExtensions();
                       AppSharedFunctionality.usageCreateTestFiles(fileExtensions);
                   } else if (o.InfoExt != null) {
                       init(o.DumpInputFile, o.OpensInputFile);
