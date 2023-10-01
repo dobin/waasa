@@ -126,7 +126,7 @@ namespace waasa {
 
 
         void UsageTestWinApi(string ext) {
-            var a = Analyzer.GetShlwapiBy(ext);
+            var a = GatheredData.WinapiData[ext];
             Console.WriteLine("Assoc:\n" + a.ToString());
         }
 

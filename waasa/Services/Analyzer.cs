@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using waasa.Models;
+using static System.Net.Mime.MediaTypeNames;
 
 
 namespace waasa.Services {
@@ -26,50 +27,44 @@ namespace waasa.Services {
         public List<_FileExtension> AnalyzeGatheredData() {
             List<_FileExtension> fileExtensions = new List<_FileExtension>();
             foreach (var extension in GatheredData.ListedExtensions) {
-                var fileExtension = AnalyzeSingle(extension);
+                var fileExtension = HandleExtension(extension);
                 fileExtensions.Add(fileExtension);
             }
             return fileExtensions;
         }
 
 
-        public _FileExtension AnalyzeSingle(string extension) {
-            var data = AnalyzeExtension(extension);
+        public _FileExtension HandleExtension(string extension) {
             _FileExtension fileExtension = new _FileExtension();
-            fileExtension.Result = Validator.GetEffectiveResultFor(extension);
             fileExtension.Extension = extension;
-            fileExtension.Assumption = data.Item1;
-            fileExtension.AppName = data.Item2;
-            fileExtension.AppPath = data.Item3;
+
+            // Validator Result
+            fileExtension.Result = Validator.GetEffectiveResultFor(extension);
+
+            // Data
+            var winapiData = GatheredData.WinapiData[extension];
+            fileExtension.AppName = winapiData.FriendlyAppName;
+            fileExtension.AppPath = winapiData.Command;
+            fileExtension.WinApiEntry = winapiData;
+
+            // Analyze data to clean up and add all information for this extension
+            AnalyzeExtension(fileExtension);
 
             return fileExtension;
         }
 
 
-        public Winapi.WinapiEntry GetShlwapiBy(string ext) {
-            if (GatheredData.WinapiData.ContainsKey(ext)) {
-                return GatheredData.WinapiData[ext];
-            } else {
-                return null;
-            }
-        }
-
-
         // This implements the main algorithm to categorize file extension
-        public Tuple<string, string, string> AnalyzeExtension(string extension) {
-            var assoc = GetShlwapiBy(extension);
-
-            string assumption = "";
-            string appName = assoc.FriendlyAppName;
-            string appPath = assoc.Command;
-            string progId = assoc.Progid;
-            string appId = assoc.AppId;
-
-            if (assoc.FriendlyAppName.StartsWith("Pick an app")) {
+        public void AnalyzeExtension(_FileExtension fileExtension) {
+            var assumption = "";
+            if (fileExtension.WinApiEntry.FriendlyAppName.StartsWith("Pick an app")) {
                 assumption = "openwith1";
 
-            } else if (assoc.FriendlyAppName == "") {
-                if (assoc.Command != "" && !Registry.isValidRootProgids(extension) && Registry.hasRootDefault(extension)) {
+            } else if (fileExtension.WinApiEntry.FriendlyAppName == "") {
+                if (fileExtension.WinApiEntry.Command != "" 
+                    && !Registry.isValidRootProgids(fileExtension.Extension) 
+                    && Registry.hasRootDefault(fileExtension.Extension)) 
+                {
                     // May also use: Root_DefaultExec
                     // Basically just .cmd, .com
                     assumption = "exec2";
@@ -77,24 +72,26 @@ namespace waasa.Services {
                     assumption = "openwith2";
                 }
 
-            } else if (assoc.Command != "") {
+            } else if (fileExtension.WinApiEntry.Command != "") {
                 assumption = "exec3";
             } else {
-                if (Registry.countUserOpenWithProgids(extension) < 2) {
+                if (Registry.countUserOpenWithProgids(fileExtension.Extension) < 2) {
                     assumption = "exec4";
                 } else {
                     assumption = "recommended4";
                 }
             }
+            fileExtension.Assumption = assumption;
 
             // get real destination
+            var appPath = fileExtension.AppPath;
             if (appPath == "") {
                 // Attempt to resolve from MS Store packages
                 if (appPath == "") {
                     // Check if HKCR\<progId> exists
-                    if (GatheredData.HKCR.HasDir(progId)) {
+                    if (GatheredData.HKCR.HasDir(fileExtension.WinApiEntry.Progid)) {
                         // take HKCR\<progId>\shell\open\packageId
-                        var id = GatheredData.HKCR.GetKey(progId + "\\shell\\open\\PackageId");
+                        var id = GatheredData.HKCR.GetKey(fileExtension.WinApiEntry.Progid + "\\shell\\open\\PackageId");
                         if (id != "") {
                             // Use that to index into PackageRepository
                             if (GatheredData.HKCR_PackageRepository.HasDir(id)) {
@@ -106,33 +103,33 @@ namespace waasa.Services {
                     }
                 }
 
+                // ???
                 if (appPath == "") {
                     // Content-Type -> Media player related
-                    if (Registry.getRootContentType(extension) != "") {
-                        var exec = Registry.ContentTypeExec(Registry.getRootContentType(extension));
+                    if (Registry.getRootContentType(fileExtension.Extension) != "") {
+                        var exec = Registry.ContentTypeExec(Registry.getRootContentType(fileExtension.Extension));
                         appPath = exec;
                     }
                 }
 
                 if (appPath == "") {
                     // Windows SystemApps related (Userchoice)
-                    if (Registry.getUserChoice(extension) != "") {
-                        var exec = Registry.GetSystemApp(Registry.getUserChoice(extension));
+                    if (Registry.getUserChoice(fileExtension.Extension) != "") {
+                        var exec = Registry.GetSystemApp(Registry.getUserChoice(fileExtension.Extension));
                         appPath += exec;
                     }
 
                 }
                 if (appPath == "") {
                     // Windows SystemApps related ()
-                    if (Registry.countRootProgids(extension) == 1) {
-                        var exec = Registry.GetSystemApp(Registry.getRootProgid(extension));
+                    if (Registry.countRootProgids(fileExtension.Extension) == 1) {
+                        var exec = Registry.GetSystemApp(Registry.getRootProgid(fileExtension.Extension));
                         appPath += exec;
                     }
                 }
 
+                fileExtension.AppPath = appPath;
             }
-
-            return new Tuple<string, string, string>(assumption, appName, appPath);
         }
     }
 }
