@@ -1,11 +1,4 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
+﻿using System.Text.Json;
 using waasa.Models;
 using waasa.Services;
 
@@ -18,7 +11,7 @@ namespace TestProject1
     {
         static string json = @"";
 
-        static VirtRegistry getData()
+        static GatheredDataSimpleView getData()
         {
             var filename = "gathereddata-small.json";
             if (!File.Exists(filename)) {
@@ -27,7 +20,7 @@ namespace TestProject1
             }
             string jsonString = File.ReadAllText(filename);
             var GatheredData = JsonSerializer.Deserialize<_GatheredData>(jsonString)!;
-            var Registry = new VirtRegistry();
+            var Registry = new GatheredDataSimpleView();
             Registry.Load(GatheredData);
             return Registry;
         }

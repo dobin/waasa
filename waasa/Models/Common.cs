@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using waasa.Services;
+﻿using waasa.Services;
 
 
 namespace waasa.Models {
+
     class _CsvEntry {
         public string Extension { get; set; }
         public string Assumption { get; set; }
@@ -34,4 +30,5 @@ namespace waasa.Models {
             AppPath = fileExtension.AppPath;
         }
     }
+
 }

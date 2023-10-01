@@ -21,7 +21,7 @@ namespace waasa {
     /// </summary>
     public partial class MainWindow : Window {
         private _GatheredData GatheredData;
-        private VirtRegistry Registry = new VirtRegistry();
+        private GatheredDataSimpleView Registry = new GatheredDataSimpleView();
         private List<_FileExtension> FileExtensions;
 
         ICollectionView collectionView;

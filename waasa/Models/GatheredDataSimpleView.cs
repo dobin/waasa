@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Animation;
 using waasa.Services;
 
 
 namespace waasa.Models {
 
     public class _FileExtensionDebug {
-        // From _FileExtension
         public string Extension { get; set; }
         public string Result { get; set; }
         public string Assumption { get; set; }
@@ -53,12 +48,13 @@ namespace waasa.Models {
     }
 
 
-    // VirtRegistry parses, processes, accumulates and checks information
-    // from our virtual registry at GatheredData
-    public class VirtRegistry {
+    /// <summary>
+    /// An abstraction or interface to the data from the windows registry from GatheredData.
+    /// </summary>
+    public class GatheredDataSimpleView {
         private _GatheredData GatheredData;
 
-        public VirtRegistry() {
+        public GatheredDataSimpleView() {
         }
 
         public void Load(_GatheredData gatheredData) {
@@ -76,7 +72,7 @@ namespace waasa.Models {
                 entry.Assumption = fileExtension.Assumption;
                 entry.AppName = fileExtension.AppName;
                 entry.AppPath = fileExtension.AppPath;
-                entry.DdeExec = GatheredData.ShlwapiAssoc[fileExtension.Extension].DDECommand;
+                entry.DdeExec = GatheredData.WinapiData[fileExtension.Extension].DDECommand;
 
                 var extension = fileExtension.Extension;
 

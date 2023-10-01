@@ -1,26 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Microsoft.Win32;
-using System.Runtime.InteropServices;
-using Microsoft.Win32.SafeHandles;
-using System.Security.AccessControl;
-using FILETIME = System.Runtime.InteropServices.ComTypes.FILETIME;
-using System.IO;
 using waasa.Models;
-//using YamlDotNet.Serialization;
 
-namespace waasa.Services
-{
 
+namespace waasa.Services {
+
+    /// <summary>
+    /// All gathered data. Can be serialized to JSON.
+    /// </summary>
     [Serializable]
-    public class _GatheredData
-    {
+    public class _GatheredData {
         public List<string> ListedExtensions { get; set; } = new List<string>();
-
 
         // HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\
         public _RegDirectory HKCU_ExplorerFileExts { get; set; }
@@ -30,7 +21,6 @@ namespace waasa.Services
 
         // HKCU\\Software\\Classes\\
         public _RegDirectory HKCU_SoftwareClasses { get; set; }
-
 
         // HKCR\\
         public _RegDirectory HKCR { get; set; }
@@ -44,10 +34,10 @@ namespace waasa.Services
         // HKCR\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\PackageRepository\
         public _RegDirectory HKCR_PackageRepository { get; set; }
 
-        public Dictionary<string, Shlwapi.Assoc> ShlwapiAssoc { get; set; } = new Dictionary<string, Shlwapi.Assoc>();
+        public Dictionary<string, Winapi.WinapiEntry> WinapiData { get; set; } = new Dictionary<string, Winapi.WinapiEntry>();
 
-        public void PrintStats()
-        {
+
+        public void PrintStats() {
             Console.WriteLine("GatheredData:");
             Console.WriteLine("  ListedExtensions:                    : " + ListedExtensions.Count);
             Console.WriteLine("  HKCR                                 : " + HKCR.SubDirectories.Count);
@@ -57,18 +47,17 @@ namespace waasa.Services
             Console.WriteLine("  HKCR_SystemFileAssociations          : " + HKCR_SystemFileAssociations.SubDirectories.Count);
             Console.WriteLine("  HKCR_FileTypeAssociations            : " + HKCR_FileTypeAssociations.SubDirectories.Count);
             Console.WriteLine("  HKCR_PackageRepository               : " + HKCR_PackageRepository.SubDirectories.Count);
-            Console.WriteLine("  ShlwapiAssoc                         : " + ShlwapiAssoc.Count);
+            Console.WriteLine("  ShlwapiAssoc                         : " + WinapiData.Count);
         }
 
-        public string GetShlwapiInfo(string extension)
-        {
-            return ShlwapiAssoc[extension].ToString();
+
+        public string GetShlwapiInfo(string extension) {
+            return WinapiData[extension].ToString();
         }
 
 
         // Gather human-readable information about a extension
-        public string GetExtensionInfo(string extension)
-        {
+        public string GetExtensionInfo(string extension) {
             string ret = "";
 
             ret += string.Format("Extension: {0}\n", extension);
@@ -76,38 +65,29 @@ namespace waasa.Services
 
             // HKLU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\
             ret += string.Format("HKLU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\{0}\\ \n", extension);
-            if (HKCU_ExplorerFileExts.HasDir(extension))
-            {
+            if (HKCU_ExplorerFileExts.HasDir(extension)) {
                 var y = HKCU_ExplorerFileExts.GetDir(extension);
                 ret += y.toStr(1);
-            }
-            else
-            {
+            } else {
                 ret += "  NOT EXIST\n";
             }
             ret += string.Format("\n");
 
             // HKCR\
             ret += string.Format("HKCR\\{0}\\ \n", extension);
-            if (HKCR.HasDir(extension))
-            {
+            if (HKCR.HasDir(extension)) {
                 var x = HKCR.GetDir(extension);
                 ret += x.toStr(1);
-            }
-            else
-            {
+            } else {
                 ret += "  Not found\n";
             }
             ret += string.Format("\n");
 
             // HKCU\Software\Classes
             ret += string.Format("\n");
-            if (!HKCU_SoftwareClasses.HasDir(extension))
-            {
+            if (!HKCU_SoftwareClasses.HasDir(extension)) {
                 ret += string.Format("HKCU\\Software\\Classes\\{0} not found\n", extension);
-            }
-            else
-            {
+            } else {
                 var x = HKCU_SoftwareClasses.GetDir(extension);
                 ret += string.Format("HKCU\\Software\\Classes\\{0}\\ \n", extension);
                 ret += x.toStr(1);
@@ -118,18 +98,14 @@ namespace waasa.Services
 
 
         // Gather human-readable information about a objid
-        public string GetObjidInfo(string objid)
-        {
+        public string GetObjidInfo(string objid) {
             string ret = "";
 
             // HKCR
             ret += string.Format("HKCR\\{0}\\ \n", objid);
-            if (!HKCR.HasDir(objid))
-            {
+            if (!HKCR.HasDir(objid)) {
                 ret += string.Format("  not found\n", objid);
-            }
-            else
-            {
+            } else {
                 var x = HKCR.GetDir(objid);
                 ret += x.toStr(1);
             }
@@ -137,12 +113,9 @@ namespace waasa.Services
             // HKCU\Software\Classes
             ret += string.Format("\n");
             ret += string.Format("HKCU\\Software\\Classes\\{0}\\ \n", objid);
-            if (!HKCU_SoftwareClasses.HasDir(objid))
-            {
+            if (!HKCU_SoftwareClasses.HasDir(objid)) {
                 ret += "  Not found";
-            }
-            else
-            {
+            } else {
                 var x = HKCU_SoftwareClasses.GetDir(objid);
                 ret += x.toStr(1);
             }
@@ -152,12 +125,10 @@ namespace waasa.Services
     }
 
 
-    class Gatherer
-    {
+    class Gatherer {
         public _GatheredData GatheredData = new _GatheredData();
 
-        public _GatheredData GatherAll()
-        {
+        public _GatheredData GatherAll() {
             Console.WriteLine("Gather system data");
             GatherListedExtensions();
 
@@ -168,37 +139,29 @@ namespace waasa.Services
             GatherHKCR_SystemFileAssociations();
             GatherHKCR_FileTypeAssociations();
             GatherHKCR_PackageRepository();
-            GatherShlwapi();
+            GatherWinapi();
 
             GatheredData.PrintStats();
 
             return GatheredData;
         }
 
-
-        public void GatherShlwapi()
-        {
-            foreach (var ext in GatheredData.ListedExtensions)
-            {
-                var assoc = Shlwapi.Query(ext);
-                GatheredData.ShlwapiAssoc.Add(ext, assoc);
+        public void GatherWinapi() {
+            foreach (var ext in GatheredData.ListedExtensions) {
+                var assoc = Winapi.Query(ext);
+                GatheredData.WinapiData.Add(ext, assoc);
             }
         }
 
-        public void GatherListedExtensions()
-        {
-            foreach (var key in Registry.ClassesRoot.GetSubKeyNames())
-            {
-                if (key.StartsWith("."))
-                {
+        public void GatherListedExtensions() {
+            foreach (var key in Registry.ClassesRoot.GetSubKeyNames()) {
+                if (key.StartsWith(".")) {
                     GatheredData.ListedExtensions.Add(key);
                 }
             }
         }
 
-
-        public void GatherRegistryHKCR()
-        {
+        public void GatherRegistryHKCR() {
             Console.WriteLine("GatherRegistryHKCR");
             HashSet<string> excludes = new HashSet<string>
                 { "Interface", "Extensions", "Local Settings", "WOW6432Node", "Installer" ,
@@ -208,22 +171,18 @@ namespace waasa.Services
             Console.WriteLine("  Finished");
         }
 
-        public void GatherHKCR_SystemFileAssociations()
-        {
+        public void GatherHKCR_SystemFileAssociations() {
             Console.WriteLine("GatherHKCR_SystemFileAssociations");
             GatheredData.HKCR_SystemFileAssociations = FromRegistry(Registry.ClassesRoot, @"SystemFileAssociations");
             Console.WriteLine("  Finished: " + GatheredData.HKCR.SubDirectories.Count);
         }
-        public void GatherHKCR_FileTypeAssociations()
-        {
+        public void GatherHKCR_FileTypeAssociations() {
             Console.WriteLine("GatherHKCR_FileTypeAssociations");
             GatheredData.HKCR_FileTypeAssociations = FromRegistry(Registry.ClassesRoot, @"Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\PackageRepository\Extensions\windows.fileTypeAssociation");
             Console.WriteLine("  Finished");
         }
 
-
-        private void GatherHKCR_PackageRepository()
-        {
+        private void GatherHKCR_PackageRepository() {
             HashSet<string> excludes = new HashSet<string>() {
                 "Extensions", // Really?
             };
@@ -231,63 +190,50 @@ namespace waasa.Services
             GatheredData.HKCR_PackageRepository = FromRegistry(Registry.CurrentUser, @"Software\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\Repository\Packages");
         }
 
-        public void GatherRegistryHKCU_SoftwareClasses()
-        {
+        public void GatherRegistryHKCU_SoftwareClasses() {
             Console.WriteLine("GatherRegistryHKCU_SoftwareClasses");
             GatheredData.HKCU_SoftwareClasses = FromRegistry(Registry.CurrentUser, @"SOFTWARE\Classes");
             Console.WriteLine("  Finished");
         }
 
-
-        public void GatherRegistryHKCU_ExplorerFileExts()
-        {
+        public void GatherRegistryHKCU_ExplorerFileExts() {
             Console.WriteLine("GatherRegistryHKCU_ExplorerFileExts");
             GatheredData.HKCU_ExplorerFileExts = FromRegistry(Registry.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts");
             Console.WriteLine("  Finished");
         }
 
-        public void GatherRegistryHKCU_ApplicationAssociationToasts()
-        {
+        public void GatherRegistryHKCU_ApplicationAssociationToasts() {
             Console.WriteLine("GatherRegistryHKCU_ApplicationAssociationToasts");
             GatheredData.HKCU_ApplicationAssociationToasts = FromRegistry(Registry.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\ApplicationAssociationToasts");
             Console.WriteLine("  Finished");
         }
 
-        private _RegDirectory FromRegistry(RegistryKey registryKey, string path, HashSet<string> excludes = null)
-        {
+        private _RegDirectory FromRegistry(RegistryKey registryKey, string path, HashSet<string> excludes = null) {
             // Open initial directory
             _RegDirectory rootDir = new _RegDirectory(registryKey.Name + "\\" + path);
             var reg = registryKey.OpenSubKey(path);
-            if (reg == null)
-            {
+            if (reg == null) {
                 throw new InvalidOperationException("Registry key not found: " + registryKey.Name + "\\" + path);
             }
 
             // Keys
-            foreach (var key in reg.GetValueNames())
-            {
+            foreach (var key in reg.GetValueNames()) {
                 var value = Convert.ToString(reg.GetValue(key));
                 rootDir.AddKey(key, value);
             }
 
             // Directories
-            foreach (var dirName in reg.GetSubKeyNames())
-            {
+            foreach (var dirName in reg.GetSubKeyNames()) {
                 var fuck = "";
-                if (path == "")
-                {
+                if (path == "") {
                     fuck = dirName;
-                }
-                else
-                {
+                } else {
                     fuck = path + "\\" + dirName;
                 }
 
                 // Skip directories which are excluded (on root)
-                if (excludes != null)
-                {
-                    if (excludes.Contains(fuck))
-                    {
+                if (excludes != null) {
+                    if (excludes.Contains(fuck)) {
                         continue;
                     }
                 }

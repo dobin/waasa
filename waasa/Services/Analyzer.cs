@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Printing.IndexedProperties;
-using System.Text;
-using System.Threading.Tasks;
 using waasa.Models;
-using static System.Net.Mime.MediaTypeNames;
 
 
 namespace waasa.Services {
@@ -24,14 +19,14 @@ namespace waasa.Services {
     public class Analyzer {
         public _GatheredData GatheredData { get; set; }
         public Validator Validator { get; set; }
-        private VirtRegistry Registry { get; set; }
+        private GatheredDataSimpleView Registry { get; set; }
 
 
         public Analyzer() {
         }
 
 
-        public void Load(_GatheredData gatheredData, Validator validator, VirtRegistry registry) {
+        public void Load(_GatheredData gatheredData, Validator validator, GatheredDataSimpleView registry) {
             GatheredData = gatheredData;
             Validator = validator;
             Registry = registry;
@@ -62,9 +57,9 @@ namespace waasa.Services {
         }
 
 
-        public Shlwapi.Assoc GetShlwapiBy(string ext) {
-            if (GatheredData.ShlwapiAssoc.ContainsKey(ext)) {
-                return GatheredData.ShlwapiAssoc[ext];
+        public Winapi.WinapiEntry GetShlwapiBy(string ext) {
+            if (GatheredData.WinapiData.ContainsKey(ext)) {
+                return GatheredData.WinapiData[ext];
             } else {
                 return null;
             }

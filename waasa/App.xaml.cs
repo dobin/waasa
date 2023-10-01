@@ -31,7 +31,7 @@ namespace waasa {
         }
 
 
-        static public void usageCreateResultsCsvDebug(string filepath, List<_FileExtension> fileExtensions, VirtRegistry registry) {
+        static public void usageCreateResultsCsvDebug(string filepath, List<_FileExtension> fileExtensions, GatheredDataSimpleView registry) {
             var fileExtensionsDebug = registry.GetFileExtensionDebug(fileExtensions);
 
             Console.WriteLine("Writing CSVDebug to: " + filepath + " with " + fileExtensionsDebug.Count);
@@ -64,7 +64,7 @@ namespace waasa {
     /// </summary>
     public partial class App : Application {
         private _GatheredData GatheredData { get; set; }
-        private VirtRegistry Registry { get; set; } = new VirtRegistry();
+        private GatheredDataSimpleView SimpleRegistryView { get; set; } = new GatheredDataSimpleView();
         private Validator Validator { get; set; } = new Validator();
         private Analyzer Analyzer { get; set; } = new Analyzer();
 
@@ -81,9 +81,9 @@ namespace waasa {
 
             string jsonString = File.ReadAllText(dumpFilepath);
             GatheredData = JsonSerializer.Deserialize<_GatheredData>(jsonString)!;
-            Registry.Load(GatheredData);
+            SimpleRegistryView.Load(GatheredData);
             Validator.LoadFromFile(opensFilepath);
-            Analyzer.Load(GatheredData, Validator, Registry);
+            Analyzer.Load(GatheredData, Validator, SimpleRegistryView);
         }
 
 
@@ -207,7 +207,7 @@ namespace waasa {
                   } else if (o.CsvDebug != null) {
                       init(o.DumpInputFile, o.OpensInputFile);
                       var fileExtensions = Analyzer.AnalyzeGatheredData();
-                      AppSharedFunctionality.usageCreateResultsCsvDebug(o.CsvDebug, fileExtensions, Registry);
+                      AppSharedFunctionality.usageCreateResultsCsvDebug(o.CsvDebug, fileExtensions, SimpleRegistryView);
                   } else if (o.Files) {
                       init(o.DumpInputFile, o.OpensInputFile);
                       var fileExtensions = Analyzer.AnalyzeGatheredData();

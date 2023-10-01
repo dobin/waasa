@@ -1,25 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 
 
-// Interface to query windows shlwapi.dll for file associations
-public class Shlwapi
-{
+/// <summary>
+/// Interface to query windows shlwapi.dll for file associations 
+/// </summary>
+public class Winapi {
     [DllImport("Shlwapi.dll", SetLastError = true, CharSet = CharSet.Auto)]
 
     static extern uint AssocQueryString(
-        AssocF flags, AssocStr str, string pszAssoc, string pszExtra, 
+        AssocF flags, AssocStr str, string pszAssoc, string pszExtra,
         [Out] StringBuilder pszOut, [In][Out] ref uint pcchOut);
 
 
     // https://learn.microsoft.com/en-us/windows/win32/shell/assocf_str
     [Flags]
-    public enum AssocF
-    {
+    public enum AssocF {
         None = 0x0,
         Init_NoRemapCLSID = 0x1,
         Init_ByExeName = 0x2,
@@ -41,8 +38,7 @@ public class Shlwapi
 
 
     // https://learn.microsoft.com/en-us/windows/win32/api/shlwapi/ne-shlwapi-assocstr
-    public enum AssocStr
-    {
+    public enum AssocStr {
         Command = 1,
         Executable,
         FriendlyDocName,
@@ -69,9 +65,8 @@ public class Shlwapi
         APPICONREFERENCE,
     }
 
-    public static string AssocQueryString(AssocStr assocStr, string doctype)
-    {
-        uint pcchOut = 0;   // size of output buffer
+    public static string AssocQueryString(AssocStr assocStr, string doctype) {
+        uint pcchOut = 0;  // size of output buffer
 
         // First call is to get the required size of output buffer
         AssocQueryString(AssocF.Verify, assocStr, doctype, null, null, ref pcchOut);
@@ -88,8 +83,7 @@ public class Shlwapi
     }
 
     [Serializable]
-    public class Assoc
-    {
+    public class WinapiEntry {
         public string FriendlyAppName { get; set; }
         public string Command { get; set; }
         public string FriendlyDocName { get; set; }
@@ -106,8 +100,7 @@ public class Shlwapi
         public string AppId { get; set; }
         public string AppPublisher { get; set; }
 
-        public override string ToString()
-        {
+        public override string ToString() {
             string r = "";
             r += String.Format("FriendlyAppName: {0}\n", FriendlyAppName);
             r += String.Format("Command: {0}\n", Command);
@@ -130,25 +123,23 @@ public class Shlwapi
         }
     }
 
-    public static Assoc Query(string data)
-    {
-        Assoc assoc = new Assoc();
-
-        assoc.Command = Shlwapi.AssocQueryString(Shlwapi.AssocStr.Command, data);
-        assoc.Executable = Shlwapi.AssocQueryString(Shlwapi.AssocStr.Executable, data);
-        assoc.FriendlyAppName = Shlwapi.AssocQueryString(Shlwapi.AssocStr.FriendlyAppName, data);
-        assoc.FriendlyDocName = Shlwapi.AssocQueryString(Shlwapi.AssocStr.FriendlyDocName, data);
-        assoc.NoOpen = Shlwapi.AssocQueryString(Shlwapi.AssocStr.NoOpen, data);
-        assoc.ShellNewValue = Shlwapi.AssocQueryString(Shlwapi.AssocStr.ShellNewValue, data);
-        assoc.DDECommand = Shlwapi.AssocQueryString(Shlwapi.AssocStr.DDECommand, data);
-        assoc.DDEIfExec = Shlwapi.AssocQueryString(Shlwapi.AssocStr.DDEIfExec, data);
-        assoc.DDEApplication = Shlwapi.AssocQueryString(Shlwapi.AssocStr.DDEApplication, data);
-        assoc.ContentType = Shlwapi.AssocQueryString(Shlwapi.AssocStr.CONTENTTYPE, data);
-        assoc.SupportedUri = Shlwapi.AssocQueryString(Shlwapi.AssocStr.SUPPORTED_URI_PROTOCOLS, data);
-        assoc.Progid = Shlwapi.AssocQueryString(Shlwapi.AssocStr.PROGID, data);
-        assoc.AppId = Shlwapi.AssocQueryString(Shlwapi.AssocStr.APPID, data);
-        assoc.AppPublisher = Shlwapi.AssocQueryString(Shlwapi.AssocStr.APPPUBLISHER, data);
-
+    public static WinapiEntry Query(string ext) {
+        WinapiEntry assoc = new WinapiEntry();
+        assoc.Command = Winapi.AssocQueryString(Winapi.AssocStr.Command, ext);
+        assoc.Executable = Winapi.AssocQueryString(Winapi.AssocStr.Executable, ext);
+        assoc.FriendlyAppName = Winapi.AssocQueryString(Winapi.AssocStr.FriendlyAppName, ext);
+        assoc.FriendlyDocName = Winapi.AssocQueryString(Winapi.AssocStr.FriendlyDocName, ext);
+        assoc.NoOpen = Winapi.AssocQueryString(Winapi.AssocStr.NoOpen, ext);
+        assoc.ShellNewValue = Winapi.AssocQueryString(Winapi.AssocStr.ShellNewValue, ext);
+        assoc.DDECommand = Winapi.AssocQueryString(Winapi.AssocStr.DDECommand, ext);
+        assoc.DDEIfExec = Winapi.AssocQueryString(Winapi.AssocStr.DDEIfExec, ext);
+        assoc.DDEApplication = Winapi.AssocQueryString(Winapi.AssocStr.DDEApplication, ext);
+        assoc.ContentType = Winapi.AssocQueryString(Winapi.AssocStr.CONTENTTYPE, ext);
+        assoc.SupportedUri = Winapi.AssocQueryString(Winapi.AssocStr.SUPPORTED_URI_PROTOCOLS, ext);
+        assoc.Progid = Winapi.AssocQueryString(Winapi.AssocStr.PROGID, ext);
+        assoc.AppId = Winapi.AssocQueryString(Winapi.AssocStr.APPID, ext);
+        assoc.AppPublisher = Winapi.AssocQueryString(Winapi.AssocStr.APPPUBLISHER, ext);
         return assoc;
     }
+
 }
