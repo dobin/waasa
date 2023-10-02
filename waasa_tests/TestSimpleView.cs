@@ -7,9 +7,7 @@ namespace waasa_tests {
 
     [TestClass]
     public class TestSimpleView {
-        static string json = @"";
-
-        static GatheredDataSimpleView getData() {
+        static GatheredDataSimpleView? getData() {
             var filename = "gathereddata-small.json";
             if (!File.Exists(filename)) {
                 Console.WriteLine("  Not found. No data.");
@@ -17,14 +15,14 @@ namespace waasa_tests {
             }
             string jsonString = File.ReadAllText(filename);
             var GatheredData = JsonSerializer.Deserialize<_GatheredData>(jsonString)!;
-            var Registry = new GatheredDataSimpleView();
-            Registry.Load(GatheredData);
+            var Registry = new GatheredDataSimpleView(GatheredData);
             return Registry;
         }
 
         [TestMethod]
         public void TestVirtRegHkcr() {
             var Registry = getData();
+            Assert.IsNotNull(Registry);
 
             Assert.AreEqual(true, Registry.hasRootDefault(".386"));
             Assert.AreEqual("vxdfile", Registry.getRootDefault(".386"));
@@ -50,6 +48,7 @@ namespace waasa_tests {
         [TestMethod]
         public void TestVirtRegUser() {
             var Registry = getData();
+            Assert.IsNotNull(Registry);
             Assert.AreEqual("AppX6eg8h5sxqq90pv53845wmnbewywdqq5h", Registry.getUserChoice(".3g2"));
             Assert.AreEqual(2, Registry.countUserOpenWithProgids(".3g2"));
             Assert.AreEqual("2", Registry.countUserOpenWithList(".3fr"));

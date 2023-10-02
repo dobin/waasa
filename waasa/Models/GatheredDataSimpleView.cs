@@ -6,45 +6,45 @@ using waasa.Services;
 namespace waasa.Models {
 
     public class _FileExtensionDebug {
-        public string Extension { get; set; }
-        public string Result { get; set; }
-        public string Assumption { get; set; }
-        public string AppName { get; set; }
-        public string AppPath { get; set; }
-        public string DdeExec { get; set; }
+        public string Extension { get; set; } = "";
+        public string Result { get; set; } = "";
+        public string Assumption { get; set; } = "";
+        public string AppName { get; set; } = "";
+        public string AppPath { get; set; } = "";
+        public string DdeExec { get; set; } = "";
 
-        public string SysFileAssoc { get; set; }
-        public string WinFileAssoc { get; set; }
+        public string SysFileAssoc { get; set; } = "";
+        public string WinFileAssoc { get; set; } = "";
 
-        public string HKCU_SwCls { get; set; }
+        public string HKCU_SwCls { get; set; } = "";
         public bool HKLU_has { get; set; }
 
-        public string User_Choice { get; set; }
+        public string User_Choice { get; set; } = "";
         public bool User_ChoiceExec { get; set; }
         public bool User_ChoiceToast { get; set; }
 
         public int User_CntProgids { get; set; }
-        public string User_ProgidOne { get; set; }
+        public string User_ProgidOne { get; set; } = "";
         public bool User_ProgidOneExec { get; set; }
         public bool User_ProgidOneToast { get; set; }
         public bool User_ProgIdsValid { get; set; }
         public bool User_ProgIdsValid2 { get; set; }
-        public string User_CntList { get; set; }
+        public string User_CntList { get; set; } = "";
         public bool User_ValidList { get; set; }
 
-        public string Root_Default { get; set; }
+        public string Root_Default { get; set; } = "";
         public bool Root_DefaultExec { get; set; }
         public bool Root_DefaultToast { get; set; }
         public int Root_CntProgids { get; set; }
         public bool Root_ProgidsValid { get; set; }
-        public string Root_ProgidOne { get; set; }
+        public string Root_ProgidOne { get; set; } = "";
         public bool Root_ProgidOneExec { get; set; }
         public bool Root_ProgidOneToast { get; set; }
         public int Root_CountList { get; set; }
         public bool Root_ListIsValid { get; set; }
-        public string Root_PersistentHandler { get; set; }
-        public string Root_ContentType { get; set; }
-        public string Root_PerceivedType { get; set; }
+        public string Root_PersistentHandler { get; set; } = "";
+        public string Root_ContentType { get; set; } = "";
+        public string Root_PerceivedType { get; set; } = "";
     }
 
 
@@ -54,10 +54,7 @@ namespace waasa.Models {
     public class GatheredDataSimpleView {
         private _GatheredData GatheredData;
 
-        public GatheredDataSimpleView() {
-        }
-
-        public void Load(_GatheredData gatheredData) {
+        public GatheredDataSimpleView(_GatheredData gatheredData) {
             GatheredData = gatheredData;
         }
 
@@ -155,7 +152,9 @@ namespace waasa.Models {
             if (countUserOpenWithProgids(extension) == 1) {
                 string path = string.Format("{0}\\OpenWithProgids", extension);
                 var res = GatheredData.HKCU_ExplorerFileExts.GetDir(path);
-                return res.Keys.First().Key;
+                if (res != null) {
+                    return res.Keys.First().Key;
+                }
             }
             return "";
         }
@@ -453,13 +452,14 @@ namespace waasa.Models {
         }
 
         public string getWinFileAssoc(string extension) {
-            var path = string.Format("{0}");
             var res = GatheredData.HKCR_FileTypeAssociations.GetDir(extension);
             if (res == null) {
                 return "";
             }
             var d = GatheredData.HKCR_FileTypeAssociations.GetDir(extension);
-            if (d.SubDirectories.Count == 1) {
+            if (d == null) {
+                return "";
+            } else if (d.SubDirectories.Count == 1) {
                 return d.SubDirectories.First().Key;
             } else {
                 return d.SubDirectories.Count.ToString();

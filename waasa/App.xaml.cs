@@ -63,8 +63,8 @@ namespace waasa {
     /// The main function?
     /// </summary>
     public partial class App : Application {
-        private _GatheredData GatheredData { get; set; }
-        private GatheredDataSimpleView SimpleRegistryView { get; set; } = new GatheredDataSimpleView();
+        private _GatheredData GatheredData { get; set; } = new _GatheredData();
+        private GatheredDataSimpleView SimpleRegistryView { get; set; } = new GatheredDataSimpleView(new _GatheredData());
         private Validator Validator { get; set; } = new Validator();
         private Analyzer Analyzer { get; set; } = new Analyzer();
 
@@ -81,20 +81,15 @@ namespace waasa {
 
             string jsonString = File.ReadAllText(dumpFilepath);
             GatheredData = JsonSerializer.Deserialize<_GatheredData>(jsonString)!;
-            SimpleRegistryView.Load(GatheredData);
+            SimpleRegistryView = new GatheredDataSimpleView(GatheredData);
             Validator.LoadFromFile(opensFilepath);
             Analyzer.Load(GatheredData, Validator, SimpleRegistryView);
         }
 
 
-        void UsageGui(string dumpFilepath, string opensFilepath) {
+        void UsageGui() {
             this.ShutdownMode = ShutdownMode.OnMainWindowClose;
-
-            if (!File.Exists(dumpFilepath)) {
-                UsageDumpDataToFile(dumpFilepath);
-            }
-
-            MainWindow mainWindow = new MainWindow(dumpFilepath, opensFilepath);
+            MainWindow mainWindow = new MainWindow(GatheredData, SimpleRegistryView, Analyzer);
             mainWindow.Show();
         }
 
@@ -142,7 +137,7 @@ namespace waasa {
             }
         }
 
-
+        #pragma warning disable CS8618
         public class Options {
             [Option("verbose", Required = false, HelpText = "More detailed output")]
             public bool Verbose { get; set; }
@@ -185,6 +180,7 @@ namespace waasa {
             [Option("files", Required = false, HelpText = "Generate a file of each extension into output/")]
             public bool Files { get; set; }
         }
+        #pragma warning restore CS8618
 
 
         protected override void OnStartup(StartupEventArgs e) {
@@ -226,7 +222,8 @@ namespace waasa {
                       this.Shutdown();
                       return;
                   } else {
-                      UsageGui(o.DumpInputFile, o.OpensInputFile);
+                      init(o.DumpInputFile, o.OpensInputFile);
+                      UsageGui();
                       return;
                   }
                   this.Shutdown();

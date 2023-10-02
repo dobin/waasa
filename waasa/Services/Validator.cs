@@ -27,7 +27,7 @@ namespace waasa.Services {
             Console.WriteLine("Validator: " + opensFilename);
             using (var fileStream = File.OpenRead(opensFilename))
             using (var streamReader = new StreamReader(fileStream, Encoding.UTF8, true, 512)) {
-                string line;
+                string? line;
                 while ((line = streamReader.ReadLine()) != null) {
                     // Process line
                     var s = line.Split(':');

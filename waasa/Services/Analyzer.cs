@@ -11,9 +11,9 @@ namespace waasa.Services {
     /// which contain all extensions and their associated path.
     /// </summary>
     public class Analyzer {
-        private _GatheredData GatheredData { get; set; }
-        private Validator Validator { get; set; }
-        private GatheredDataSimpleView Registry { get; set; }
+        private _GatheredData GatheredData { get; set; } = new _GatheredData();
+        private Validator Validator { get; set; } = new Validator();
+        private GatheredDataSimpleView Registry { get; set; } = new GatheredDataSimpleView(new _GatheredData());
         private List<_FileExtension> FileExtensions { get; set; } = new List<_FileExtension>();
 
 

@@ -43,7 +43,7 @@ namespace waasa.Models {
         }
 
 
-        public _RegDirectory GetDir(string path) {
+        public _RegDirectory? GetDir(string path) {
             if (path.Contains("\\")) {
                 int i = path.IndexOf("\\");
                 string currentDir = path.Substring(0, i);

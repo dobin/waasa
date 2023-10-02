@@ -12,9 +12,9 @@ namespace waasa
     {
         public class InfoData
         {
-            public string ExtensionRegInfo { get; set; }
-            public string ExtensionObjInfo { get; set; }
-            public string Shlwapi { get; set; }
+            public string ExtensionRegInfo { get; set; } = "";
+            public string ExtensionObjInfo { get; set; } = "";
+            public string Shlwapi { get; set; } = "";
         }
 
         

@@ -10,8 +10,8 @@ public class Winapi {
     [DllImport("Shlwapi.dll", SetLastError = true, CharSet = CharSet.Auto)]
 
     static extern uint AssocQueryString(
-        AssocF flags, AssocStr str, string pszAssoc, string pszExtra,
-        [Out] StringBuilder pszOut, [In][Out] ref uint pcchOut);
+        AssocF flags, AssocStr str, string pszAssoc, string? pszExtra,
+        [Out] StringBuilder? pszOut, [In][Out] ref uint pcchOut);
 
 
     // https://learn.microsoft.com/en-us/windows/win32/shell/assocf_str
@@ -84,21 +84,21 @@ public class Winapi {
 
     [Serializable]
     public class WinapiEntry {
-        public string FriendlyAppName { get; set; }
-        public string Command { get; set; }
-        public string FriendlyDocName { get; set; }
-        public string NoOpen { get; set; }
-        public string ShellNewValue { get; set; }
-        public string DDECommand { get; set; }
-        public string DDEIfExec { get; set; }
-        public string DDEApplication { get; set; }
+        public string FriendlyAppName { get; set; } = "";
+        public string Command { get; set; } = "";
+        public string FriendlyDocName { get; set; } = "";
+        public string NoOpen { get; set; } = "";
+        public string ShellNewValue { get; set; } = "";
+        public string DDECommand { get; set; } = "";
+        public string DDEIfExec { get; set; } = "";
+        public string DDEApplication { get; set; } = "";
 
-        public string Executable { get; set; }
-        public string ContentType { get; set; }
-        public string SupportedUri { get; set; }
-        public string Progid { get; set; }
-        public string AppId { get; set; }
-        public string AppPublisher { get; set; }
+        public string Executable { get; set; } = "";
+        public string ContentType { get; set; } = "";
+        public string SupportedUri { get; set; } = "";
+        public string Progid { get; set; } = "";
+        public string AppId { get; set; } = "";
+        public string AppPublisher { get; set; } = "";
 
         public override string ToString() {
             string r = "";

@@ -14,25 +14,25 @@ namespace waasa.Services {
         public List<string> ListedExtensions { get; set; } = new List<string>();
 
         // HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\
-        public _RegDirectory HKCU_ExplorerFileExts { get; set; }
+        public _RegDirectory HKCU_ExplorerFileExts { get; set; } = new _RegDirectory("");
 
         // HKCU\\SOFTWARE\Microsoft\Windows\CurrentVersion\ApplicationAssociationToasts
-        public _RegDirectory HKCU_ApplicationAssociationToasts { get; set; }
+        public _RegDirectory HKCU_ApplicationAssociationToasts { get; set; } = new _RegDirectory("");
 
         // HKCU\\Software\\Classes\\
-        public _RegDirectory HKCU_SoftwareClasses { get; set; }
+        public _RegDirectory HKCU_SoftwareClasses { get; set; } = new _RegDirectory("");
 
         // HKCR\\
-        public _RegDirectory HKCR { get; set; }
+        public _RegDirectory HKCR { get; set; } = new _RegDirectory("");
 
         // HKCR\\SystemFileAssociations
-        public _RegDirectory HKCR_SystemFileAssociations { get; set; }
+        public _RegDirectory HKCR_SystemFileAssociations { get; set; } = new _RegDirectory("");
 
         // HKCR\\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\PackageRepository\Extensions\windows.fileTypeAssociation
-        public _RegDirectory HKCR_FileTypeAssociations { get; set; }
+        public _RegDirectory HKCR_FileTypeAssociations { get; set; } = new _RegDirectory("");
 
         // HKCR\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\PackageRepository\
-        public _RegDirectory HKCR_PackageRepository { get; set; }
+        public _RegDirectory HKCR_PackageRepository { get; set; } = new _RegDirectory("");
 
         public Dictionary<string, Winapi.WinapiEntry> WinapiData { get; set; } = new Dictionary<string, Winapi.WinapiEntry>();
 
@@ -59,15 +59,17 @@ namespace waasa.Services {
         // Gather human-readable information about a extension
         public string GetExtensionInfo(string extension) {
             string ret = "";
+            _RegDirectory? dir;
 
             ret += string.Format("Extension: {0}\n", extension);
             ret += string.Format("\n");
 
             // HKLU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\
             ret += string.Format("HKLU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\{0}\\ \n", extension);
-            if (HKCU_ExplorerFileExts.HasDir(extension)) {
-                var y = HKCU_ExplorerFileExts.GetDir(extension);
-                ret += y.toStr(1);
+
+            dir = HKCU_ExplorerFileExts.GetDir(extension);
+            if (dir != null) {
+                ret += dir.toStr(1);
             } else {
                 ret += "  NOT EXIST\n";
             }
@@ -75,9 +77,9 @@ namespace waasa.Services {
 
             // HKCR\
             ret += string.Format("HKCR\\{0}\\ \n", extension);
-            if (HKCR.HasDir(extension)) {
-                var x = HKCR.GetDir(extension);
-                ret += x.toStr(1);
+            dir = HKCR.GetDir(extension);
+            if (dir != null) {
+                ret += dir.toStr(1);
             } else {
                 ret += "  Not found\n";
             }
@@ -85,12 +87,12 @@ namespace waasa.Services {
 
             // HKCU\Software\Classes
             ret += string.Format("\n");
-            if (!HKCU_SoftwareClasses.HasDir(extension)) {
-                ret += string.Format("HKCU\\Software\\Classes\\{0} not found\n", extension);
-            } else {
-                var x = HKCU_SoftwareClasses.GetDir(extension);
+            dir = HKCU_SoftwareClasses.GetDir(extension);
+            if (dir != null) {
                 ret += string.Format("HKCU\\Software\\Classes\\{0}\\ \n", extension);
-                ret += x.toStr(1);
+                ret += dir.toStr(1);
+            } else {
+                ret += string.Format("HKCU\\Software\\Classes\\{0} not found\n", extension);
             }
 
             return ret;
@@ -100,24 +102,25 @@ namespace waasa.Services {
         // Gather human-readable information about a objid
         public string GetObjidInfo(string objid) {
             string ret = "";
+            _RegDirectory? dir;
 
             // HKCR
             ret += string.Format("HKCR\\{0}\\ \n", objid);
-            if (!HKCR.HasDir(objid)) {
-                ret += string.Format("  not found\n", objid);
+            dir = HKCR.GetDir(objid);
+            if (dir != null) {
+                ret += dir.toStr(1);
             } else {
-                var x = HKCR.GetDir(objid);
-                ret += x.toStr(1);
+                ret += string.Format("  not found\n", objid);
             }
 
             // HKCU\Software\Classes
             ret += string.Format("\n");
             ret += string.Format("HKCU\\Software\\Classes\\{0}\\ \n", objid);
-            if (!HKCU_SoftwareClasses.HasDir(objid)) {
-                ret += "  Not found";
+            dir = HKCU_SoftwareClasses.GetDir(objid);
+            if (dir != null) {
+                ret += dir.toStr(1);
             } else {
-                var x = HKCU_SoftwareClasses.GetDir(objid);
-                ret += x.toStr(1);
+                ret += "  Not found";
             }
 
             return ret;
@@ -208,7 +211,8 @@ namespace waasa.Services {
             Console.WriteLine("  Finished");
         }
 
-        private _RegDirectory FromRegistry(RegistryKey registryKey, string path, HashSet<string> excludes = null) {
+
+        private _RegDirectory FromRegistry(RegistryKey registryKey, string path, HashSet<string>? excludes = null) {
             // Open initial directory
             _RegDirectory rootDir = new _RegDirectory(registryKey.Name + "\\" + path);
             var reg = registryKey.OpenSubKey(path);
@@ -219,7 +223,9 @@ namespace waasa.Services {
             // Keys
             foreach (var key in reg.GetValueNames()) {
                 var value = Convert.ToString(reg.GetValue(key));
-                rootDir.AddKey(key, value);
+                if (value != null) {
+                    rootDir.AddKey(key, value);
+                }
             }
 
             // Directories

@@ -13,8 +13,8 @@ namespace waasa_tests {
             d1.AddDir("level2.1", d21);
             d1.AddDir("level2.2", d22);
             d21.AddDir("level3", d3);
-            Assert.AreEqual(d1.GetDir("level2.1").Name, "level2.1");
-            Assert.AreEqual(d1.GetDir("level2.1\\level3").Name, "level3");
+            Assert.AreEqual(d1.GetDir("level2.1")?.Name, "level2.1");
+            Assert.AreEqual(d1.GetDir("level2.1\\level3")?.Name, "level3");
             Assert.AreEqual(d1.GetDir("level2.1\\asdf"), null);
 
             d1.AddKey("Test1", "test1");
