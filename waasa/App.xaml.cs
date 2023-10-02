@@ -137,6 +137,13 @@ namespace waasa {
             }
         }
 
+        async void UsageHttp(string a) {
+            HttpAnswerInfo answer = await Requestor.Get("");
+            Console.WriteLine("StautsCode: " + answer.StatusCode);
+            Console.WriteLine("Filename CD: " + answer.Filename);
+            Console.WriteLine("Data: " + answer.Content);
+        }
+
         #pragma warning disable CS8618
         public class Options {
             [Option("verbose", Required = false, HelpText = "More detailed output")]
@@ -173,8 +180,12 @@ namespace waasa {
             [Option("obj", Required = false, HelpText = "Print information about an ObjId from typical Registry keys")]
             public string InfoObj { get; set; }
 
-            [Option("assoc", Required = false, HelpText = "Print information about an extension from Windows shlwAPI")]
-            public string Assoc { get; set; }
+            [Option("winapi", Required = false, HelpText = "Print information about an extension from Windows shlwAPI")]
+            public string Winapi { get; set; }
+
+            [Option("http", Required = false, HelpText = "")]
+            public string Http { get; set; }
+
 
             // Generate
             [Option("files", Required = false, HelpText = "Generate a file of each extension into output/")]
@@ -214,19 +225,18 @@ namespace waasa {
                   } else if (o.InfoObj != null) {
                       init(o.DumpInputFile, o.OpensInputFile);
                       UsageTestObjid(o.InfoObj);
-                  } else if (o.Assoc != null) {
+                  } else if (o.Winapi != null) {
                       init(o.DumpInputFile, o.OpensInputFile);
-                      UsageTestWinApi(o.Assoc);
+                      UsageTestWinApi(o.Winapi);
                   } else if (o.Dump != null) {
                       UsageDumpDataToFile(o.Dump);
-                      this.Shutdown();
-                      return;
+                  } else if (o.Http != null) {
+                      UsageHttp(o.Http);
                   } else {
                       init(o.DumpInputFile, o.OpensInputFile);
                       UsageGui();
-                      return;
                   }
-                  this.Shutdown();
+                  //this.Shutdown();
               });
         }
     }

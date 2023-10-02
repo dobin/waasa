@@ -11,7 +11,7 @@ using System.Text.Json;
 using System.ComponentModel;
 using waasa.Services;
 using waasa.Models;
-
+using waasa.UI;
 
 namespace waasa {
     /// UI mostly done with ChatGPT
@@ -26,6 +26,8 @@ namespace waasa {
 
         ICollectionView collectionView;
         private string searchFilter = "";
+
+        private bool showReference = false;
 
 
         public MainWindow(_GatheredData gatheredData, GatheredDataSimpleView simpleView, Analyzer analyzer) {
@@ -74,7 +76,8 @@ namespace waasa {
 
         private void ButtonDownload(object sender, RoutedEventArgs e) {
             _FileExtension fe = (_FileExtension)((Button)sender).DataContext;
-            Console.WriteLine($"ButtonExec{fe.Extension} {fe.Result} clicked the button!");
+            WindowDownload secondWindow = new WindowDownload(fe);
+            secondWindow.Show();
         }
 
         private void ButtonBrowserDownload(object sender, RoutedEventArgs e) {
@@ -112,7 +115,15 @@ namespace waasa {
         private void Menu_LoadDumpFile(object sender, RoutedEventArgs e) {
         }
 
-        
+        private void MenuReferenceOnChecked(object sender, RoutedEventArgs e) {
+            dataGrid.Columns[1].Visibility = Visibility.Visible;
+        }
+
+        private void MenuReferenceOnUnchecked(object sender, RoutedEventArgs e) {
+            dataGrid.Columns[1].Visibility = Visibility.Collapsed;
+        }
+
+
         /*** Other UI Functionality ***/
 
         public void SetSearchFilter() {

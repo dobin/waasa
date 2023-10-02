@@ -28,13 +28,14 @@
             </MenuItem>
             <MenuItem Header="Options">
                 <MenuItem Header="Filter (ctrl-f)" Click="Menu_Filter" />
+                <MenuItem Header="Show reference" IsCheckable="True" Checked="MenuReferenceOnChecked" Unchecked="MenuReferenceOnUnchecked" />
             </MenuItem>
         </Menu>
 
         <DataGrid Name="dataGrid" AutoGenerateColumns="False" CanUserSortColumns="True" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Extension" Binding="{Binding Extension}" SortDirection="Ascending" />
-                <DataGridTextColumn Header="Result" Binding="{Binding Result}" />
+                <DataGridTextColumn Header="Reference" Binding="{Binding Result}" Visibility="Collapsed" />
                 <DataGridTextColumn Header="Assumption" Binding="{Binding Assumption}" />
                 <DataGridTextColumn Header="Judgement" Binding="{Binding Judgement}" />
                 <DataGridTextColumn Header="AppName" Binding="{Binding AppName}" />
