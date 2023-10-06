@@ -9,6 +9,8 @@ using CsvHelper.Configuration;
 using System.Globalization;
 using waasa.Services;
 using waasa.Models;
+using System.Threading.Tasks;
+using Serilog;
 
 
 namespace waasa {
@@ -137,13 +139,16 @@ namespace waasa {
             }
         }
 
-        async void UsageHttp(string a) {
-            ContentFilter cf = new ContentFilter();
-            //await cf.analyze();
-            //HttpAnswerInfo answer = await Requestor.Get("");
-            //Console.WriteLine("StautsCode: " + answer.StatusCode);
-            //Console.WriteLine("Filename CD: " + answer.Filename);
-            //Console.WriteLine("Data: " + answer.Content);
+        async Task UsageHttp(string ext) {
+            Log.Information("Content Filter Test for extension {A}", ext);
+            _FileExtension fe = new _FileExtension();
+            fe.Extension = ext;
+            await ContentFilter.analyzeExtension(fe);
+
+
+            Console.WriteLine($"Default: {fe.TestResults[0].Conclusion} ({fe.TestResults[0].HttpStatusCode})");
+            Console.WriteLine($"NoMime: {fe.TestResults[1].Conclusion} ({fe.TestResults[1].HttpStatusCode})");
+            Console.WriteLine($"NoMimeNoFilename: {fe.TestResults[2].Conclusion} ({fe.TestResults[2].HttpStatusCode})");
         }
 
         #pragma warning disable CS8618
@@ -198,11 +203,14 @@ namespace waasa {
 
         protected override void OnStartup(StartupEventArgs e) {
             base.OnStartup(e);
+
+            Log.Logger = new LoggerConfiguration().WriteTo.Console().CreateLogger();
+            Log.Information("Waasa");
             // Set the shutdown mode to explicit shutdown
             //this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
             CommandLine.Parser.Default.ParseArguments<Options>(e.Args)
-              .WithParsed<Options>(o => {
+              .WithParsed<Options>(async o => {
                   if (o.TestAll) {
                       init(o.DumpInputFile, o.OpensInputFile);
                       UsageTestAll();
@@ -233,12 +241,12 @@ namespace waasa {
                   } else if (o.Dump != null) {
                       UsageDumpDataToFile(o.Dump);
                   } else if (o.Http != null) {
-                      UsageHttp(o.Http);
+                      await UsageHttp(o.Http);
                   } else {
                       init(o.DumpInputFile, o.OpensInputFile);
                       UsageGui();
                   }
-                  //this.Shutdown();
+                  this.Shutdown();
               });
         }
     }
