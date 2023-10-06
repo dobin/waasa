@@ -138,10 +138,12 @@ namespace waasa {
         }
 
         async void UsageHttp(string a) {
-            HttpAnswerInfo answer = await Requestor.Get("");
-            Console.WriteLine("StautsCode: " + answer.StatusCode);
-            Console.WriteLine("Filename CD: " + answer.Filename);
-            Console.WriteLine("Data: " + answer.Content);
+            ContentFilter cf = new ContentFilter();
+            //await cf.analyze();
+            //HttpAnswerInfo answer = await Requestor.Get("");
+            //Console.WriteLine("StautsCode: " + answer.StatusCode);
+            //Console.WriteLine("Filename CD: " + answer.Filename);
+            //Console.WriteLine("Data: " + answer.Content);
         }
 
         #pragma warning disable CS8618

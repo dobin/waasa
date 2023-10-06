@@ -1,4 +1,6 @@
-﻿using waasa.Services;
+﻿using System.Windows.Documents;
+using waasa.Services;
+using System.Collections.Generic;
 
 
 namespace waasa.Models {
@@ -15,6 +17,13 @@ namespace waasa.Models {
 
         // Pointer to source
         public Winapi.WinapiEntry WinApiEntry { get; set; } = new Winapi.WinapiEntry();
+
+        // Results
+        public List<TestResult> TestResults { get; set; } = new List<TestResult> {
+            new TestResult(),
+            new TestResult(),
+            new TestResult()
+        };
     }
 
 

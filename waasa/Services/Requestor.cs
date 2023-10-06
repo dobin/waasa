@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Net.Http;
 using System.Net.Mime;
+using System.Text;
 using System.Threading.Tasks;
 
 
 namespace waasa.Services {
+
     class HttpAnswerInfo {
         public int StatusCode { get; set; } = 0;
         public string Filename { get; set; } = "";
@@ -25,10 +27,19 @@ namespace waasa.Services {
         private static readonly HttpClient client = new HttpClient();
 
 
-        public static async Task<HttpAnswerInfo> Get(string filename) {
-            Console.WriteLine("Requestor: " + filename);
+        public static async Task<HttpAnswerInfo> Get(string filename, string server = "http://localhost:5002", string api = "simple") {
+            /*var uriBuilder = new UriBuilder {
+                Scheme = "http",
+                Host = "www.example.com",
+                Path = "path/to/resource",
+                Query = "param1=value1&param2=value2"
+            };*/
 
-            string url = "http://localhost:5002/" + "simple/" + filename;
+            if (api == "nomimenofilename") {
+                filename = Convert.ToBase64String(Encoding.UTF8.GetBytes(filename));
+            }
+
+            string url = $"{server}/{api}/{filename}";
             HttpResponseMessage response = await client.GetAsync(url);
             string responseData = await response.Content.ReadAsStringAsync();
 

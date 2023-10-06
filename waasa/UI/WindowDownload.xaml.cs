@@ -26,35 +26,52 @@ namespace waasa.UI {
         public WindowDownload(_FileExtension fe) {
             InitializeComponent();
             FileExtension = fe;
-            DataContext = new TextboxViewModel();
+            DataContext = new DownloadWindowDataModel();
+
+            dataGrid.ItemsSource = FileExtension.TestResults;
         }
 
         private async void ButtonDownload(object sender, RoutedEventArgs e) {
-            var viewModel = (TextboxViewModel)DataContext;
+            var viewModel = (DownloadWindowDataModel)DataContext;
 
-            viewModel.OutputTextBox = "Downloading: " + FileExtension.Extension + " ...";
-            HttpAnswerInfo answer = await Requestor.Get("test" + FileExtension.Extension);
-            viewModel.OutputTextBox = answer.StatusCode + " " + answer.Filename + " " + answer.Content;
+            viewModel.LogTextBox = "Downloading...";
+            await ContentFilter.analyzeExtension(FileExtension);
+            dataGrid.Items.Refresh();
+            viewModel.LogTextBox = "Success";
         }
 
 
-        public class TextboxViewModel : INotifyPropertyChanged {
-            private string _text = "";
-            public string OutputTextBox {
-                get { return _text; }
+        public class DownloadWindowDataModel : INotifyPropertyChanged {
+            public string ServerTextBox { get; set; } = Properties.Settings.Default.WAASA_SERVER;
+
+            /* Log Text Box update */
+            private string _log = "";
+            public string LogTextBox {
+                get { return _log; }
                 set {
-                    if (_text != value) {
-                        _text = value;
-                        OnPropertyChanged(nameof(OutputTextBox));
+                    if (_log != value) {
+                        _log = value;
+                        OnPropertyChanged(nameof(LogTextBox));
                     }
                 }
             }
-
             public event PropertyChangedEventHandler PropertyChanged;
-
             protected void OnPropertyChanged(string propertyName) {
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+                Console.WriteLine("OnPropertyChanged");
             }
+        }
+
+
+        private void ServerTextBox_TextChanged(object sender, TextChangedEventArgs e) {
+            // Store new server value in config to persist it
+            TextBox? textBox = sender as TextBox;
+            if (textBox == null) {
+                return;
+            }
+            string newServer = textBox.Text;
+            Properties.Settings.Default.WAASA_SERVER = newServer;
+            Properties.Settings.Default.Save();
         }
     }
 }

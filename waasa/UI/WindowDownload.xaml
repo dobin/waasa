@@ -6,9 +6,26 @@
         xmlns:local="clr-namespace:waasa.UI"
         mc:Ignorable="d"
         Title="WindowDownload" Height="450" Width="800">
-    <Grid>
-        <Button Click="ButtonDownload"  Content="Download" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="-0.147,0.578"/>
-        <TextBox HorizontalAlignment="Center" Margin="0,35,0,0" TextWrapping="Wrap" Text="{Binding OutputTextBox}" VerticalAlignment="Top" Width="780" Height="399"/>
+    <StackPanel Orientation="Vertical">
+        <GroupBox Header="Content Filter Test Settings" >
+            <StackPanel Orientation="Horizontal" >
+                <Button Click="ButtonDownload"  Content="Download" />
+                
+                <Label>Server: </Label>
+                <TextBox TextWrapping="NoWrap" Text="{Binding ServerTextBox}" Width="182" TextChanged="ServerTextBox_TextChanged"/>
 
-    </Grid>
+                <Label>Log:</Label>
+                <TextBox TextWrapping="NoWrap" Text="{Binding LogTextBox, UpdateSourceTrigger=PropertyChanged}" Width="470" />
+            </StackPanel>
+        </GroupBox>
+
+        <DataGrid Name="dataGrid" AutoGenerateColumns="False" IsReadOnly="True" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="API" Binding="{Binding Api}" />
+                <DataGridTextColumn Header="Conclusion" Binding="{Binding Conclusion}" />
+                <DataGridTextColumn Header="HttpCode" Binding="{Binding HttpStatusCode}" />
+                <DataGridTextColumn Header="HttpAnswer" Binding="{Binding HttpAnswer}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </StackPanel>
 </Window>

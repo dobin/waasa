@@ -12,6 +12,7 @@ using System.ComponentModel;
 using waasa.Services;
 using waasa.Models;
 using waasa.UI;
+using System.Threading.Tasks;
 
 namespace waasa {
     /// UI mostly done with ChatGPT
@@ -62,19 +63,34 @@ namespace waasa {
 
         /*** Buttons ***/ 
 
-        private void ButtonExec(object sender, RoutedEventArgs e) {
+        /** Registry & File related **/
+
+        private void ButtonExecFile(object sender, RoutedEventArgs e) {
             _FileExtension fe = (_FileExtension)((Button)sender).DataContext;
-
             string filepath = System.Environment.GetEnvironmentVariable("TEMP") + "\\test" + fe.Extension;
-            Console.WriteLine($"File to exec: {filepath}");
-
             File.Create(filepath);
             ProcessStartInfo startInfo = new ProcessStartInfo("explorer.exe");
             startInfo.Arguments = filepath;
             Process.Start(startInfo);
         }
 
-        private void ButtonDownload(object sender, RoutedEventArgs e) {
+
+        private void ButtonShowRegistryInfo(object sender, RoutedEventArgs e) {
+            _FileExtension fe = (_FileExtension)((Button)sender).DataContext;
+            WindowInfo secondWindow = new WindowInfo(GatheredData, fe);
+            secondWindow.Show();
+        }
+
+
+        /** Content Filter related **/
+
+        private async void ButtonDownload(object sender, RoutedEventArgs e) {
+            _FileExtension fe = (_FileExtension)((Button)sender).DataContext;
+            await ContentFilter.analyzeExtension(fe);
+            collectionView.Refresh();
+        }
+
+        private void ButtonDownloadInfo(object sender, RoutedEventArgs e) {
             _FileExtension fe = (_FileExtension)((Button)sender).DataContext;
             WindowDownload secondWindow = new WindowDownload(fe);
             secondWindow.Show();
@@ -85,11 +101,7 @@ namespace waasa {
             Console.WriteLine($"ButtonExec{fe.Extension} {fe.Result} clicked the button!");
         }
 
-        private void ButtonDetails(object sender, RoutedEventArgs e) {
-            _FileExtension fe = (_FileExtension)((Button)sender).DataContext;
-            WindowInfo secondWindow = new WindowInfo(GatheredData, fe);
-            secondWindow.Show();
-        }
+
 
 
         /*** Menu Items ***/
