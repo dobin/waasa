@@ -39,7 +39,17 @@
                 <DataGridTextColumn Header="Assumption" Binding="{Binding Assumption}" />
                 <DataGridTextColumn Header="Judgement" Binding="{Binding Judgement}" />
                 <DataGridTextColumn Header="AppName" Binding="{Binding AppName}" />
-                <DataGridTextColumn Header="AppCommand" Binding="{Binding AppPath}" />
+
+                    <DataGridTemplateColumn Header="AppPath" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding AppPath}" 
+                               TextTrimming="CharacterEllipsis"
+                               ToolTip="{Binding AppPath}">
+                                </TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
 
                 <DataGridTemplateColumn Header="File">
                     <DataGridTemplateColumn.CellTemplate>
