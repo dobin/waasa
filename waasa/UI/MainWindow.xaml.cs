@@ -6,6 +6,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Diagnostics;
 using System.IO;
+using Serilog;
 
 using System.Text.Json;
 using System.ComponentModel;
@@ -31,12 +32,23 @@ namespace waasa {
         private bool showReference = false;
 
 
-        public MainWindow(_GatheredData gatheredData, GatheredDataSimpleView simpleView, Analyzer analyzer) {
+        public MainWindow(_GatheredData gatheredData) {
             InitializeComponent();
             DataContext = new MyViewModel(this);
+            init(gatheredData);
+        }
 
+        private void init(_GatheredData gatheredData) {
             GatheredData = gatheredData;
-            GatheredDataSimpleView = simpleView;
+
+            var SimpleRegistryView = new GatheredDataSimpleView(GatheredData);
+            var validator = new Validator();
+            var analyzer = new Analyzer();
+            validator.LoadFromFile("opens.txt");
+            analyzer.Load(GatheredData, validator, SimpleRegistryView);
+
+            FileExtensions = analyzer.getResolvedFileExtensions();
+            GatheredDataSimpleView = SimpleRegistryView;
             FileExtensions = analyzer.getResolvedFileExtensions();
 
             // Connect the UI table with our data
@@ -58,10 +70,11 @@ namespace waasa {
                 }
                 return false;
             };
+
         }
 
 
-        /*** Buttons ***/ 
+        /*** Buttons ***/
 
         /** Registry & File related **/
 
@@ -107,14 +120,97 @@ namespace waasa {
         /*** Menu Items ***/
 
         private void Menu_DumpData(object sender, RoutedEventArgs e) {
-            //var gather = new Gatherer();
-            //GatheredData = gather.GatherAll();
-            //parseGatheredData();
+            // dump registry from localhost and load into the ui
+            Log.Information("Dump from localhost");
+            var gatherer = new Gatherer();
+            var gatheredData = gatherer.GatherAll();
+            init(gatheredData);
         }
+
+
+        private void Menu_LoadDumpFile(object sender, RoutedEventArgs e) {
+            // open a registry dump file and load into the UI
+            Log.Information("Load dump file");
+            
+            var dialog = new Microsoft.Win32.OpenFileDialog();
+            dialog.FileName = "waasa";
+            dialog.DefaultExt = ".json";
+            dialog.Filter = "JSON files (.json)|*.json";
+
+            bool? result = dialog.ShowDialog();
+            if (result == false) {
+                return;
+            }
+
+            string dumpFilepath = dialog.FileName;
+            if (!File.Exists(dumpFilepath)) {
+                return;
+            }
+            Console.WriteLine("Using data from file: " + dumpFilepath);
+            string jsonString = File.ReadAllText(dumpFilepath);
+            var gatheredData = JsonSerializer.Deserialize<_GatheredData>(jsonString)!;
+            init(gatheredData);
+        }
+
+
+        private void Menu_LoadManualFile(object sender, RoutedEventArgs e) {
+            Log.Information("Load manual file");
+
+            var dialog = new Microsoft.Win32.OpenFileDialog();
+            dialog.FileName = "manual";
+            dialog.DefaultExt = ".txt";
+            dialog.Filter = "Text files (.txt)|*.txt";
+
+            bool? result = dialog.ShowDialog();
+            if (result == false) {
+                return;
+            }
+            string filepath = dialog.FileName;
+
+            try {
+                using (StreamReader sr = new StreamReader(filepath)) {
+                    string? line;
+                    while ((line = sr.ReadLine()) != null) {
+                        if (line == "") {
+                            continue;
+                        }
+                        var fe = new _FileExtension();
+                        fe.Extension = line;
+                        FileExtensions.Add(fe);
+                    }
+                }
+            } catch (IOException ex) {
+                Console.WriteLine("The file could not be read:");
+                Console.WriteLine(ex.Message);
+            }
+
+            dataGrid.ItemsSource = FileExtensions;
+            collectionView.Refresh();
+        }
+
 
         private void Menu_Filter(object sender, RoutedEventArgs e) {
             SetSearchFilter();
         }
+
+        private void Menu_SaveJson(object sender, RoutedEventArgs e) {
+            var dialog = new Microsoft.Win32.SaveFileDialog();
+            dialog.FileName = "waasa";
+            dialog.DefaultExt = ".json";
+            dialog.Filter = "JSON files (.json)|*.json";
+
+            bool? result = dialog.ShowDialog();
+            if (result == false) {
+                return;
+            }
+            string filepath = dialog.FileName;
+
+            using (StreamWriter writer = new StreamWriter(filepath)) {
+                string strJson = JsonSerializer.Serialize<_GatheredData>(GatheredData);
+                writer.WriteLine(strJson);
+            }
+        }
+
 
         private void Menu_SaveCsv(object sender, RoutedEventArgs e) {
             AppSharedFunctionality.usageCreateResultsCsvDebug("output.csv", FileExtensions, GatheredDataSimpleView);
@@ -124,8 +220,6 @@ namespace waasa {
             AppSharedFunctionality.usageCreateTestFiles(FileExtensions);
         }
 
-        private void Menu_LoadDumpFile(object sender, RoutedEventArgs e) {
-        }
 
         private void MenuReferenceOnChecked(object sender, RoutedEventArgs e) {
             dataGrid.Columns[1].Visibility = Visibility.Visible;

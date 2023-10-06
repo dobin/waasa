@@ -74,7 +74,7 @@ namespace waasa {
         /// <summary>
         /// Init everything required, from dumpFilePath and opensFilepath
         /// </summary>
-        private void init(string dumpFilepath, string opensFilepath) {
+        private void initCmd(string dumpFilepath, string opensFilepath) {
             if (!File.Exists(dumpFilepath)) {
                 Console.WriteLine("Dump file doesnt exist, creating: " + dumpFilepath);
                 UsageDumpDataToFile(dumpFilepath);
@@ -88,10 +88,23 @@ namespace waasa {
             Analyzer.Load(GatheredData, Validator, SimpleRegistryView);
         }
 
+        private void initUi(string dumpFilepath, string opensFilepath) {
+            if (! File.Exists(dumpFilepath)) {
+                return;
+            }
+            Console.WriteLine("Using data from file: " + dumpFilepath);
+
+            string jsonString = File.ReadAllText(dumpFilepath);
+            GatheredData = JsonSerializer.Deserialize<_GatheredData>(jsonString)!;
+            SimpleRegistryView = new GatheredDataSimpleView(GatheredData);
+            Validator.LoadFromFile(opensFilepath);
+            Analyzer.Load(GatheredData, Validator, SimpleRegistryView);
+        }
+
 
         void UsageGui() {
             this.ShutdownMode = ShutdownMode.OnMainWindowClose;
-            MainWindow mainWindow = new MainWindow(GatheredData, SimpleRegistryView, Analyzer);
+            MainWindow mainWindow = new MainWindow(GatheredData);
             mainWindow.Show();
         }
 
@@ -211,42 +224,46 @@ namespace waasa {
 
             CommandLine.Parser.Default.ParseArguments<Options>(e.Args)
               .WithParsed<Options>(async o => {
+                  bool ui = false;
                   if (o.TestAll) {
-                      init(o.DumpInputFile, o.OpensInputFile);
+                      initCmd(o.DumpInputFile, o.OpensInputFile);
                       UsageTestAll();
                   } else if (o.TestOne != null) {
-                      init(o.DumpInputFile, o.OpensInputFile);
+                      initCmd(o.DumpInputFile, o.OpensInputFile);
                       UsageTestOne(o.TestOne);
                   } else if (o.Csv != null) {
-                      init(o.DumpInputFile, o.OpensInputFile);
+                      initCmd(o.DumpInputFile, o.OpensInputFile);
                       var fileExtensions = Analyzer.getResolvedFileExtensions();
                       AppSharedFunctionality.usageCreateResultsCsv(o.Csv, fileExtensions);
                   } else if (o.CsvDebug != null) {
-                      init(o.DumpInputFile, o.OpensInputFile);
+                      initCmd(o.DumpInputFile, o.OpensInputFile);
                       var fileExtensions = Analyzer.getResolvedFileExtensions();
                       AppSharedFunctionality.usageCreateResultsCsvDebug(o.CsvDebug, fileExtensions, SimpleRegistryView);
                   } else if (o.Files) {
-                      init(o.DumpInputFile, o.OpensInputFile);
+                      initCmd(o.DumpInputFile, o.OpensInputFile);
                       var fileExtensions = Analyzer.getResolvedFileExtensions();
                       AppSharedFunctionality.usageCreateTestFiles(fileExtensions);
                   } else if (o.InfoExt != null) {
-                      init(o.DumpInputFile, o.OpensInputFile);
+                      initCmd(o.DumpInputFile, o.OpensInputFile);
                       UsageTestExt(o.InfoExt);
                   } else if (o.InfoObj != null) {
-                      init(o.DumpInputFile, o.OpensInputFile);
+                      initCmd(o.DumpInputFile, o.OpensInputFile);
                       UsageTestObjid(o.InfoObj);
                   } else if (o.Winapi != null) {
-                      init(o.DumpInputFile, o.OpensInputFile);
+                      initCmd(o.DumpInputFile, o.OpensInputFile);
                       UsageTestWinApi(o.Winapi);
                   } else if (o.Dump != null) {
                       UsageDumpDataToFile(o.Dump);
                   } else if (o.Http != null) {
                       await UsageHttp(o.Http);
                   } else {
-                      init(o.DumpInputFile, o.OpensInputFile);
+                      initUi(o.DumpInputFile, o.OpensInputFile);
                       UsageGui();
+                      ui = true;
                   }
-                  this.Shutdown();
+                  if (!ui) {
+                      this.Shutdown();
+                  }
               });
         }
     }

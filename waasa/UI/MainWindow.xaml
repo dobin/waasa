@@ -15,9 +15,11 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
-                <MenuItem Header="Aquire Dump" Click="Menu_DumpData" />
-                <MenuItem Header="Load Dump File" Click="Menu_LoadDumpFile" />
+                <MenuItem Header="Aquire extension data from this machine" Click="Menu_DumpData" />
+                <MenuItem Header="Load extension data from dump file" Click="Menu_LoadDumpFile" />
+                <MenuItem Header="Load extensions from manual file" Click="Menu_LoadManualFile" />
                 <Separator/>
+                <MenuItem Header="Save as JSON" Click="Menu_SaveJson" />
                 <MenuItem Header="Save as CSV" Click="Menu_SaveCsv" />
                 <MenuItem Header="Save as HTML" Click="Menu_SaveCsv" />
                 <Separator/>
