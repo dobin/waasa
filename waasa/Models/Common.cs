@@ -13,6 +13,8 @@ namespace waasa.Models {
 
         public string AppName { get; set; } = "";
         public string AppPath { get; set; } = "";
+        public string CmdName { get; set; } = "";
+        public string CmdArgs { get; set; } = "";
         public string AppPublisher { get; set; } = "";
 
         // Pointer to source
@@ -24,6 +26,14 @@ namespace waasa.Models {
             new TestResult(),
             new TestResult()
         };
+
+
+        public void SetCmd(string cmd) {
+            this.AppPath = cmd;
+            var res = CmdParser.CommandLineToResult(cmd);
+            this.CmdName = res.Item1;
+            this.CmdArgs = res.Item2;
+        }
     }
 
 

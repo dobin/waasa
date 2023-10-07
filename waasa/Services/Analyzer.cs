@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using waasa.Models;
-using static System.Net.Mime.MediaTypeNames;
+using Serilog;
 
 
 namespace waasa.Services {
@@ -22,7 +22,7 @@ namespace waasa.Services {
 
 
         public void Load(_GatheredData gatheredData, Validator validator, GatheredDataSimpleView registry) {
-            Console.WriteLine("Analyzer: Load");
+            Log.Information("Analyzer: Load and resolve extensions");
 
             GatheredData = gatheredData;
             Validator = validator;
@@ -50,7 +50,7 @@ namespace waasa.Services {
             // Data
             var winapiData = GatheredData.WinapiData[extension];
             fileExtension.AppName = winapiData.FriendlyAppName;
-            fileExtension.AppPath = winapiData.Command;
+            fileExtension.SetCmd(winapiData.Command);
             fileExtension.WinApiEntry = winapiData;
 
             // Analyze data to clean up and add all information for this extension

@@ -42,13 +42,15 @@
                 <DataGridTextColumn Header="Judgement" Binding="{Binding Judgement}" />
                 <DataGridTextColumn Header="AppName" Binding="{Binding AppName}" />
 
-                    <DataGridTemplateColumn Header="AppPath" Width="*">
+                <DataGridTextColumn Header="Exe" Binding="{Binding CmdName}" />
+
+                <DataGridTemplateColumn Header="Args" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding AppPath}" 
+                            <TextBlock Text="{Binding CmdArgs}" 
                                TextTrimming="CharacterEllipsis"
-                               ToolTip="{Binding AppPath}">
-                                </TextBlock>
+                               ToolTip="{Binding CmdArgs}">
+                             </TextBlock>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
