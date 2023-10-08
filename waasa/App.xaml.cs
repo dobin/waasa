@@ -14,101 +14,12 @@ using Serilog;
 
 
 namespace waasa {
+  
     /// <summary>
-    /// Functionality which is also used in the GUI
-    /// </summary>
-    class AppSharedFunctionality {
-        static public void usageCreateResultsCsv(string filepath, List<_FileExtension> fileExtensions) {
-            Console.WriteLine("Writing CSV to: " + filepath + " with " + fileExtensions.Count);
-
-            List<_CsvEntry> csvEntries = new List<_CsvEntry>();
-            foreach (var fileExtension in fileExtensions) {
-                csvEntries.Add(new _CsvEntry(fileExtension));
-            }
-
-            using var writer = new StreamWriter(filepath);
-            var config = new CsvConfiguration(CultureInfo.InvariantCulture) { };
-            using var csv = new CsvWriter(writer, config);
-            csv.WriteRecords(csvEntries);
-        }
-
-
-        static public void usageCreateResultsCsvDebug(string filepath, List<_FileExtension> fileExtensions, GatheredDataSimpleView registry) {
-            var fileExtensionsDebug = registry.GetFileExtensionDebug(fileExtensions);
-
-            Console.WriteLine("Writing CSVDebug to: " + filepath + " with " + fileExtensionsDebug.Count);
-            using var writer = new StreamWriter(filepath);
-            var config = new CsvConfiguration(CultureInfo.InvariantCulture) { };
-            using var csv = new CsvWriter(writer, config);
-            csv.WriteRecords(fileExtensionsDebug);
-        }
-
-
-        static public void usageCreateTestFiles(List<_FileExtension> fileExtensions) {
-            foreach (var app in fileExtensions) {
-                var output = "output";
-                var filename = "test" + app.Extension;
-                var directory = app.Assumption;
-
-                if (!Directory.Exists(output)) {
-                    Directory.CreateDirectory(output);
-                }
-                if (!Directory.Exists(output + "\\" + directory)) {
-                    Directory.CreateDirectory(output + "\\" + directory);
-                }
-                File.Create(output + "\\" + directory + "\\" + filename);
-            }
-        }
-    }
-
-    /// <summary>
-    /// The main function?
+    /// The main class
     /// </summary>
     public partial class App : Application {
-        private _GatheredData GatheredData { get; set; } = new _GatheredData();
-        private GatheredDataSimpleView SimpleRegistryView { get; set; } = new GatheredDataSimpleView(new _GatheredData());
-        private Validator Validator { get; set; } = new Validator();
-        private Analyzer Analyzer { get; set; } = new Analyzer();
-
-
-        /// <summary>
-        /// Init everything required, from dumpFilePath and opensFilepath
-        /// </summary>
-        private void initCmd(string dumpFilepath, string opensFilepath) {
-            if (!File.Exists(dumpFilepath)) {
-                Console.WriteLine("Dump file doesnt exist, creating: " + dumpFilepath);
-                UsageDumpDataToFile(dumpFilepath);
-            }
-            Console.WriteLine("Using data from file: " + dumpFilepath);
-
-            string jsonString = File.ReadAllText(dumpFilepath);
-            GatheredData = JsonSerializer.Deserialize<_GatheredData>(jsonString)!;
-            SimpleRegistryView = new GatheredDataSimpleView(GatheredData);
-            Validator.LoadFromFile(opensFilepath);
-            Analyzer.Load(GatheredData, Validator, SimpleRegistryView);
-        }
-
-        private void initUi(string dumpFilepath, string opensFilepath) {
-            if (! File.Exists(dumpFilepath)) {
-                return;
-            }
-            Console.WriteLine("Using data from file: " + dumpFilepath);
-
-            string jsonString = File.ReadAllText(dumpFilepath);
-            GatheredData = JsonSerializer.Deserialize<_GatheredData>(jsonString)!;
-            SimpleRegistryView = new GatheredDataSimpleView(GatheredData);
-            Validator.LoadFromFile(opensFilepath);
-            Analyzer.Load(GatheredData, Validator, SimpleRegistryView);
-        }
-
-
-        void UsageGui() {
-            this.ShutdownMode = ShutdownMode.OnMainWindowClose;
-            MainWindow mainWindow = new MainWindow(GatheredData);
-            mainWindow.Show();
-        }
-
-
+        /*
         void UsageTestAll() {
             var fileExtensions = Analyzer.getResolvedFileExtensions();
             Validator.PrintStats(fileExtensions);
@@ -141,17 +52,6 @@ namespace waasa {
         }
 
 
-        void UsageDumpDataToFile(string filepath) {
-            Console.WriteLine("Gathering all data from current system and store it in: " + filepath);
-            var gather = new Gatherer();
-            var gatheredData = gather.GatherAll();
-
-            using (StreamWriter writer = new StreamWriter(filepath)) {
-                string strJson = JsonSerializer.Serialize<_GatheredData>(gatheredData);
-                writer.WriteLine(strJson);
-            }
-        }
-
         async Task UsageHttp(string ext) {
             Log.Information("Content Filter Test for extension {A}", ext);
             _FileExtension fe = new _FileExtension();
@@ -163,9 +63,32 @@ namespace waasa {
             Console.WriteLine($"NoMime: {fe.TestResults[1].Conclusion} ({fe.TestResults[1].HttpStatusCode})");
             Console.WriteLine($"NoMimeNoFilename: {fe.TestResults[2].Conclusion} ({fe.TestResults[2].HttpStatusCode})");
         }
+        */
+
+
+        void FunctionalityDump(string filepath) {
+            Log.Information("Gathering all data from current system");
+            Log.Information("Filename for data: " + filepath);
+
+            var fileExtensions = Io.DumpFromSystem();
+            Io.WriteResultJson(fileExtensions, filepath);
+        }
+
+
+        void FunctionalityGui(string filepath) {
+            this.ShutdownMode = ShutdownMode.OnMainWindowClose;
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+        }
+
 
         #pragma warning disable CS8618
         public class Options {
+            [Option("dump", Required = false, HelpText = "Dump to the waasa JSON output filename")]
+            public string Dump { get; set; }
+
+
+            /*
             [Option("verbose", Required = false, HelpText = "More detailed output")]
             public bool Verbose { get; set; }
 
@@ -183,8 +106,7 @@ namespace waasa {
             [Option("csvdebug", Required = false, HelpText = "The debug output CSV filename")]
             public string CsvDebug { get; set; }
 
-            [Option("dump", Required = false, HelpText = "The waasa JSON output filename")]
-            public string Dump { get; set; }
+
 
             // Testing
             [Option("testall", Required = false, HelpText = "")]
@@ -210,6 +132,7 @@ namespace waasa {
             // Generate
             [Option("files", Required = false, HelpText = "Generate a file of each extension into output/")]
             public bool Files { get; set; }
+            */
         }
         #pragma warning restore CS8618
 
@@ -218,13 +141,22 @@ namespace waasa {
             base.OnStartup(e);
 
             Log.Logger = new LoggerConfiguration().WriteTo.Console().CreateLogger();
-            Log.Information("Waasa");
+            Log.Information("waasa - Windows Application Attack Surface Analyzer");
             // Set the shutdown mode to explicit shutdown
             //this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
             CommandLine.Parser.Default.ParseArguments<Options>(e.Args)
               .WithParsed<Options>(async o => {
                   bool ui = false;
+
+                  if (o.Dump != null) {
+                      FunctionalityDump(o.Dump);
+                  } else {
+                      FunctionalityGui("waasa-results.json");
+                      ui = true;
+                  }
+
+                  /*
                   if (o.TestAll) {
                       initCmd(o.DumpInputFile, o.OpensInputFile);
                       UsageTestAll();
@@ -261,6 +193,8 @@ namespace waasa {
                       UsageGui();
                       ui = true;
                   }
+                  */
+
                   if (!ui) {
                       this.Shutdown();
                   }

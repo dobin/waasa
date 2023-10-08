@@ -12,8 +12,7 @@ namespace waasa.Services {
     /// </summary>
     public class Analyzer {
         private _GatheredData GatheredData { get; set; } = new _GatheredData();
-        private Validator Validator { get; set; } = new Validator();
-        private GatheredDataSimpleView Registry { get; set; } = new GatheredDataSimpleView(new _GatheredData());
+        private GatheredDataSimpleView SimpleDataView { get; set; } = new GatheredDataSimpleView(new _GatheredData());
         private List<_FileExtension> FileExtensions { get; set; } = new List<_FileExtension>();
 
 
@@ -25,8 +24,7 @@ namespace waasa.Services {
             Log.Information("Analyzer: Load and resolve extensions");
 
             GatheredData = gatheredData;
-            Validator = validator;
-            Registry = registry;
+            SimpleDataView = registry;
 
             foreach (var extension in GatheredData.ListedExtensions) {
                 var fileExtension = resolveExtension(extension);
@@ -43,9 +41,6 @@ namespace waasa.Services {
         private _FileExtension resolveExtension(string extension) {
             _FileExtension fileExtension = new _FileExtension();
             fileExtension.Extension = extension;
-
-            // Validator Result
-            fileExtension.Result = Validator.GetEffectiveResultFor(extension);
 
             // Data
             var winapiData = GatheredData.WinapiData[extension];
@@ -69,8 +64,8 @@ namespace waasa.Services {
 
             } else if (fileExtension.WinApiEntry.FriendlyAppName == "") {
                 if (fileExtension.WinApiEntry.Command != "" 
-                    && !Registry.isValidRootProgids(fileExtension.Extension) 
-                    && Registry.hasRootDefault(fileExtension.Extension)) 
+                    && !SimpleDataView.isValidRootProgids(fileExtension.Extension) 
+                    && SimpleDataView.hasRootDefault(fileExtension.Extension)) 
                 {
                     // May also use: Root_DefaultExec
                     // Basically just .cmd, .com
@@ -82,7 +77,7 @@ namespace waasa.Services {
             } else if (fileExtension.WinApiEntry.Command != "") {
                 assumption = "exec2";
             } else {
-                if (Registry.countUserOpenWithProgids(fileExtension.Extension) < 2) {
+                if (SimpleDataView.countUserOpenWithProgids(fileExtension.Extension) < 2) {
                     assumption = "exec3";
                 } else {
                     assumption = "recommended1";
@@ -105,8 +100,8 @@ namespace waasa.Services {
                 // ???
                 if (appPath == "") {
                     // Content-Type -> Media player related
-                    if (Registry.getRootContentType(fileExtension.Extension) != "") {
-                        var exec = Registry.ContentTypeExec(Registry.getRootContentType(fileExtension.Extension));
+                    if (SimpleDataView.getRootContentType(fileExtension.Extension) != "") {
+                        var exec = SimpleDataView.ContentTypeExec(SimpleDataView.getRootContentType(fileExtension.Extension));
                         Console.WriteLine("A1: " + fileExtension.Extension + " " + exec);
                         appPath = exec;
                     }
@@ -114,8 +109,8 @@ namespace waasa.Services {
 
                 if (appPath == "") {
                     // Windows SystemApps related (Userchoice)
-                    if (Registry.getUserChoice(fileExtension.Extension) != "") {
-                        var exec = Registry.GetSystemApp(Registry.getUserChoice(fileExtension.Extension));
+                    if (SimpleDataView.getUserChoice(fileExtension.Extension) != "") {
+                        var exec = SimpleDataView.GetSystemApp(SimpleDataView.getUserChoice(fileExtension.Extension));
                         Console.WriteLine("A2: " + fileExtension.Extension + " " + exec);
                         appPath += exec;
                     }
@@ -123,8 +118,8 @@ namespace waasa.Services {
                 }
                 if (appPath == "") {
                     // Windows SystemApps related ()
-                    if (Registry.countRootProgids(fileExtension.Extension) == 1) {
-                        var exec = Registry.GetSystemApp(Registry.getRootProgid(fileExtension.Extension));
+                    if (SimpleDataView.countRootProgids(fileExtension.Extension) == 1) {
+                        var exec = SimpleDataView.GetSystemApp(SimpleDataView.getRootProgid(fileExtension.Extension));
                         Console.WriteLine("A3: " + fileExtension.Extension + " " + exec);
                         appPath += exec;
                     }
