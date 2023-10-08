@@ -17,6 +17,8 @@ namespace waasa.Models {
         public string CmdArgs { get; set; } = "";
         public string AppPublisher { get; set; } = "";
 
+        public bool isUwp { get; set; } = false;
+
         // Pointer to source
         public Winapi.WinapiEntry WinApiEntry { get; set; } = new Winapi.WinapiEntry();
 

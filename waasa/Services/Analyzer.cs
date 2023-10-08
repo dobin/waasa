@@ -50,10 +50,10 @@ namespace waasa.Services {
             // Data
             var winapiData = GatheredData.WinapiData[extension];
             fileExtension.AppName = winapiData.FriendlyAppName;
-            fileExtension.SetCmd(winapiData.Command);
             fileExtension.WinApiEntry = winapiData;
 
             // Analyze data to clean up and add all information for this extension
+            fileExtension.SetCmd(winapiData.Command);
             analyzeExtension(fileExtension);
 
             return fileExtension;
@@ -94,20 +94,12 @@ namespace waasa.Services {
             var appPath = fileExtension.AppPath;
             if (appPath == "") {
                 // Attempt to resolve from MS Store packages
-                if (appPath == "") {
-                    // Check if HKCR\<progId> exists
-                    if (GatheredData.HKCR.HasDir(fileExtension.WinApiEntry.Progid)) {
-                        // take HKCR\<progId>\shell\open\packageId
-                        var id = GatheredData.HKCR.GetKey(fileExtension.WinApiEntry.Progid + "\\shell\\open\\PackageId");
-                        if (id != "") {
-                            // Use that to index into PackageRepository
-                            if (GatheredData.HKCR_PackageRepository.HasDir(id)) {
-                                //GatheredData.ShlwapiAssoc[progid];
-                                appPath = GatheredData.HKCR_PackageRepository.GetKey(id + "\\PackageRootFolder");
-                                //Console.WriteLine("YYYY: " + appPath);
-                            }
-                        }
-                    }
+                if (UwpAnalyzer.progidToPath(fileExtension.WinApiEntry.Progid, GatheredData) != null) {
+                    appPath = UwpAnalyzer.progidToPath(fileExtension.WinApiEntry.Progid, GatheredData);
+                    fileExtension.isUwp = true;
+                    var exe = UwpAnalyzer.parseManifest(appPath + "\\" + "AppxManifest.xml");
+                    appPath += "\\" + exe;
+                    fileExtension.SetCmd('\"' + appPath + '\"');
                 }
 
                 // ???

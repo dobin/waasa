@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using System.Xml.Linq;
 using waasa.Models;
 using waasa.Services;
 
@@ -31,6 +32,14 @@ namespace waasa_tests {
             cmd = "";
             res = CmdParser.CommandLineToResult(cmd);
             Assert.AreEqual(res.Item1, "?");
+        }
+
+        [TestMethod]
+        public void TestXmlParser() {
+            string filePath = "AppxManifest-example.xml";
+            string? exe = UwpAnalyzer.parseManifest(filePath);
+            Assert.IsNotNull(exe);
+            Assert.AreEqual(exe, "PhotosApp.exe");
         }
     }
 }

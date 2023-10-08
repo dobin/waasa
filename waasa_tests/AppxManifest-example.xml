@@ -1,0 +1,964 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Package IgnorableNamespaces="uap rescap build" xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10" xmlns:desktop4="http://schemas.microsoft.com/appx/manifest/desktop/windows10/4" xmlns:iot2="http://schemas.microsoft.com/appx/manifest/iot/windows10/2" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4" xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5" xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" xmlns:build="http://schemas.microsoft.com/developer/appx/2015/build">
+	<Identity Name="Microsoft.Windows.Photos" Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US" Version="2023.11090.12017.0" ProcessorArchitecture="x64" />
+	<mp:PhoneIdentity PhoneProductId="fca55e1b-b9a4-4289-882f-084ef4145005" PhonePublisherId="95d94207-0c7c-47ed-82db-d75c81153c35" />
+	<Properties>
+		<DisplayName>ms-resource:AppStoreName</DisplayName>
+		<PublisherDisplayName>Microsoft Corporation</PublisherDisplayName>
+		<Logo>Images\PhotosStoreLogo.png</Logo>
+	</Properties>
+	<Dependencies>
+		<TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.19041.0" MaxVersionTested="10.0.22000.0" />
+		<PackageDependency Name="Microsoft.NET.Native.Framework.2.2" MinVersion="2.2.29512.0" Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US" />
+		<PackageDependency Name="Microsoft.NET.Native.Runtime.2.2" MinVersion="2.2.28604.0" Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US" />
+		<PackageDependency Name="Microsoft.Services.Store.Engagement" MinVersion="10.0.19011.0" Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US" />
+		<PackageDependency Name="Microsoft.VCLibs.140.00" MinVersion="14.0.30704.0" Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US" />
+		<PackageDependency Name="Microsoft.VCLibs.140.00.UWPDesktop" MinVersion="14.0.30704.0" Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US" />
+	</Dependencies>
+	<Resources>
+		<Resource Language="EN-US" />
+		<Resource Language="EN-GB" />
+		<Resource Language="AF-ZA" />
+		<Resource Language="AM-ET" />
+		<Resource Language="AR-SA" />
+		<Resource Language="AZ-LATN-AZ" />
+		<Resource Language="BG-BG" />
+		<Resource Language="CA-ES" />
+		<Resource Language="CS-CZ" />
+		<Resource Language="DA-DK" />
+		<Resource Language="DE-DE" />
+		<Resource Language="EL-GR" />
+		<Resource Language="ES-ES" />
+		<Resource Language="ES-MX" />
+		<Resource Language="ET-EE" />
+		<Resource Language="EU-ES" />
+		<Resource Language="FA-IR" />
+		<Resource Language="FI-FI" />
+		<Resource Language="FIL-PH" />
+		<Resource Language="FR-CA" />
+		<Resource Language="FR-FR" />
+		<Resource Language="GL-ES" />
+		<Resource Language="HE-IL" />
+		<Resource Language="HI-IN" />
+		<Resource Language="HR-HR" />
+		<Resource Language="HU-HU" />
+		<Resource Language="ID-ID" />
+		<Resource Language="IS-IS" />
+		<Resource Language="IT-IT" />
+		<Resource Language="JA-JP" />
+		<Resource Language="KK-KZ" />
+		<Resource Language="KM-KH" />
+		<Resource Language="KN-IN" />
+		<Resource Language="KO-KR" />
+		<Resource Language="LO-LA" />
+		<Resource Language="LT-LT" />
+		<Resource Language="LV-LV" />
+		<Resource Language="MK-MK" />
+		<Resource Language="ML-IN" />
+		<Resource Language="MS-MY" />
+		<Resource Language="NB-NO" />
+		<Resource Language="NL-NL" />
+		<Resource Language="PL-PL" />
+		<Resource Language="PT-BR" />
+		<Resource Language="PT-PT" />
+		<Resource Language="RO-RO" />
+		<Resource Language="RU-RU" />
+		<Resource Language="SK-SK" />
+		<Resource Language="SL-SI" />
+		<Resource Language="SQ-AL" />
+		<Resource Language="SR-LATN-RS" />
+		<Resource Language="SV-SE" />
+		<Resource Language="TA-IN" />
+		<Resource Language="TE-IN" />
+		<Resource Language="TH-TH" />
+		<Resource Language="TR-TR" />
+		<Resource Language="UK-UA" />
+		<Resource Language="UZ-LATN-UZ" />
+		<Resource Language="VI-VN" />
+		<Resource Language="ZH-CN" />
+		<Resource Language="ZH-TW" />
+		<Resource uap:Scale="100" />
+		<Resource uap:Scale="200" />
+		<Resource uap:Scale="400" />
+	</Resources>
+	<Applications>
+		<Application Id="App" Executable="PhotosApp.exe" EntryPoint="PhotosApp.App" ResourceGroup="AppGroup">
+			<uap:VisualElements DisplayName="ms-resource:AppDisplayName" Description="ms-resource:AppDescription" BackgroundColor="#173A73" Square150x150Logo="Images\PhotosMedTile.png" Square44x44Logo="Images\PhotosAppList.png">
+				<uap:DefaultTile Wide310x150Logo="Images\PhotosWideTile.png" Square310x310Logo="Images\PhotosLargeTile.png" Square71x71Logo="Images\PhotosSmallTile.png">
+					<uap:ShowNameOnTiles>
+						<uap:ShowOn Tile="square150x150Logo" />
+						<uap:ShowOn Tile="wide310x150Logo" />
+						<uap:ShowOn Tile="square310x310Logo" />
+					</uap:ShowNameOnTiles>
+				</uap:DefaultTile>
+				<uap:SplashScreen Image="Images\Blank_PhotosSplashWideTile.png" uap5:Optional="true" BackgroundColor="#212121" />
+			</uap:VisualElements>
+			<Extensions>
+				<uap:Extension Category="windows.appService" EntryPoint="DataMigrationBackgroundService.MediaDBCopyService">
+					<uap3:AppService Name="com.microsoft.photos.mediadbcopy" uap4:SupportsMultipleInstances="false" />
+				</uap:Extension>
+				<desktop:Extension Category="windows.fullTrustProcess" Executable="PhotosService\PhotosService.exe" />
+				<uap:Extension Category="windows.appService">
+					<uap:AppService Name="PhotosService" />
+				</uap:Extension>
+				<uap3:Extension Category="windows.appExtensionHost">
+					<uap3:AppExtensionHost>
+						<uap3:Name>com.microsoft.photos</uap3:Name>
+					</uap3:AppExtensionHost>
+				</uap3:Extension>
+				<uap:Extension Category="windows.fileTypeAssociation" EntryPoint="AppStub_Windows.App">
+					<uap:FileTypeAssociation Name="imagetypes">
+						<uap:Logo>Images\PhotosLogoExtensions.png</uap:Logo>
+						<uap:SupportedFileTypes>
+							<uap:FileType>.bmp</uap:FileType>
+							<uap:FileType>.dib</uap:FileType>
+							<uap:FileType>.gif</uap:FileType>
+							<uap:FileType>.heic</uap:FileType>
+							<uap:FileType>.heif</uap:FileType>
+							<uap:FileType>.hif</uap:FileType>
+							<uap:FileType>.avif</uap:FileType>
+							<uap:FileType>.jfif</uap:FileType>
+							<uap:FileType>.jpe</uap:FileType>
+							<uap:FileType>.jpeg</uap:FileType>
+							<uap:FileType>.jpg</uap:FileType>
+							<uap:FileType>.jxr</uap:FileType>
+							<uap:FileType>.png</uap:FileType>
+							<uap:FileType>.tif</uap:FileType>
+							<uap:FileType>.tiff</uap:FileType>
+							<uap:FileType>.wdp</uap:FileType>
+							<uap:FileType>.ico</uap:FileType>
+							<uap:FileType>.thumb</uap:FileType>
+							<uap:FileType>.webp</uap:FileType>
+						</uap:SupportedFileTypes>
+					</uap:FileTypeAssociation>
+				</uap:Extension>
+				<uap:Extension Category="windows.fileTypeAssociation" EntryPoint="AppStub_Windows.App">
+					<uap:FileTypeAssociation Name="rawtypes">
+						<uap:Logo>Images\PhotosLogoExtensions.png</uap:Logo>
+						<uap:SupportedFileTypes>
+							<uap:FileType>.arw</uap:FileType>
+							<uap:FileType>.cr2</uap:FileType>
+							<uap:FileType>.crw</uap:FileType>
+							<uap:FileType>.erf</uap:FileType>
+							<uap:FileType>.kdc</uap:FileType>
+							<uap:FileType>.mrw</uap:FileType>
+							<uap:FileType>.nef</uap:FileType>
+							<uap:FileType>.nrw</uap:FileType>
+							<uap:FileType>.orf</uap:FileType>
+							<uap:FileType>.pef</uap:FileType>
+							<uap:FileType>.raf</uap:FileType>
+							<uap:FileType>.raw</uap:FileType>
+							<uap:FileType>.rw2</uap:FileType>
+							<uap:FileType>.rwl</uap:FileType>
+							<uap:FileType>.sr2</uap:FileType>
+							<uap:FileType>.srw</uap:FileType>
+							<uap:FileType>.srf</uap:FileType>
+							<uap:FileType>.dcs</uap:FileType>
+							<uap:FileType>.dcr</uap:FileType>
+							<uap:FileType>.drf</uap:FileType>
+							<uap:FileType>.k25</uap:FileType>
+							<uap:FileType>.3fr</uap:FileType>
+							<uap:FileType>.ari</uap:FileType>
+							<uap:FileType>.bay</uap:FileType>
+							<uap:FileType>.cap</uap:FileType>
+							<uap:FileType>.iiq</uap:FileType>
+							<uap:FileType>.eip</uap:FileType>
+							<uap:FileType>.fff</uap:FileType>
+							<uap:FileType>.mef</uap:FileType>
+							<uap:FileType>.mdc</uap:FileType>
+							<uap:FileType>.mos</uap:FileType>
+							<uap:FileType>.R3D</uap:FileType>
+							<uap:FileType>.rwz</uap:FileType>
+							<uap:FileType>.x3f</uap:FileType>
+							<uap:FileType>.ori</uap:FileType>
+							<uap:FileType>.cr3</uap:FileType>
+						</uap:SupportedFileTypes>
+					</uap:FileTypeAssociation>
+				</uap:Extension>
+				<uap3:Extension Category="windows.fileTypeAssociation" EntryPoint="AppStub_Windows.App">
+					<uap3:FileTypeAssociation Name="dngtypes">
+						<uap:Logo>Images\PhotosLogoExtensions.png</uap:Logo>
+						<uap:SupportedFileTypes>
+							<uap:FileType>.dng</uap:FileType>
+						</uap:SupportedFileTypes>
+					</uap3:FileTypeAssociation>
+				</uap3:Extension>
+				<uap:Extension Category="windows.fileTypeAssociation" EntryPoint="AppStub_Windows.App">
+					<uap:FileTypeAssociation Name="videotypes">
+						<uap:Logo>Images\PhotosLogoExtensions.png</uap:Logo>
+						<uap:SupportedFileTypes>
+							<uap:FileType>.3g2</uap:FileType>
+							<uap:FileType>.3gp</uap:FileType>
+							<uap:FileType>.3gp2</uap:FileType>
+							<uap:FileType>.3gpp</uap:FileType>
+							<uap:FileType>.asf</uap:FileType>
+							<uap:FileType>.avi</uap:FileType>
+							<uap:FileType>.m2t</uap:FileType>
+							<uap:FileType>.m2ts</uap:FileType>
+							<uap:FileType>.m4v</uap:FileType>
+							<uap:FileType>.mkv</uap:FileType>
+							<uap:FileType>.mov</uap:FileType>
+							<uap:FileType>.mp4</uap:FileType>
+							<uap:FileType>.mp4v</uap:FileType>
+							<uap:FileType>.mts</uap:FileType>
+							<uap:FileType>.wm</uap:FileType>
+							<uap:FileType>.wmv</uap:FileType>
+						</uap:SupportedFileTypes>
+					</uap:FileTypeAssociation>
+				</uap:Extension>
+				<uap:Extension Category="windows.autoPlayContent">
+					<uap:AutoPlayContent>
+						<uap:LaunchAction Verb="import" ActionDisplayName="ms-resource:AutoplayImportAction" ContentEvent="ShowPicturesOnArrival" />
+					</uap:AutoPlayContent>
+				</uap:Extension>
+				<uap:Extension Category="windows.autoPlayDevice">
+					<uap:AutoPlayDevice>
+						<uap:LaunchAction Verb="importDevice" ActionDisplayName="ms-resource:AutoplayImportAction" DeviceEvent="WPD\ImageSource" />
+					</uap:AutoPlayDevice>
+				</uap:Extension>
+				<uap:Extension Category="windows.protocol">
+					<uap:Protocol Name="microsoft.windows.photos.crop" ReturnResults="always">
+						<uap:Logo>Images\PhotosLogoExtensions.png</uap:Logo>
+					</uap:Protocol>
+				</uap:Extension>
+				<uap:Extension Category="windows.protocol">
+					<uap:Protocol Name="microsoft.windows.photos.videoedit">
+						<uap:Logo>Images\PhotosLogoExtensions.png</uap:Logo>
+					</uap:Protocol>
+				</uap:Extension>
+				<uap:Extension Category="windows.protocol">
+					<uap:Protocol Name="ms-photos">
+						<uap:Logo>Images\PhotosLogoExtensions.png</uap:Logo>
+					</uap:Protocol>
+				</uap:Extension>
+				<uap:Extension Category="windows.protocol">
+					<uap:Protocol Name="ms-wcrv">
+						<uap:DisplayName>Windows Camera Roll Viewer</uap:DisplayName>
+						<uap:Logo>Images\PhotosLogoExtensions.png</uap:Logo>
+					</uap:Protocol>
+				</uap:Extension>
+				<uap:Extension Category="windows.protocol">
+					<uap:Protocol Name="microsoft.windows.photos.picker">
+						<uap:Logo>Images\PhotosLogoExtensions.png</uap:Logo>
+					</uap:Protocol>
+				</uap:Extension>
+			</Extensions>
+		</Application>
+		<Application Id="SecondaryEntry" Executable="VideoProjectsLauncher\VideoProjectsLauncher.exe" EntryPoint="Windows.FullTrustApplication" ResourceGroup="AppGroup">
+			<uap:VisualElements DisplayName="ms-resource:SecondaryTileDescription" Description="ms-resource:SecondaryTileDescription" BackgroundColor="#0078D4" Square150x150Logo="Assets\VideoEditor\VideoEditorMedTile.png" Square44x44Logo="Assets\VideoEditor\VideoEditorAppList.png">
+				<uap:DefaultTile Wide310x150Logo="Assets\VideoEditor\VideoEditorWideTile.png" Square310x310Logo="Assets\VideoEditor\VideoEditorLargeTile.png" Square71x71Logo="Assets\VideoEditor\VideoEditorSmallTile.png">
+					<uap:ShowNameOnTiles>
+						<uap:ShowOn Tile="square150x150Logo" />
+						<uap:ShowOn Tile="wide310x150Logo" />
+						<uap:ShowOn Tile="square310x310Logo" />
+					</uap:ShowNameOnTiles>
+				</uap:DefaultTile>
+				<uap:SplashScreen BackgroundColor="#0078D4" Image="Assets\VideoEditor\VideoEditorSplashScreen.png" />
+			</uap:VisualElements>
+		</Application>
+	</Applications>
+	<Extensions>
+		<Extension Category="windows.publisherCacheFolders">
+			<PublisherCacheFolders>
+				<Folder Name="PhotosMediaDB" />
+			</PublisherCacheFolders>
+		</Extension>
+		<Extension Category="windows.activatableClass.inProcessServer">
+			<InProcessServer>
+				<Path>AutoEnhance.Windows.dll</Path>
+				<ActivatableClass ActivatableClassId="AutoEnhance_Windows.AppStateManager" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="AutoEnhance_Windows.Edit.ImageAnalyzer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="AutoEnhance_Windows.ImageSourceWithSize" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="AutoEnhance_Windows.MediaDatabase.DataFilterCollection" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="AutoEnhance_Windows.MediaDatabase.DataFilterFactory" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="AutoEnhance_Windows.MediaDatabase.ColumnList" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="AutoEnhance_Windows.MediaDatabase.SQLiteExceptionHandling" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="AutoEnhance_Windows.MediaDatabase.GetRangeOfChildrenCVSResult" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="AutoEnhance_Windows.MediaDatabase.DbActiveStatement" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="AutoEnhance_Windows.MediaDatabase.ResultOrganizer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="AutoEnhance_Windows.MediaDatabase.ColumnLists" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="AutoEnhance_Windows.ImageDecoderFactory" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="AutoEnhance_Windows.HostOSConfigurations" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="AutoEnhance_Windows.AutoEnhance.Helpers.AutoEnhanceRenderHelper" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="AutoEnhance_Windows.AutoEnhance.AutoEnhanceHelper" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="AutoEnhance_Windows.EncodedImage" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="AutoEnhance_Windows.ServiceFactory" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="AutoEnhance_Windows.BackgroundTasks.EngineAnalysisRealTimeModuleSuppressor" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="AutoEnhance_Windows.DatabaseService" ThreadingModel="both" />
+			</InProcessServer>
+		</Extension>
+		<Extension Category="windows.activatableClass.inProcessServer">
+			<InProcessServer>
+				<Path>DataMigrationBackgroundService.dll</Path>
+				<ActivatableClass ActivatableClassId="DataMigrationBackgroundService.MediaDBCopyService" ThreadingModel="both" />
+			</InProcessServer>
+		</Extension>
+		<Extension Category="windows.activatableClass.inProcessServer">
+			<InProcessServer>
+				<Path>Utils.dll</Path>
+				<ActivatableClass ActivatableClassId="Utils.PixelData" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Utils.ImageUtils" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Utils.EditHvcEvents" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Utils.BackgroundDestructRandomAccessStreamDelegate" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Utils.Logger" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Utils.RandomAccessStreamResult" ThreadingModel="both" />
+			</InProcessServer>
+		</Extension>
+		<Extension Category="windows.activatableClass.inProcessServer">
+			<InProcessServer>
+				<Path>ImageEditorLib.dll</Path>
+				<ActivatableClass ActivatableClassId="ImageEditorLib.XamlMetaDataProvider" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="ImageEditorLib.ImageEditor" ThreadingModel="both" />
+			</InProcessServer>
+		</Extension>
+		<Extension Category="windows.activatableClass.inProcessServer">
+			<InProcessServer>
+				<Path>SharedServices.dll</Path>
+				<ActivatableClass ActivatableClassId="SharedServices.ReadableStringService" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="SharedServices.LocalizationService" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="SharedServices.WindowService" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="SharedServices.CleanupMonitor" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="SharedServices.ClipChampService" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="SharedServices.DataTransferService" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="SharedServices.DisplayInformationUtilsWrapper" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="SharedServices.PrintManagerService" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="SharedServices.ExperimentationService" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="SharedServices.PrintService" ThreadingModel="both" />
+			</InProcessServer>
+		</Extension>
+		<Extension Category="windows.activatableClass.inProcessServer">
+			<InProcessServer>
+				<Path>WinRTAdapter.dll</Path>
+				<ActivatableClass ActivatableClassId="WinRTAdapter.DispatchAdapter" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="WinRTAdapter.Class" ThreadingModel="both" />
+			</InProcessServer>
+		</Extension>
+		<Extension Category="windows.activatableClass.inProcessServer">
+			<InProcessServer>
+				<Path>ImageLib.dll</Path>
+				<ActivatableClass ActivatableClassId="ImageLib.D2DImageData" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="ImageLib.XamlMetaDataProvider" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="ImageLib.D2DImageControl" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="ImageLib.D2DImageAutomationPeer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="ImageLib.D2DImage" ThreadingModel="both" />
+			</InProcessServer>
+		</Extension>
+		<Extension Category="windows.activatableClass.inProcessServer">
+			<InProcessServer>
+				<Path>PhotosCore.dll</Path>
+				<ActivatableClass ActivatableClassId="PhotosCore.MediaItemCounts" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.ServiceProvider" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.Telemetry.AppPerformanceLog" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.Telemetry.SessionSummary" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.Telemetry.AppTelemetryLog" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.Telemetry.ClipChampServiceTelemetryLog" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.Telemetry.AppTelemetryLogger" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.Telemetry.AppPerformanceLogger" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.Telemetry.AppTelemetry" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.Telemetry.PrintServiceTelemetryLog" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.Telemetry.AppLifeCycleLogger" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.Telemetry.LifecycleTelemetryService" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.Telemetry.Test.Stubs.AppTelemetryStub" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.Telemetry.Test.Stubs.LifecycleTelemetryServiceStub" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.Telemetry.Test.Stubs.LoggerStub" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.Telemetry.Test.Stubs.AppPerformanceLogStub" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.Telemetry.Test.Stubs.AppTelemetryLogStub" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.Telemetry.Test.Stubs.PrintServiceTelemetryLogStub" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.Telemetry.Test.Stubs.SessionSummaryStub" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.LegacyDBCleanUp" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.UIState" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.ThumbnailStreamResult" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.ImportDeleteResult" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.MediaItemIteratorToInspectableIteratorAdapter" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.ProviderHelper" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.PickerUtils" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.ServiceProcessDisconnectedEventArgs" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.Experimentation.FeatureFlags" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.ApplicationSettingsDataStore" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.HResultObject" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.CreateFolderResult" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.MediaItemCollection" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.ApplicationSettingsDataContainer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.DiscoveryProgress" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.ImportProgress" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.FoldersChangeEventArgs" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.MediaItem" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.ImportMediaFolder" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.ImportMediaItem" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="PhotosCore.FileResult" ThreadingModel="both" />
+			</InProcessServer>
+		</Extension>
+		<Extension Category="windows.activatableClass.inProcessServer">
+			<InProcessServer>
+				<Path>SharedModels.dll</Path>
+				<ActivatableClass ActivatableClassId="SharedModels.BindableIterator" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="SharedModels.BindableVector" ThreadingModel="both" />
+			</InProcessServer>
+		</Extension>
+		<Extension Category="windows.activatableClass.inProcessServer">
+			<InProcessServer>
+				<Path>Slideshow.dll</Path>
+				<ActivatableClass ActivatableClassId="Slideshow.SlideshowPlaybackToolbar" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Slideshow.SlideshowControl" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Slideshow.ItemStatusPane" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Slideshow.SlideshowXamlHelpers" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Slideshow.XamlMetaDataProvider" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Slideshow.ItemStatusPaneViewModel" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Slideshow.SlideshowGenericVisibilityConverter" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Slideshow.LoadingPane" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Slideshow.SlideshowTitle" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Slideshow.SlideshowNavigation" ThreadingModel="both" />
+			</InProcessServer>
+		</Extension>
+		<Extension Category="windows.activatableClass.inProcessServer">
+			<InProcessServer>
+				<Path>SharedStyles.dll</Path>
+				<ActivatableClass ActivatableClassId="SharedStyles.XamlMetaDataProvider" ThreadingModel="both" />
+			</InProcessServer>
+		</Extension>
+		<Extension Category="windows.activatableClass.inProcessServer">
+			<InProcessServer>
+				<Path>Lightbox.dll</Path>
+				<ActivatableClass ActivatableClassId="Lightbox.CommandPool" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.VideoEditPage" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.IsNullToBoolConverter" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.MediaItemProperties" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.CommandAppBarToggleButton" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.StringToVisibilityConverter" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.SlideshowMediaFoundationErrorControl" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.ContentAttributes" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.LayoutRowData" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.MediaManager" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.GenericVisibilityConverter" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.AutosaveResult" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.FileMetaData" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.CustomMTC" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.AutosaveService" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.ContextualHelpService" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.FilmstripItem" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.MultiGrid" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.ContentView" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.NavigationControl" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.RotationService" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.Shimmer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.SoftLockedFilmstrip" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.LoadingSpinnerOverlay" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.SlideshowPage" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.SaveService" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.CommandAppBarButton" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.FullscreenControlBar" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.ViewerNavState" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.EditService" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.EditResult" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.MultiSelectFilmstrip" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.ContentViewInputHandler" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.DialogTelemetryHandler" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.SelectionManager" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.SaveResult" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.FileAccessCacheUtil" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.AsyncCommand" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.MediaAnnotation" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.MediaItemCollection" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.VideoEditPageNavState" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.InputService" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.ContextMenu" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.SlideshowPageNavState" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.FileProperties" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.CompositionTargetUtils" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.EditPage" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.MultiGridItemImageControl" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.FileCollectionFromQuery" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.ResizeService" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.ThumbnailStreamResult" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.DebugMenu" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.AsyncCommandParameter" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.ResizeResult" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.MediaItem" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.ScreenReaderAnnouncementControl" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.TempFileService" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.FileCollectionFromList" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.ImageStoreMap" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.FileCollectionToMediaItemAsyncListAdapter" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.XamlBindingUtils" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.Filmstrip" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.EditPageNavState" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.ExtensionData" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.ParsedCommand" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.StorageFileProvider" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.NotificationMessage" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.MediaLoadState" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.MediaItemsState" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.InfoPane" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.ShareService" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.AppState" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.SliderValueToTimeConverter" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.Telemetry.ProfilingTelemetry" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.Telemetry.AppTelemetryService" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.Telemetry.ThumbnailLogManager" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.Telemetry.ThumbnailLogInfo" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.EditPageInputHandler" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.NotificationData" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.MediaItemPropertiesStore" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.FileTypeConverter" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.MediaStore" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.MiniFeedbackToast" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.CommandGroup" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.MultiGridLayout" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.EventManager" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.VideoEditPageInputHandler" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.MenuFlyoutItemEx" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.ImageStoreRingBuffer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.BufferedWriter" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.XamlMetaDataProvider" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.ServiceProvider" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.CommandBarWithOverflowButton" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.CustomTitleBar" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.MainPage" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.FilePropertiesExtra" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.GenericEvent" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lightbox.MediaView2" ThreadingModel="both" />
+			</InProcessServer>
+		</Extension>
+		<Extension Category="windows.activatableClass.inProcessServer">
+			<InProcessServer>
+				<Path>Edit.AppTk.SceneGraph.dll</Path>
+				<ActivatableClass ActivatableClassId="Edit.AppTk.SceneGraph.Scene" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Edit.AppTk.SceneGraph.Color" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Edit.AppTk.SceneGraph.TimeCurve" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Edit.AppTk.SceneGraph.Coords" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Edit.AppTk.SceneGraph.Bitmap" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Edit.AppTk.SceneGraph.Direct3dResources" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Edit.AppTk.SceneGraph.Vector" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Edit.AppTk.SceneGraph.VideoDecoderTextureSource" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Edit.AppTk.SceneGraph.Debug.NativeObjectTracker" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Edit.AppTk.SceneGraph.ViewfinderTextureSource" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Edit.AppTk.SceneGraph.TiledSurface" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Edit.AppTk.SceneGraph.Matrix" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Edit.AppTk.SceneGraph.BitmapTextureSource" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Edit.AppTk.SceneGraph.Quaternion" ThreadingModel="both" />
+			</InProcessServer>
+		</Extension>
+		<Extension Category="windows.activatableClass.inProcessServer">
+			<InProcessServer>
+				<Path>Lumia.Imaging.dll</Path>
+				<ActivatableClass ActivatableClassId="Lumia.Imaging.BitmapImageSource" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lumia.Imaging.BitmapRenderer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lumia.Imaging.BufferImageSource" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lumia.Imaging.Compositing.BlendEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lumia.Imaging.ColorModeDescriptor" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lumia.Imaging.SdkInfo" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lumia.Imaging.Bitmap" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lumia.Imaging.RenderRequest" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lumia.Imaging.FilterEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lumia.Imaging.Version" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lumia.Imaging.DiagnosticsReport" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lumia.Imaging.JpegRenderer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lumia.Imaging.ImageProviderInfo" ThreadingModel="both" />
+			</InProcessServer>
+		</Extension>
+		<Extension Category="windows.activatableClass.inProcessServer">
+			<InProcessServer>
+				<Path>Lumia.VideoTk.dll</Path>
+				<ActivatableClass ActivatableClassId="Lumia.VideoTk.WarpTransformDefinition" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lumia.VideoTk.AudioTimeTransformDefinition" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lumia.VideoTk.WarpTableCalculator" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lumia.VideoTk.VideoTimeTransformDefinition" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lumia.VideoTk.VideoFrameEncoder" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lumia.VideoTk.Math.TimeIntegratorObserver" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lumia.VideoTk.Math.TimeIntegrator" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lumia.VideoTk.VideoInfo" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lumia.VideoTk.VideoFrameExtractor" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Lumia.VideoTk.DXContextHolder" ThreadingModel="both" />
+			</InProcessServer>
+		</Extension>
+		<Extension Category="windows.activatableClass.inProcessServer">
+			<InProcessServer>
+				<Path>Microsoft.Photos.Edit.Services.dll</Path>
+				<ActivatableClass ActivatableClassId="Microsoft.Photos.Edit.Services.ServiceFactory" ThreadingModel="both" />
+			</InProcessServer>
+		</Extension>
+		<Extension Category="windows.activatableClass.inProcessServer">
+			<InProcessServer>
+				<Path>PhotosApp.dll</Path>
+				<ActivatableClass ActivatableClassId="Microsoft.Photos.Edit.VideoEditNavigationState" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Photos.Edit.ImageEditNavigationState" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Photos.Edit.Navigator" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="AutoEnhance_Windows_AppCS.DownloadableContent.DownloadableContentPackageExtensions" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="AutoEnhance_Windows_AppCS.MediaEngine.MediaEngineModelStatusMonitor" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="AutoEnhance_Windows_AppCS.AutoEnhanceApplier" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="AutoEnhance_Windows_AppCS.Explore.Analysis.MediaEngineVersionProvider" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="AutoEnhance_Windows_AppCS.Explore.Analysis.MediaAnalyzerDriverBlockList" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="AutoEnhance_Windows_AppCS.Explore.Contracts.SearchAnalysisSystemState" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="AutoEnhance_Windows_AppCS.Explore.UWP.Analysis.ItemStatusInfo" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="AutoEnhance_Windows_AppCS.PackageExtensions" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="AutoEnhance_Windows.Contracts.MediaItemDescriptor" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="AutoEnhance_Windows.Contracts.HintInfo" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="AutoEnhance_Windows.Contracts.ContentProviderThumbnailResult" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="AutoEnhance_Windows.Contracts.DownloadableContentProgressChangedEventArgs" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="AutoEnhance_Windows.Contracts.DownloadableContentStateChangedEventArgs" ThreadingModel="both" />
+			</InProcessServer>
+		</Extension>
+		<Extension Category="windows.activatableClass.inProcessServer">
+			<InProcessServer>
+				<Path>VideoEditor.Common.Native.dll</Path>
+				<ActivatableClass ActivatableClassId="VideoEditor.Common.Native.VideoFile" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="VideoEditor.Common.Native.VideoEditResult" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="VideoEditor.Common.Native.Telemetry.TelemetryEventProvider" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="VideoEditor.Common.Native.RandomAccessStreamOverStream" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="VideoEditor.Common.Native.FileUtil" ThreadingModel="both" />
+			</InProcessServer>
+		</Extension>
+		<Extension Category="windows.activatableClass.inProcessServer">
+			<InProcessServer>
+				<Path>VideoFrameExtractor.Native.dll</Path>
+				<ActivatableClass ActivatableClassId="VideoFrameExtractor.Native.JpegEncoder" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="VideoFrameExtractor.Native.VideoDecoderInterop" ThreadingModel="both" />
+			</InProcessServer>
+		</Extension>
+		<Extension Category="windows.activatableClass.inProcessServer">
+			<InProcessServer>
+				<Path>Microsoft.RichMedia.Packaging.dll</Path>
+				<ActivatableClass ActivatableClassId="Microsoft.RichMedia.Packaging.MediaPackageStreamRef" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.RichMedia.Packaging.Features" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.RichMedia.Packaging.MediaPackageFactory" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.RichMedia.Packaging.LivingImageWriter" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.RichMedia.Packaging.ReliveReader" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.RichMedia.Packaging.LivingImageReader" ThreadingModel="both" />
+			</InProcessServer>
+		</Extension>
+		<Extension Category="windows.activatableClass.inProcessServer">
+			<InProcessServer>
+				<Path>RuntimeConfiguration.dll</Path>
+				<ActivatableClass ActivatableClassId="RuntimeConfiguration.PreviewProgramLauncher" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="RuntimeConfiguration.RuntimeConfigurationServices" ThreadingModel="both" />
+			</InProcessServer>
+		</Extension>
+		<Extension Category="windows.activatableClass.inProcessServer">
+			<InProcessServer>
+				<Path>Microsoft.Graphics.Canvas.dll</Path>
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Printing.CanvasPrintDocument" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.CanvasBitmap" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Geometry.CanvasGeometry" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Geometry.CanvasPathBuilder" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Geometry.CanvasStrokeStyle" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Geometry.CanvasGradientMesh" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Geometry.CanvasCachedGeometry" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.CanvasSwapChain" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Svg.CanvasSvgDocument" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.UI.Composition.CanvasComposition" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.UI.Xaml.CanvasAnimatedUpdateEventArgs" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.UI.Xaml.CanvasVirtualImageSource" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.UI.Xaml.CanvasAnimatedDrawEventArgs" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.UI.Xaml.CanvasDrawEventArgs" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.UI.Xaml.CanvasVirtualControl" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.UI.Xaml.CanvasImageSource" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.UI.Xaml.CanvasSwapChainPanel" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.UI.Xaml.CanvasAnimatedControl" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.ShadowEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.TemperatureAndTintEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.PointSpecularEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.VignetteEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.OpacityMetadataEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.SharpenEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.RgbToHueEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.TurbulenceEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.EdgeDetectionEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.ColorManagementEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.DpiCompensationEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.EffectTransferTable3D" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.ColorMatrixEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.ChromaKeyEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.SaturationEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.TileEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.ColorManagementProfile" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.Transform2DEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.MorphologyEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.ExposureEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.ScaleEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.CrossFadeEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.DistantSpecularEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.ConvolveMatrixEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.DistantDiffuseEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.InvertEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.TableTransfer3DEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.SepiaEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.LinearTransferEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.ArithmeticCompositeEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.HueToRgbEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.EmbossEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.BorderEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.GaussianBlurEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.BrightnessEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.HueRotationEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.SpotDiffuseEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.LuminanceToAlphaEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.PointDiffuseEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.StraightenEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.GrayscaleEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.TableTransferEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.DiscreteTransferEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.CompositeEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.DisplacementMapEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.PixelShaderEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.AlphaMaskEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.BlendEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.TintEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.Transform3DEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.AtlasEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.UnPremultiplyEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.GammaTransferEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.DirectionalBlurEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.OpacityEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.CropEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.SpotSpecularEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.PremultiplyEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.ContrastEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.HighlightsAndShadowsEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.ColorSourceEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Effects.PosterizeEffect" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.CanvasDevice" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.CanvasRenderTarget" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.CanvasVirtualBitmap" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.CanvasCommandList" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Text.CanvasTextLayout" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Text.CanvasNumberSubstitution" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Text.CanvasFontSet" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Text.CanvasTypography" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Text.CanvasTextFormat" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Text.CanvasTextRenderingParameters" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Text.CanvasTextAnalyzer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Brushes.CanvasImageBrush" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Brushes.CanvasRadialGradientBrush" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Brushes.CanvasSolidColorBrush" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.Brushes.CanvasLinearGradientBrush" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.CanvasImage" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Graphics.Canvas.CanvasSpriteBatch" ThreadingModel="both" />
+			</InProcessServer>
+		</Extension>
+		<Extension Category="windows.activatableClass.inProcessServer">
+			<InProcessServer>
+				<Path>Microsoft.Web.WebView2.Core.dll</Path>
+				<ActivatableClass ActivatableClassId="Microsoft.Web.WebView2.Core.CoreWebView2Environment" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Web.WebView2.Core.CoreWebView2Controller" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Web.WebView2.Core.CoreWebView2CompositionController" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Web.WebView2.Core.CoreWebView2ControllerWindowReference" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Web.WebView2.Core.CoreWebView2EnvironmentOptions" ThreadingModel="both" />
+			</InProcessServer>
+		</Extension>
+		<Extension Category="windows.activatableClass.inProcessServer">
+			<InProcessServer>
+				<Path>Microsoft.UI.Xaml.dll</Path>
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.IndexPath" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.WebView2" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.RefreshContainer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.RefreshVisualizer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.RevealListViewItemPresenter" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.BreadcrumbBarItem" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.ProgressRing" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.ItemsRepeater" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.XamlControlsResources" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.SplitButton" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.SwipeControl" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.InfoBadge" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.VirtualizingLayout" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.TreeViewList" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.DropDownButton" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.ColorPicker" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.PathIconSource" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.ItemsSourceView" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.InfoBar" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.TabViewItem" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.UniformGridLayoutState" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.InfoBarTemplateSettings" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.NavigationViewItemHeader" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.IconSource" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.InfoBadgeTemplateSettings" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.NavigationViewItemBase" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.TreeViewNode" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.LayoutContext" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.AnimatedIcon" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.TreeView" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.ScrollView" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.NavigationView" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.SwipeItem" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.SwipeItems" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.UniformGridLayout" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.InfoBarClosedEventArgs" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.TeachingTipTemplateSettings" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.FontIconSource" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.PagerControl" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.TabView" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.StackLayoutState" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.TwoPaneView" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.ScrollingScrollOptions" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.ElementFactory" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.ElementFactoryRecycleArgs" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.TreeViewItem" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.AnimatedIconSource" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.AnimatedVisualPlayer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.AnimatedVisuals.AnimatedAcceptVisualSource" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.AnimatedVisuals.AnimatedBackVisualSource" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.AnimatedVisuals.AnimatedChevronUpDownSmallVisualSource" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.AnimatedVisuals.AnimatedChevronDownSmallVisualSource" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.AnimatedVisuals.AnimatedGlobalNavigationButtonVisualSource" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.AnimatedVisuals.AnimatedFindVisualSource" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.AnimatedVisuals.AnimatedSettingsVisualSource" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.AnimatedVisuals.AnimatedChevronRightDownSmallVisualSource" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.VirtualizingLayoutContext" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.NavigationViewTemplateSettings" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.CommandBarFlyout" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.NavigationViewItemSeparator" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.TabViewItemTemplateSettings" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.ParallaxView" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.RatingItemInfo" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.TreeViewItemTemplateSettings" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.PagerControlTemplateSettings" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.ItemsRepeaterScrollHost" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.StackLayout" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.SelectionModel" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.TextCommandBarFlyout" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.ScrollingZoomOptions" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.NavigationViewItem" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.RadioButtons" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.RadioMenuFlyoutItem" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.BreadcrumbBar" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.NonVirtualizingLayoutContext" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.FlowLayoutState" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.ElementAnimator" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.NumberBox" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.TeachingTip" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.MenuBarItem" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.RecyclePool" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.ImageIconSource" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.RatingItemFontInfo" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.BackdropMaterial" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.BitmapIconSource" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.ElementFactoryGetArgs" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.FlowLayout" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.Expander" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.Primitives.TabViewListView" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.Primitives.CommandBarFlyoutCommandBarAutomationProperties" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.Primitives.SnapPointBase" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.Primitives.ZoomSnapPoint" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.Primitives.ScrollSnapPointBase" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.Primitives.ScrollControllerInteractionRequestedEventArgs" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.Primitives.ColorSpectrum" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.Primitives.InfoBarPanel" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.Primitives.CornerRadiusFilterConverter" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.Primitives.NavigationViewItemPresenterTemplateSettings" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.Primitives.ZoomSnapPointBase" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.Primitives.ScrollControllerAddScrollVelocityRequestedEventArgs" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.Primitives.RepeatedScrollSnapPoint" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.Primitives.ColorPickerSlider" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.Primitives.ColumnMajorUniformToLargestGridLayout" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.Primitives.AutoSuggestBoxHelper" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.Primitives.CommandBarFlyoutCommandBar" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.Primitives.NavigationViewItemPresenter" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.Primitives.MonochromaticOverlayPresenter" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.Primitives.ScrollControllerScrollToRequestedEventArgs" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.Primitives.ScrollControllerScrollByRequestedEventArgs" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.Primitives.ScrollPresenter" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.Primitives.ComboBoxHelper" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.Primitives.ScrollSnapPoint" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.Primitives.CornerRadiusToThicknessConverter" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.Primitives.RepeatedZoomSnapPoint" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.ImageIcon" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.Layout" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.RecyclingElementFactory" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.InfoBarClosingEventArgs" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.MenuBarItemFlyout" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.ToggleSplitButton" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.LayoutPanel" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.PipsPager" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.NonVirtualizingLayout" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.RatingControl" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.MenuBar" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.PersonPicture" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.RatingItemImageInfo" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.ProgressBar" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Controls.SymbolIconSource" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Automation.Peers.ColorPickerSliderAutomationPeer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Automation.Peers.ExpanderAutomationPeer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Automation.Peers.ProgressBarAutomationPeer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Automation.Peers.NumberBoxAutomationPeer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Automation.Peers.AnimatedVisualPlayerAutomationPeer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Automation.Peers.ScrollPresenterAutomationPeer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Automation.Peers.TabViewAutomationPeer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Automation.Peers.PagerControlAutomationPeer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Automation.Peers.TeachingTipAutomationPeer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Automation.Peers.PersonPictureAutomationPeer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Automation.Peers.WebView2AutomationPeer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Automation.Peers.InfoBarAutomationPeer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Automation.Peers.ToggleSplitButtonAutomationPeer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Automation.Peers.RadioButtonsAutomationPeer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Automation.Peers.ColorSpectrumAutomationPeer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Automation.Peers.SplitButtonAutomationPeer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Automation.Peers.NavigationViewItemAutomationPeer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Automation.Peers.NavigationViewAutomationPeer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Automation.Peers.RatingControlAutomationPeer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Automation.Peers.MenuBarAutomationPeer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Automation.Peers.PipsPagerAutomationPeer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Automation.Peers.MenuBarItemAutomationPeer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Automation.Peers.TabViewItemAutomationPeer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Automation.Peers.RepeaterAutomationPeer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Automation.Peers.TreeViewListAutomationPeer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Automation.Peers.ProgressRingAutomationPeer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Automation.Peers.DropDownButtonAutomationPeer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Automation.Peers.BreadcrumbBarItemAutomationPeer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Automation.Peers.TreeViewItemAutomationPeer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Automation.Peers.TreeViewItemDataAutomationPeer" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.XamlTypeInfo.XamlControlsXamlMetaDataProvider" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Media.RevealBackgroundBrush" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Media.RevealBrush" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Media.RadialGradientBrush" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Media.RevealBorderBrush" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.UI.Xaml.Media.AcrylicBrush" ThreadingModel="both" />
+			</InProcessServer>
+		</Extension>
+	</Extensions>
+	<Capabilities>
+		<rescap:Capability Name="thumbnailCache" />
+		<Capability Name="internetClient" />
+		<rescap:Capability Name="runFullTrust" />
+		<rescap:Capability Name="previewStore" />
+		<rescap:Capability Name="packageManagement" />
+		<rescap:Capability Name="storeAppInstallation" />
+		<rescap:Capability Name="smbios" />
+		<uap:Capability Name="removableStorage" />
+		<uap:Capability Name="videosLibrary" />
+		<uap:Capability Name="picturesLibrary" />
+		<rescap:Capability Name="packageQuery" />
+		<rescap:Capability Name="confirmAppClose" />
+	</Capabilities>
+	<build:Metadata>
+		<build:Item Name="SharedGUID" Value="f33385a3-efdb-4ccb-9b93-b8658f709829" />
+		<build:Item Name="CodeSharingProject" Value="248F659F-DAC5-46E8-AC09-60EC9FC95053" />
+		<build:Item Name="TargetFrameworkMoniker" Value=".NETFramework,Version=v4.5.1" />
+		<build:Item Name="VisualStudio" Version="17.0" />
+		<build:Item Name="OperatingSystem" Version="10.0.20348.1 (WinBuild.160101.0800)" />
+		<build:Item Name="Microsoft.Build.AppxPackage.dll" Version="17.6.36415.52745" />
+		<build:Item Name="ProjectGUID" Value="e7e83915-81b8-4241-95d6-9f596b03eeb7" />
+		<build:Item Name="ilc.exe" Version="2.2.31116.00 built by: PROJECTNREL" />
+		<build:Item Name="Microsoft.Windows.UI.Xaml.Build.Tasks.dll" Version="0.0.0.0" />
+		<build:Item Name="OptimizingToolset" Value="ilc.exe" />
+		<build:Item Name="UseDotNetNativeSharedAssemblyFrameworkPackage" Value="True" />
+		<build:Item Name="DisableStackTraceMetadata" Value="false" />
+		<build:Item Name="DisableExceptionMessages" Value="false" />
+		<build:Item Name="ShortcutGenericAnalysis" Value="false" />
+		<build:Item Name="GeneratePGD" Value="false" />
+		<build:Item Name="ConsumePGD" Value="false" />
+		<build:Item Name="SingleThreadNUTC" Value="false" />
+		<build:Item Name="Use64BitCompiler" Value="true" />
+		<build:Item Name="OptimizeForSize" Value="false" />
+		<build:Item Name="AlignMethodsAtMinimalBoundaries" Value="false" />
+		<build:Item Name="LargeAddressAware" Value="false" />
+		<build:Item Name="NoLinkerSymbols" Value="false" />
+		<build:Item Name="OutOfProcPDB" Value="true" />
+		<build:Item Name="WindowsDesktop" Version="10.0.22621.0" />
+		<build:Item Name="MakePri.exe" Version="10.0.22000.832 (WinBuild.160101.0800)" />
+		<build:Item Name="Microsoft.Build.DesktopBridge.Tasks.dll" Version="17.6.36265.37517" />
+	</build:Metadata>
+</Package>

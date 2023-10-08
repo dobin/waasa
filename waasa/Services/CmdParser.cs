@@ -30,13 +30,17 @@ namespace waasa.Services {
 
 
         public static (string, string) CommandLineToResult(string commandlLine) {
-            if (commandlLine == "" || commandlLine.StartsWith("?")) {
-                return ("?", "");
+            if (commandlLine == "") {
+                return ("? 1", "");
+            }
+
+            if (commandlLine.StartsWith("?")) {
+                return ("? 2", "");
             }
 
             var args = CommandLineToArgs(commandlLine);
             if (args.Length == 0) {
-                
+                return ("? 3", "");
             }
 
             string cmd = args[0];
