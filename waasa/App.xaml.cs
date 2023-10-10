@@ -14,6 +14,7 @@ using Serilog;
 using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.Linq;
+using System.Security.Cryptography;
 
 namespace waasa {
 
@@ -22,11 +23,14 @@ namespace waasa {
     /// </summary>
     public partial class App : Application {
 
-        static void commandDump(string file, string csv) {
+        static void commandDump(string file, string csv, string gathereddata) {
             if (csv != null) {
                 Log.Information("Dump to csv: " + csv);
                 var fileExtensions = Io.DumpFromSystem();
                 Io.WriteResultsToCsv(fileExtensions, csv);
+            } else if (gathereddata != null) {
+                Log.Information("Dump to gathered data: " + gathereddata);
+                Io.WriteGatheredData(Io.GatherDataFromSystem(), gathereddata);
             } else if (file != null) { // Default
                 Log.Information("Dump to json: " + file);
                 var fileExtensions = Io.DumpFromSystem();
@@ -74,6 +78,30 @@ namespace waasa {
             }
         }
 
+        static void commandDebug(string reg_ext, string winapi, string reg_objid, string filename) {
+            _GatheredData gatheredData = null;
+            if (filename == null) {
+                gatheredData = Io.GatherDataFromSystem();
+            } else {
+                filename = "gathered_data.json";
+                gatheredData = Io.ReadGatheredData(filename);
+            }
+
+            if (reg_ext != null) {
+                Log.Information("commandDebug: reg_ext " + reg_ext);
+                Console.WriteLine(gatheredData.GetExtensionInfo(reg_ext));
+            } else if (winapi != null) {
+                Log.Information("commandDebug: winapi " + winapi);
+                var a = gatheredData.WinapiData[winapi];
+                Console.WriteLine("Assoc:\n" + a.ToString());
+            } else if (reg_objid != null) {
+                Log.Information("commandDebug: reg_objid " + reg_objid);
+                Console.WriteLine(gatheredData.GetObjidInfo(reg_objid));
+            } else {
+                Log.Information("commandDebug: Error");
+            }
+        }
+
         /*
         void UsageTestAll() {
             var fileExtensions = Analyzer.getResolvedFileExtensions();
@@ -88,22 +116,6 @@ namespace waasa {
                     Console.WriteLine(String.Format("{0};{1};{2}", fileExtension.Extension, fileExtension.Result, fileExtension.Assumption));
                 }
             }
-        }
-
-
-        void UsageTestExt(string extension) {
-            Console.WriteLine(GatheredData.GetExtensionInfo(extension));
-        }
-
-
-        void UsageTestObjid(string objid) {
-            Console.WriteLine(GatheredData.GetObjidInfo(objid));
-        }
-
-
-        void UsageTestWinApi(string ext) {
-            var a = GatheredData.WinapiData[ext];
-            Console.WriteLine("Assoc:\n" + a.ToString());
         }
         */
 
@@ -126,13 +138,17 @@ namespace waasa {
             var csvOption = new Option<string?>(
                  name: "--csv",
                  description: "(waasa.csv)");
+            var gatheredDataOption = new Option<string?>(
+                 name: "--gathereddata",
+                 description: "(gathered_data.json)");
             var dumpCommand = new Command("dump", "Dump to the waasa JSON output filename") {
                 fileOption,
-                csvOption
+                csvOption,
+                gatheredDataOption
             };
-            dumpCommand.SetHandler((file, csv) => {
-                commandDump(file!, csv!);
-            }, fileOption, csvOption);
+            dumpCommand.SetHandler((file, csv, gathereddata) => {
+                commandDump(file!, csv!, gathereddata!);
+            }, fileOption, csvOption, gatheredDataOption);
             
             rootCommand.AddCommand(dumpCommand);
 
@@ -175,6 +191,31 @@ namespace waasa {
                 commandGenfiles(file!, all!, manual!);
             }, fileOption, allOption, manualOption);
             rootCommand.AddCommand(genfilesCommand);
+
+            // Debug
+            var regextOption = new Option<string?>(
+                 name: "--reg-ext",
+                 description: "");
+            var winapiOption = new Option<string?>(
+                 name: "--winapi",
+                 description: "(waasa.json)");
+            var extobjidOption = new Option<string?>(
+                 name: "--reg-objid",
+                 description: "(waasa.txt)");
+            fileOption = new Option<string?>(
+                 name: "--file",
+                 description: "(gathered_data.json)",
+                 getDefaultValue: () => "gathered_data.json");
+            var debugCommand = new Command("debug", "Debug") {
+                regextOption,
+                winapiOption,
+                extobjidOption,
+                fileOption
+            };
+            debugCommand.SetHandler(async (reg_ext, winapi, reg_objid, file) => {
+                commandDebug(reg_ext!, winapi!, reg_objid!, file!);
+            }, regextOption, winapiOption, extobjidOption, fileOption);
+            rootCommand.AddCommand(debugCommand);
 
             string[] args = Environment.GetCommandLineArgs();
             args = args.Skip(1).ToArray();

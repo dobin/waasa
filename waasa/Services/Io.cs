@@ -50,6 +50,26 @@ namespace waasa.Services {
         }
 
 
+        static public _GatheredData GatherDataFromSystem() {
+            var gather = new Gatherer();
+            var gatheredData = gather.GatherAll();
+            return gatheredData;
+        }
+
+        static public void WriteGatheredData(_GatheredData gatheredData, string filepath) {
+            using (StreamWriter writer = new StreamWriter(filepath)) {
+                string strJson = JsonSerializer.Serialize(gatheredData);
+                writer.WriteLine(strJson);
+            }
+        }
+
+        static public _GatheredData ReadGatheredData(string filepath) {
+            var jsonString = File.ReadAllText(filepath);
+            var gatheredData = JsonSerializer.Deserialize<_GatheredData>(jsonString);
+            return gatheredData;
+        }
+
+
         static public List<_FileExtension> DumpFromSystem() {
             var gather = new Gatherer();
             var gatheredData = gather.GatherAll();
