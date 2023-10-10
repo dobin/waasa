@@ -19,6 +19,10 @@ namespace waasa.Models {
 
         public bool isUwp { get; set; } = false;
 
+        public _FileExtension(string extension) {
+            Extension = extension;
+        }
+
         // Pointer to source
         public Winapi.WinapiEntry WinApiEntry { get; set; } = new Winapi.WinapiEntry();
 

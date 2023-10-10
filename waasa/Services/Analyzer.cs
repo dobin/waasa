@@ -39,8 +39,7 @@ namespace waasa.Services {
 
 
         private _FileExtension resolveExtension(string extension) {
-            _FileExtension fileExtension = new _FileExtension();
-            fileExtension.Extension = extension;
+            _FileExtension fileExtension = new _FileExtension(extension);
 
             // Data
             var winapiData = GatheredData.WinapiData[extension];

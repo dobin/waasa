@@ -190,11 +190,11 @@ namespace waasa {
 
 
         private void Menu_SaveCsv(object sender, RoutedEventArgs e) {
-            Io.usageCreateResultsCsv("waasa-results.csv", FileExtensions);
+            Io.WriteResultsToCsv(FileExtensions, "waasa.csv");
         }
 
         private void Menu_CreateFiles(object sender, RoutedEventArgs e) {
-            Io.usageCreateTestFiles(FileExtensions);
+            Io.GenerateFiles(FileExtensions);
         }
 
 

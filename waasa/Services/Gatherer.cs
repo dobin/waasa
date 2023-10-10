@@ -154,6 +154,17 @@ namespace waasa.Services {
             return GatheredData;
         }
 
+        public List<_FileExtension> QuickGatherExtensions() {
+            List<_FileExtension> fileExtensions = new List<_FileExtension>();
+            foreach (var key in Registry.ClassesRoot.GetSubKeyNames()) {
+                if (key.StartsWith(".")) {
+                    fileExtensions.Add(new _FileExtension(key));
+                }
+            }
+            return fileExtensions;
+        }
+
+
         private void GatherWinapi() {
             foreach (var ext in GatheredData.ListedExtensions) {
                 var assoc = Winapi.Query(ext);

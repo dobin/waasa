@@ -32,6 +32,14 @@ Create all files in `./output/`:
 ```
 
 
+
+## Files 
+
+* waasa.json: a dump from the registry of a machine, and additional information. Main working file.
+* waasa.csv: Output to CSV
+* waasa.txt: Input of file extensions
+
+
 ## Example Results
 
 From a fresh Windows 10 VM with Visual Studio installed:

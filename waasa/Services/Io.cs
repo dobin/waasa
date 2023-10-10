@@ -21,7 +21,7 @@ namespace waasa.Services {
     class Io {
 
         static public List<_FileExtension> ReadResultJson(string filepath) {
-            if (! File.Exists(filepath)) {
+            if (!File.Exists(filepath)) {
                 return new List<_FileExtension>();
             }
 
@@ -31,7 +31,7 @@ namespace waasa.Services {
             return fileExtensions;
         }
 
-        
+
         static public void ExecFile(string extension) {
             string filepath = System.Environment.GetEnvironmentVariable("TEMP") + "\\test" + extension;
             File.Create(filepath);
@@ -61,8 +61,13 @@ namespace waasa.Services {
             return fileExtensions;
         }
 
+        static public List<_FileExtension> QuickDumpFromSystem() {
+            var gatherer = new Gatherer();
+            return gatherer.QuickGatherExtensions();
+        }
 
-        static public void usageCreateResultsCsv(string filepath, List<_FileExtension> fileExtensions) {
+
+        static public void WriteResultsToCsv(List<_FileExtension> fileExtensions, string filepath) {
             Console.WriteLine("Writing CSV to: " + filepath + " with " + fileExtensions.Count);
 
             List<_CsvEntry> csvEntries = new List<_CsvEntry>();
@@ -88,7 +93,7 @@ namespace waasa.Services {
         }
 
 
-        static public void usageCreateTestFiles(List<_FileExtension> fileExtensions) {
+        static public void GenerateFiles(List<_FileExtension> fileExtensions) {
             foreach (var app in fileExtensions) {
                 var output = "output";
                 var filename = "test" + app.Extension;
@@ -104,5 +109,9 @@ namespace waasa.Services {
             }
         }
 
+        static public List<_FileExtension> ReadManual(string filename) {
+            List<_FileExtension> fileExtensions = new List<_FileExtension>();
+            return fileExtensions;
+        }
     }
 }

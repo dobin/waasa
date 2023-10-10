@@ -22,6 +22,14 @@ namespace waasa.Services {
     public class ContentFilter {
         public ContentFilter() { }
 
+
+        public static async Task analyzeExtensions(List<_FileExtension> fileExtension) {
+            foreach (var ext in fileExtension) {
+                await analyzeExtension(ext);
+            }
+        }
+
+
         public static async Task analyzeExtension(_FileExtension fileExtension) {
             string server = Properties.Settings.Default.WAASA_SERVER;
             string ext = fileExtension.Extension;
