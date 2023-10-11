@@ -101,7 +101,7 @@ namespace waasa.Services {
                     // Content-Type -> Media player related
                     if (SimpleDataView.getRootContentType(fileExtension.Extension) != "") {
                         var exec = SimpleDataView.ContentTypeExec(SimpleDataView.getRootContentType(fileExtension.Extension));
-                        Console.WriteLine("A1: " + fileExtension.Extension + " " + exec);
+                        Log.Information("A1: " + fileExtension.Extension + " " + exec);
                         appPath = exec;
                     }
                 }
@@ -110,7 +110,7 @@ namespace waasa.Services {
                     // Windows SystemApps related (Userchoice)
                     if (SimpleDataView.getUserChoice(fileExtension.Extension) != "") {
                         var exec = SimpleDataView.GetSystemApp(SimpleDataView.getUserChoice(fileExtension.Extension));
-                        Console.WriteLine("A2: " + fileExtension.Extension + " " + exec);
+                        Log.Information("A2: " + fileExtension.Extension + " " + exec);
                         appPath += exec;
                     }
 
@@ -119,7 +119,7 @@ namespace waasa.Services {
                     // Windows SystemApps related ()
                     if (SimpleDataView.countRootProgids(fileExtension.Extension) == 1) {
                         var exec = SimpleDataView.GetSystemApp(SimpleDataView.getRootProgid(fileExtension.Extension));
-                        Console.WriteLine("A3: " + fileExtension.Extension + " " + exec);
+                        Log.Information("A3: " + fileExtension.Extension + " " + exec);
                         appPath += exec;
                     }
                 }

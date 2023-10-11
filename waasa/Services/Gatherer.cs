@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Win32;
 using waasa.Models;
+using Serilog;
 
 
 namespace waasa.Services {
@@ -42,17 +43,17 @@ namespace waasa.Services {
 
 
         public void PrintStats() {
-            Console.WriteLine("GatheredData:");
-            Console.WriteLine("  ListedExtensions:                    : " + ListedExtensions.Count);
-            Console.WriteLine("  Winapi / shlwapi                     : " + WinapiData.Count);
+            Log.Information("GatheredData:");
+            Log.Information("  ListedExtensions:                    : " + ListedExtensions.Count);
+            Log.Information("  Winapi / shlwapi                     : " + WinapiData.Count);
 
-            Console.WriteLine("  HKCR                                 : " + HKCR.SubDirectories.Count);
-            Console.WriteLine("  HKCU_ExplorerFileExts                : " + HKCU_ExplorerFileExts.SubDirectories.Count);
-            Console.WriteLine("  HKCU_ApplicationAssociationToasts    : " + HKCU_ApplicationAssociationToasts.Keys.Count);
-            Console.WriteLine("  HKCU_SoftwareClasses                 : " + HKCU_SoftwareClasses.Keys.Count);
-            Console.WriteLine("  HKCR_SystemFileAssociations          : " + HKCR_SystemFileAssociations.SubDirectories.Count);
-            Console.WriteLine("  HKCR_FileTypeAssociations            : " + HKCR_FileTypeAssociations.SubDirectories.Count);
-            Console.WriteLine("  HKCR_PackageRepository               : " + HKCR_PackageRepository.SubDirectories.Count);
+            Log.Information("  HKCR                                 : " + HKCR.SubDirectories.Count);
+            Log.Information("  HKCU_ExplorerFileExts                : " + HKCU_ExplorerFileExts.SubDirectories.Count);
+            Log.Information("  HKCU_ApplicationAssociationToasts    : " + HKCU_ApplicationAssociationToasts.Keys.Count);
+            Log.Information("  HKCU_SoftwareClasses                 : " + HKCU_SoftwareClasses.Keys.Count);
+            Log.Information("  HKCR_SystemFileAssociations          : " + HKCR_SystemFileAssociations.SubDirectories.Count);
+            Log.Information("  HKCR_FileTypeAssociations            : " + HKCR_FileTypeAssociations.SubDirectories.Count);
+            Log.Information("  HKCR_PackageRepository               : " + HKCR_PackageRepository.SubDirectories.Count);
         }
 
 
@@ -137,7 +138,7 @@ namespace waasa.Services {
         public _GatheredData GatheredData = new _GatheredData();
 
         public _GatheredData GatherAll() {
-            Console.WriteLine("Gather system data");
+            Log.Information("Gather system data");
             GatherListedExtensions();
 
             GatherRegistryHKCR();
@@ -181,7 +182,7 @@ namespace waasa.Services {
         }
 
         private void GatherRegistryHKCR() {
-            Console.WriteLine("GatherRegistryHKCR");
+            Log.Information("GatherRegistryHKCR");
             HashSet<string> excludes = new HashSet<string>
                 { "Interface", "Extensions", "Local Settings", "WOW6432Node", "Installer" ,
                   "ActivatableClasses", "AppId", "CID", "Record", "TypeLib"};
@@ -190,11 +191,11 @@ namespace waasa.Services {
         }
 
         private void GatherHKCR_SystemFileAssociations() {
-            Console.WriteLine("GatherHKCR_SystemFileAssociations");
+            Log.Information("GatherHKCR_SystemFileAssociations");
             GatheredData.HKCR_SystemFileAssociations = FromRegistry(Registry.ClassesRoot, @"SystemFileAssociations");
         }
         private void GatherHKCR_FileTypeAssociations() {
-            Console.WriteLine("GatherHKCR_FileTypeAssociations");
+            Log.Information("GatherHKCR_FileTypeAssociations");
             GatheredData.HKCR_FileTypeAssociations = FromRegistry(Registry.ClassesRoot, @"Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\PackageRepository\Extensions\windows.fileTypeAssociation");
         }
 
@@ -207,17 +208,17 @@ namespace waasa.Services {
         }
 
         private void GatherRegistryHKCU_SoftwareClasses() {
-            Console.WriteLine("GatherRegistryHKCU_SoftwareClasses");
+            Log.Information("GatherRegistryHKCU_SoftwareClasses");
             GatheredData.HKCU_SoftwareClasses = FromRegistry(Registry.CurrentUser, @"SOFTWARE\Classes");
         }
 
         private void GatherRegistryHKCU_ExplorerFileExts() {
-            Console.WriteLine("GatherRegistryHKCU_ExplorerFileExts");
+            Log.Information("GatherRegistryHKCU_ExplorerFileExts");
             GatheredData.HKCU_ExplorerFileExts = FromRegistry(Registry.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts");
         }
 
         private void GatherRegistryHKCU_ApplicationAssociationToasts() {
-            Console.WriteLine("GatherRegistryHKCU_ApplicationAssociationToasts");
+            Log.Information("GatherRegistryHKCU_ApplicationAssociationToasts");
             GatheredData.HKCU_ApplicationAssociationToasts = FromRegistry(Registry.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\ApplicationAssociationToasts");
         }
 

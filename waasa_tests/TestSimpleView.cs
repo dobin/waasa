@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using waasa.Models;
 using waasa.Services;
+using Serilog;
 
 
 namespace waasa_tests {
@@ -10,7 +11,7 @@ namespace waasa_tests {
         static GatheredDataSimpleView? getData() {
             var filename = "gathereddata-small.json";
             if (!File.Exists(filename)) {
-                Console.WriteLine("  Not found. No data.");
+                Log.Information("  Not found. No data.");
                 return null;
             }
             string jsonString = File.ReadAllText(filename);

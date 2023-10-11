@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using waasa.Models;
+using Serilog;
 
 
 namespace waasa.Services {
@@ -24,7 +25,7 @@ namespace waasa.Services {
                 return;
             }
 
-            Console.WriteLine("Validator: " + opensFilename);
+            Log.Information("Validator: " + opensFilename);
             using (var fileStream = File.OpenRead(opensFilename))
             using (var streamReader = new StreamReader(fileStream, Encoding.UTF8, true, 512)) {
                 string? line;
@@ -33,18 +34,18 @@ namespace waasa.Services {
                     var s = line.Split(':');
 
                     if (s.Count() != 2) {
-                        Console.WriteLine("Error: Invalid Line: " + line);
+                        Log.Information("Error: Invalid Line: " + line);
                         continue;
                     }
                     if (s[0] == "" || s[1] == "") {
-                        Console.WriteLine("Error: Invalid Line: " + line);
+                        Log.Information("Error: Invalid Line: " + line);
                         continue;
                     }
 
                     if (!tests.ContainsKey(s[0])) {
                         tests.Add(s[0], s[1]);
                     } else {
-                        //Console.WriteLine("Error: Double Entry on line: " + line);
+                        //Log.Information("Error: Double Entry on line: " + line);
                     }
                 }
             }
@@ -61,7 +62,7 @@ namespace waasa.Services {
 
 
         public void PrintStats(List<_FileExtension> fileExtensions) {
-            Console.WriteLine("Missmatches:");
+            Log.Information("Missmatches:");
             var n = 0;
             var eExec = 0;
             var eRecommended = 0;
@@ -74,9 +75,9 @@ namespace waasa.Services {
                     var identified = app.Result;
 
                     if (effective.StartsWith(identified)) {
-                        //Console.WriteLine("  OK: " + tests[app.AppData.Name].Result);
+                        //Log.Information("  OK: " + tests[app.AppData.Name].Result);
                     } else {
-                        Console.WriteLine("  Missmatch: " + app.Extension + ": " + identified + " <-> " + effective);
+                        Log.Information("  Missmatch: " + app.Extension + ": " + identified + " <-> " + effective);
                         n += 1;
 
                         switch (identified) {
@@ -95,12 +96,12 @@ namespace waasa.Services {
                 }
             }
 
-            Console.WriteLine("Validator Stats:");
-            Console.WriteLine("  AMount: " + amount);
-            Console.WriteLine("  Erros: " + n);
-            Console.WriteLine("  Erros Exec:        " + eExec);
-            Console.WriteLine("  Erros Recommended: " + eRecommended);
-            Console.WriteLine("  Erros openwith:    " + eOpenwith);
+            Log.Information("Validator Stats:");
+            Log.Information("  AMount: " + amount);
+            Log.Information("  Erros: " + n);
+            Log.Information("  Erros Exec:        " + eExec);
+            Log.Information("  Erros Recommended: " + eRecommended);
+            Log.Information("  Erros openwith:    " + eOpenwith);
         }
     }
 }

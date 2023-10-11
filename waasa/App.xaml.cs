@@ -16,6 +16,7 @@ using System.CommandLine.Invocation;
 using System.Linq;
 using System.Security.Cryptography;
 
+
 namespace waasa {
 
     /// <summary>
@@ -89,14 +90,14 @@ namespace waasa {
 
             if (reg_ext != null) {
                 Log.Information("commandDebug: reg_ext " + reg_ext);
-                Console.WriteLine(gatheredData.GetExtensionInfo(reg_ext));
+                Log.Information(gatheredData.GetExtensionInfo(reg_ext));
             } else if (winapi != null) {
                 Log.Information("commandDebug: winapi " + winapi);
                 var a = gatheredData.WinapiData[winapi];
-                Console.WriteLine("Assoc:\n" + a.ToString());
+                Log.Information("Assoc:\n" + a.ToString());
             } else if (reg_objid != null) {
                 Log.Information("commandDebug: reg_objid " + reg_objid);
-                Console.WriteLine(gatheredData.GetObjidInfo(reg_objid));
+                Log.Information(gatheredData.GetObjidInfo(reg_objid));
             } else {
                 Log.Information("commandDebug: Error");
             }
@@ -113,7 +114,7 @@ namespace waasa {
             var fileExtensions = Analyzer.getResolvedFileExtensions();
             foreach (var fileExtension in fileExtensions) {
                 if (fileExtension.Extension == extension) {
-                    Console.WriteLine(String.Format("{0};{1};{2}", fileExtension.Extension, fileExtension.Result, fileExtension.Assumption));
+                    Log.Information(String.Format("{0};{1};{2}", fileExtension.Extension, fileExtension.Result, fileExtension.Assumption));
                 }
             }
         }

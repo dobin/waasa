@@ -25,7 +25,7 @@ namespace waasa.Services {
                 return new List<_FileExtension>();
             }
 
-            Console.WriteLine("Reading JSON from: " + filepath);
+            Log.Information("Reading JSON from: " + filepath);
             var jsonString = File.ReadAllText(filepath);
             var fileExtensions = JsonSerializer.Deserialize<List<_FileExtension>>(jsonString);
             return fileExtensions;
@@ -42,7 +42,7 @@ namespace waasa.Services {
 
 
         static public void WriteResultJson(List<_FileExtension> fileExtensions, string filepath) {
-            Console.WriteLine("Writing JSON to: " + filepath + " with " + fileExtensions.Count);
+            Log.Information("Writing JSON to: " + filepath + " with " + fileExtensions.Count);
             using (StreamWriter writer = new StreamWriter(filepath)) {
                 string strJson = JsonSerializer.Serialize(fileExtensions);
                 writer.WriteLine(strJson);
@@ -88,7 +88,7 @@ namespace waasa.Services {
 
 
         static public void WriteResultsToCsv(List<_FileExtension> fileExtensions, string filepath) {
-            Console.WriteLine("Writing CSV to: " + filepath + " with " + fileExtensions.Count);
+            Log.Information("Writing CSV to: " + filepath + " with " + fileExtensions.Count);
 
             List<_CsvEntry> csvEntries = new List<_CsvEntry>();
             foreach (var fileExtension in fileExtensions) {
@@ -105,7 +105,7 @@ namespace waasa.Services {
         static public void usageCreateResultsCsvDebug(string filepath, List<_FileExtension> fileExtensions, GatheredDataSimpleView registry) {
             var fileExtensionsDebug = registry.GetFileExtensionDebug(fileExtensions);
 
-            Console.WriteLine("Writing CSVDebug to: " + filepath + " with " + fileExtensionsDebug.Count);
+            Log.Information("Writing CSVDebug to: " + filepath + " with " + fileExtensionsDebug.Count);
             using var writer = new StreamWriter(filepath);
             var config = new CsvConfiguration(CultureInfo.InvariantCulture) { };
             using var csv = new CsvWriter(writer, config);
@@ -144,8 +144,8 @@ namespace waasa.Services {
                     }
                 }
             } catch (IOException ex) {
-                Console.WriteLine("The file could not be read:");
-                Console.WriteLine(ex.Message);
+                Log.Information("The file could not be read:");
+                Log.Information(ex.Message);
             }
 
             return fileExtensions;

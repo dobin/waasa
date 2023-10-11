@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using Serilog;
 
 using waasa.Models;
 using waasa.Services;
@@ -49,7 +50,7 @@ namespace waasa.UI {
             public event PropertyChangedEventHandler PropertyChanged;
             protected void OnPropertyChanged(string propertyName) {
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-                Console.WriteLine("OnPropertyChanged");
+                Log.Information("OnPropertyChanged");
             }
         }
 

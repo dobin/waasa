@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Xml.Linq;
+using Serilog;
 
 
 namespace waasa.Services {
@@ -30,7 +31,7 @@ namespace waasa.Services {
             try {
                 xDoc = XDocument.Load(filePath);
             } catch (Exception ex) {
-                Console.WriteLine("Error loading XML: " + ex.Message);
+                Log.Information("Error loading XML: " + ex.Message);
                 return null;
             }
 

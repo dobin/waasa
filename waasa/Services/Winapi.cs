@@ -70,7 +70,7 @@ public class Winapi {
 
         // First call is to get the required size of output buffer
         AssocQueryString(AssocF.Verify, assocStr, doctype, null, null, ref pcchOut);
-        //Console.WriteLine(String.Format("Len: {0}: {1}", assocStr, pcchOut));
+        //Log.Information(String.Format("Len: {0}: {1}", assocStr, pcchOut));
         StringBuilder pszOut = new StringBuilder((int)pcchOut);
 
         if (pcchOut > 0) {
