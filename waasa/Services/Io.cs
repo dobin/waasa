@@ -129,8 +129,25 @@ namespace waasa.Services {
             }
         }
 
-        static public List<_FileExtension> ReadManual(string filename) {
+        static public List<_FileExtension> ReadManual(string filepath) {
             List<_FileExtension> fileExtensions = new List<_FileExtension>();
+
+            try {
+                using (StreamReader sr = new StreamReader(filepath)) {
+                    string? line;
+                    while ((line = sr.ReadLine()) != null) {
+                        if (line == "") {
+                            continue;
+                        }
+                        var fe = new _FileExtension(line);
+                        fileExtensions.Add(fe);
+                    }
+                }
+            } catch (IOException ex) {
+                Console.WriteLine("The file could not be read:");
+                Console.WriteLine(ex.Message);
+            }
+
             return fileExtensions;
         }
     }

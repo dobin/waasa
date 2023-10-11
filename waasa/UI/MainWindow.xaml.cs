@@ -135,7 +135,7 @@ namespace waasa {
 
         private void Menu_LoadManualFile(object sender, RoutedEventArgs e) {
             Log.Information("Load manual file");
-            /*
+            
             var dialog = new Microsoft.Win32.OpenFileDialog();
             dialog.FileName = "manual";
             dialog.DefaultExt = ".txt";
@@ -146,26 +146,8 @@ namespace waasa {
                 return;
             }
             string filepath = dialog.FileName;
-
-            try {
-                using (StreamReader sr = new StreamReader(filepath)) {
-                    string? line;
-                    while ((line = sr.ReadLine()) != null) {
-                        if (line == "") {
-                            continue;
-                        }
-                        var fe = new _FileExtension();
-                        fe.Extension = line;
-                        FileExtensions.Add(fe);
-                    }
-                }
-            } catch (IOException ex) {
-                Console.WriteLine("The file could not be read:");
-                Console.WriteLine(ex.Message);
-            }
-
-            dataGrid.ItemsSource = FileExtensions;
-            collectionView.Refresh();*/
+            FileExtensions = Io.ReadManual(filepath);
+            init();
         }
 
 
@@ -190,7 +172,17 @@ namespace waasa {
 
 
         private void Menu_SaveCsv(object sender, RoutedEventArgs e) {
-            Io.WriteResultsToCsv(FileExtensions, "waasa.csv");
+            var dialog = new Microsoft.Win32.SaveFileDialog();
+            dialog.FileName = "waasa";
+            dialog.DefaultExt = ".csv";
+            dialog.Filter = "CSV files (.csv)|*.csv";
+
+            bool? result = dialog.ShowDialog();
+            if (result == false) {
+                return;
+            }
+            string filepath = dialog.FileName;
+            Io.WriteResultsToCsv(FileExtensions, filepath);
         }
 
         private void Menu_CreateFiles(object sender, RoutedEventArgs e) {
