@@ -11,7 +11,16 @@
         <KeyBinding Key="F" Modifiers="Control" Command="{Binding SearchCommand}" />
     </Window.InputBindings>
 
-
+    <Window.Resources>
+        <ContextMenu x:Key="RowContextMenu">
+            <MenuItem Header="Execute a file with this extension" Click="menuExec" />
+            <MenuItem Header="Show registry info" Click="menuRegInfo" />
+            <MenuItem Header="Content Filter: Download / Test file" Click="menuCfDownload" />
+            <MenuItem Header="Content Filter: Show window" Click="menuCfInfo" />
+            <MenuItem Header="Content Filter: open in browser" Click="menuCfBrowser" />
+        </ContextMenu>
+    </Window.Resources>
+    
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
@@ -34,7 +43,18 @@
             </MenuItem>
         </Menu>
 
-        <DataGrid Name="dataGrid" AutoGenerateColumns="False" CanUserSortColumns="True" IsReadOnly="True">
+        <DataGrid Name="dataGrid" 
+                  AutoGenerateColumns="False" 
+                  CanUserSortColumns="True" 
+                  IsReadOnly="True"
+                  SelectionMode="Single">
+
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="ContextMenu" Value="{StaticResource RowContextMenu}" />
+                </Style>
+            </DataGrid.RowStyle>
+
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Extension" Binding="{Binding Extension}" SortDirection="Ascending" />
                 <DataGridTextColumn Header="Reference" Binding="{Binding Result}" Visibility="Collapsed" />
@@ -45,41 +65,12 @@
                 <DataGridTextColumn Header="Exe" Binding="{Binding CmdName}" />
 
                 <DataGridTemplateColumn Header="Args" Width="*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                            <TextBlock Text="{Binding CmdArgs}" 
-                               TextTrimming="CharacterEllipsis"
-                               ToolTip="{Binding CmdArgs}">
-                             </TextBlock>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-
-                <DataGridTemplateColumn Header="File">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Button Content="Exec" Click="ButtonExecFile" Margin="1,0,1,0"
-                                        ToolTip="Attempt to start a test file with that extension. Only makes sense on the same computer as you aquired the dump."/>
-                                <Button Content="Registry" Click="ButtonShowRegistryInfo" Margin="1,0,1,0"
-                                        ToolTip="Show registry data of that extension"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-
-                <DataGridTemplateColumn Header="Content Filter">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Button Content="Download" Click="ButtonDownload" Margin="1,0,1,0"
-                                        ToolTip="Attempt to download this file extension" />
-                                <Button Content="Info" Click="ButtonDownloadInfo" Margin="1,0,1,0"
-                                        ToolTip="Attempt to download this file extension" />
-
-                                <Button Content="Browser" Click="ButtonBrowserDownload" Margin="1,0,1,0"
-                                        ToolTip="Open file via browser" />
-                            </StackPanel>
+                        <TextBlock Text="{Binding CmdArgs}" 
+                            TextTrimming="CharacterEllipsis"
+                            ToolTip="{Binding CmdArgs}">
+                            </TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -89,6 +80,7 @@
                 <DataGridTextColumn Header="NoMime+Name" Binding="{Binding TestResults[2].Conclusion }" />
             
             </DataGrid.Columns>
+
         </DataGrid>
     </DockPanel>
 </Window>

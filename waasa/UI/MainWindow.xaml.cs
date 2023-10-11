@@ -36,11 +36,11 @@ namespace waasa {
             // Check if waasa-results.json exists, and load it if it does
             FileExtensions = Io.ReadResultJson("waasa-results.json");
 
-            init();
+            MyInit();
         }
 
 
-        private void init() {
+        private void MyInit() {
             // Connect the UI table with our data
             dataGrid.ItemsSource = FileExtensions;
 
@@ -63,50 +63,13 @@ namespace waasa {
         }
 
 
-        /*** Buttons ***/
-
-        /** Registry & File related **/
-
-        private void ButtonExecFile(object sender, RoutedEventArgs e) {
-            _FileExtension fe = (_FileExtension)((Button)sender).DataContext;
-            Io.ExecFile(fe.Extension);
-        }
-
-
-        private void ButtonShowRegistryInfo(object sender, RoutedEventArgs e) {
-            _FileExtension fe = (_FileExtension)((Button)sender).DataContext;
-            WindowInfo secondWindow = new WindowInfo(fe);
-            secondWindow.Show();
-        }
-
-
-        /** Content Filter related **/
-
-        private async void ButtonDownload(object sender, RoutedEventArgs e) {
-            _FileExtension fe = (_FileExtension)((Button)sender).DataContext;
-            await ContentFilter.analyzeExtension(fe);
-            collectionView.Refresh();
-        }
-
-        private void ButtonDownloadInfo(object sender, RoutedEventArgs e) {
-            _FileExtension fe = (_FileExtension)((Button)sender).DataContext;
-            WindowDownload secondWindow = new WindowDownload(fe);
-            secondWindow.Show();
-        }
-
-        private void ButtonBrowserDownload(object sender, RoutedEventArgs e) {
-            _FileExtension fe = (_FileExtension)((Button)sender).DataContext;
-            Console.WriteLine($"ButtonExec{fe.Extension} {fe.Result} clicked the button!");
-        }
-
-
         /*** Menu Items ***/
 
         private void Menu_DumpData(object sender, RoutedEventArgs e) {
             // dump registry from localhost and load into the ui
             Log.Information("Dump from localhost");
             FileExtensions = Io.DumpFromSystem();
-            init();
+            MyInit();
         }
 
 
@@ -129,7 +92,7 @@ namespace waasa {
                 return;
             }
             FileExtensions = Io.ReadResultJson(dumpFilepath);
-            init();
+            MyInit();
         }
 
 
@@ -147,7 +110,7 @@ namespace waasa {
             }
             string filepath = dialog.FileName;
             FileExtensions = Io.ReadManual(filepath);
-            init();
+            MyInit();
         }
 
 
@@ -198,6 +161,46 @@ namespace waasa {
             dataGrid.Columns[1].Visibility = Visibility.Collapsed;
         }
 
+
+        /*** Row selection menu ***/
+
+        private void menuExec(object sender, RoutedEventArgs e) {
+            foreach (var item in dataGrid.SelectedItems) {
+                var fe = item as _FileExtension;
+                Io.ExecFile(fe.Extension);
+            }
+        }
+
+        private void menuRegInfo(object sender, RoutedEventArgs e) {
+            foreach (var item in dataGrid.SelectedItems) {
+                var fe = item as _FileExtension;
+                WindowInfo secondWindow = new WindowInfo(fe);
+                secondWindow.Show();
+            }
+        }
+
+        private async void menuCfDownload(object sender, RoutedEventArgs e) {
+            foreach (var item in dataGrid.SelectedItems) {
+                var fe = item as _FileExtension;
+                await ContentFilter.analyzeExtension(fe);
+                collectionView.Refresh();
+            }
+        }
+
+        private void menuCfInfo(object sender, RoutedEventArgs e) {
+            foreach (var item in dataGrid.SelectedItems) {
+                var fe = item as _FileExtension;
+                WindowDownload secondWindow = new WindowDownload(fe);
+                secondWindow.Show();
+            }
+        }
+
+        private void menuCfBrowser(object sender, RoutedEventArgs e) {
+            foreach (var item in dataGrid.SelectedItems) {
+                var fe = item as _FileExtension;
+                Log.Information($"ButtonExec{fe.Extension} {fe.Result} clicked the button!");
+            }
+        }
 
         /*** Other UI Functionality ***/
 
