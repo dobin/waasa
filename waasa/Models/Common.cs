@@ -32,7 +32,7 @@ namespace waasa.Models {
             new TestResult(),
             new TestResult()
         };
-
+        public string TestResult { get; set; } = "";
 
         public void SetCmd(string cmd) {
             this.AppPath = cmd;

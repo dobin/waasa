@@ -202,6 +202,13 @@ namespace waasa {
             }
         }
 
+        private void menuOpenDir(object sender, RoutedEventArgs e) {
+            foreach (var item in dataGrid.SelectedItems) {
+                var fe = item as _FileExtension;
+                Io.OpenDir(fe.AppPath);
+            }
+        }
+
         /*** Other UI Functionality ***/
 
         public void SetSearchFilter() {

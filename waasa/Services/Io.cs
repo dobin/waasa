@@ -40,6 +40,12 @@ namespace waasa.Services {
             Process.Start(startInfo);
         }
 
+        static public void OpenDir(string dir) {
+            ProcessStartInfo startInfo = new ProcessStartInfo("explorer.exe");
+            startInfo.Arguments = Path.GetDirectoryName(dir);
+            Process.Start(startInfo);
+        }
+
 
         static public void WriteResultJson(List<_FileExtension> fileExtensions, string filepath) {
             Log.Information("Writing JSON to: " + filepath + " with " + fileExtensions.Count);

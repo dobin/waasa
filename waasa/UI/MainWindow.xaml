@@ -14,7 +14,10 @@
     <Window.Resources>
         <ContextMenu x:Key="RowContextMenu">
             <MenuItem Header="Execute a file with this extension" Click="menuExec" />
+            <MenuItem Header="Open directory of this app" Click="menuOpenDir" />
+            <Separator/>
             <MenuItem Header="Show registry info" Click="menuRegInfo" />
+            <Separator/>
             <MenuItem Header="Content Filter: Download / Test file" Click="menuCfDownload" />
             <MenuItem Header="Content Filter: Show window" Click="menuCfInfo" />
             <MenuItem Header="Content Filter: open in browser" Click="menuCfBrowser" />
@@ -64,7 +67,7 @@
 
                 <DataGridTextColumn Header="Exe" Binding="{Binding CmdName}" />
 
-                <DataGridTemplateColumn Header="Args" Width="*">
+                <DataGridTemplateColumn Header="Args" Width="*" MinWidth="196">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                         <TextBlock Text="{Binding CmdArgs}" 
@@ -75,10 +78,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTextColumn Header="Standard" Binding="{Binding TestResults[0].Conclusion }" />
-                <DataGridTextColumn Header="NoMime" Binding="{Binding TestResults[1].Conclusion }" />
-                <DataGridTextColumn Header="NoMime+Name" Binding="{Binding TestResults[2].Conclusion }" />
-            
+                <DataGridTextColumn Header="ContentFilter" Binding="{Binding TestResult}" />
             </DataGrid.Columns>
 
         </DataGrid>
