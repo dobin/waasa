@@ -28,7 +28,7 @@
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
                 <MenuItem Header="Aquire extension data from this machine" Click="Menu_DumpData" />
-                <MenuItem Header="Load extension data from dump file" Click="Menu_LoadDumpFile" />
+                <MenuItem Header="Load extension data from dump file" Click="Menu_LoadResultFile" />
                 <MenuItem Header="Load extensions from manual file" Click="Menu_LoadManualFile" />
                 <Separator/>
                 <MenuItem Header="Save as JSON" Click="Menu_SaveJson" />
@@ -46,41 +46,51 @@
             </MenuItem>
         </Menu>
 
-        <DataGrid Name="dataGrid" 
+
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock x:Name="statusTextBlock"></TextBlock>
+            </StatusBarItem>
+        </StatusBar>
+        
+        <Grid>
+            <DataGrid Name="dataGrid" 
                   AutoGenerateColumns="False" 
                   CanUserSortColumns="True" 
                   IsReadOnly="True"
                   SelectionMode="Single">
 
-            <DataGrid.RowStyle>
-                <Style TargetType="DataGridRow">
-                    <Setter Property="ContextMenu" Value="{StaticResource RowContextMenu}" />
-                </Style>
-            </DataGrid.RowStyle>
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="ContextMenu" Value="{StaticResource RowContextMenu}" />
+                    </Style>
+                </DataGrid.RowStyle>
 
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Extension" Binding="{Binding Extension}" SortDirection="Ascending" />
-                <DataGridTextColumn Header="Reference" Binding="{Binding Result}" Visibility="Collapsed" />
-                <DataGridTextColumn Header="Assumption" Binding="{Binding Assumption}" />
-                <DataGridTextColumn Header="Judgement" Binding="{Binding Judgement}" />
-                <DataGridTextColumn Header="AppName" Binding="{Binding AppName}" />
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Exxtension" Binding="{Binding Extension}" SortDirection="Ascending" />
+                    <DataGridTextColumn Header="Reference" Binding="{Binding Result}" Visibility="Collapsed" />
+                    <DataGridTextColumn Header="Assumption" Binding="{Binding Assumption}" />
+                    <DataGridTextColumn Header="Judgement" Binding="{Binding Judgement}" />
+                    <DataGridTextColumn Header="AppName" Binding="{Binding AppName}" />
 
-                <DataGridTextColumn Header="Exe" Binding="{Binding CmdName}" />
+                    <DataGridTextColumn Header="Exe" Binding="{Binding CmdName}" />
 
-                <DataGridTemplateColumn Header="Args" Width="*" MinWidth="196">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                        <TextBlock Text="{Binding CmdArgs}" 
+                    <DataGridTemplateColumn Header="Args" Width="*" MinWidth="196">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding CmdArgs}" 
                             TextTrimming="CharacterEllipsis"
                             ToolTip="{Binding CmdArgs}">
-                            </TextBlock>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                                </TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
 
-                <DataGridTextColumn Header="ContentFilter" Binding="{Binding TestResult}" />
-            </DataGrid.Columns>
+                    <DataGridTextColumn Header="ContentFilter" Binding="{Binding TestResult}" />
+                </DataGrid.Columns>
 
-        </DataGrid>
+            </DataGrid>
+        </Grid>
+    
     </DockPanel>
 </Window>

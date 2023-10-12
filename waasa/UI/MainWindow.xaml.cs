@@ -28,11 +28,13 @@ namespace waasa {
         ICollectionView collectionView;
         private string searchFilter = "";
         private bool showReference = false;
+        private string StatusBarText = "asdfasd";
 
 
         public MainWindow() {
             InitializeComponent();
             DataContext = new MyViewModel(this);
+            UpdateStatus("Ready");
 
             var gatheredData = Io.ReadGatheredData("gathered_data.json");
             if (gatheredData != null) {
@@ -41,12 +43,18 @@ namespace waasa {
                 var analyzer = new Analyzer();
                 analyzer.Load(gatheredData, validator, SimpleRegistryView);
                 FileExtensions = analyzer.getResolvedFileExtensions();
+                UpdateStatus("File with gathered data: gathered_data.json");
             } else {
                 // Check if waasa-results.json exists, and load it if it does
                 FileExtensions = Io.ReadResultJson("waasa-results.json");
+                UpdateStatus("File with results: waasa-results.json");
             }
 
             MyInit();
+        }
+
+        private void UpdateStatus(string newStatus) {
+            statusTextBlock.Text = newStatus;
         }
 
 
@@ -91,11 +99,12 @@ namespace waasa {
             });
 
             progressBarWindow.ShowDialog(); // blocks until it is Close()-d
+            UpdateStatus("Dump from local system, no file");
             MyInit();
         }
 
 
-        private void Menu_LoadDumpFile(object sender, RoutedEventArgs e) {
+        private void Menu_LoadResultFile(object sender, RoutedEventArgs e) {
             // open a registry dump file and load into the UI
             Log.Information("Load dump file");
             
@@ -114,6 +123,7 @@ namespace waasa {
                 return;
             }
             FileExtensions = Io.ReadResultJson(dumpFilepath);
+            UpdateStatus("File with results: " + dumpFilepath);
             MyInit();
         }
 
@@ -132,6 +142,7 @@ namespace waasa {
             }
             string filepath = dialog.FileName;
             FileExtensions = Io.ReadManual(filepath);
+            UpdateStatus("File manual extensions: " + filepath);
             MyInit();
         }
 
@@ -151,6 +162,7 @@ namespace waasa {
                 return;
             }
             string filepath = dialog.FileName;
+            UpdateStatus("Results file " + filepath + " (saved)");
 
             Io.WriteResultJson(FileExtensions, filepath);
         }
@@ -168,6 +180,7 @@ namespace waasa {
             }
             string filepath = dialog.FileName;
             Io.WriteResultsToCsv(FileExtensions, filepath);
+            UpdateStatus("CSV File " + filepath + " (saved)");
         }
 
         private void Menu_CreateFiles(object sender, RoutedEventArgs e) {
