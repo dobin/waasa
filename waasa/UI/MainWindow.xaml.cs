@@ -7,6 +7,7 @@ using System.Windows.Input;
 using System.IO;
 using Serilog;
 using System.ComponentModel;
+using System.Threading.Tasks;
 
 using waasa.Services;
 using waasa.Models;
@@ -68,7 +69,19 @@ namespace waasa {
         private void Menu_DumpData(object sender, RoutedEventArgs e) {
             // dump registry from localhost and load into the ui
             Log.Information("Dump from localhost");
-            FileExtensions = Io.DumpFromSystem();
+            var progressBarWindow = new WindowProgress();
+            
+            // Background thread
+            Task.Run(() =>
+            {
+                FileExtensions = Io.DumpFromSystem();
+                this.Dispatcher.Invoke(() =>
+                {
+                    progressBarWindow.Close();
+                });
+            });
+
+            progressBarWindow.ShowDialog(); // blocks until it is Close()-d
             MyInit();
         }
 
