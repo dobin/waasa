@@ -70,6 +70,10 @@ namespace waasa.Services {
         }
 
         static public _GatheredData ReadGatheredData(string filepath) {
+            if (!File.Exists(filepath)) {
+                return null;
+            }
+
             var jsonString = File.ReadAllText(filepath);
             var gatheredData = JsonSerializer.Deserialize<_GatheredData>(jsonString);
             return gatheredData;

@@ -34,8 +34,17 @@ namespace waasa {
             InitializeComponent();
             DataContext = new MyViewModel(this);
 
-            // Check if waasa-results.json exists, and load it if it does
-            FileExtensions = Io.ReadResultJson("waasa-results.json");
+            var gatheredData = Io.ReadGatheredData("gathered_data.json");
+            if (gatheredData != null) {
+                var SimpleRegistryView = new GatheredDataSimpleView(gatheredData);
+                var validator = new Validator();
+                var analyzer = new Analyzer();
+                analyzer.Load(gatheredData, validator, SimpleRegistryView);
+                FileExtensions = analyzer.getResolvedFileExtensions();
+            } else {
+                // Check if waasa-results.json exists, and load it if it does
+                FileExtensions = Io.ReadResultJson("waasa-results.json");
+            }
 
             MyInit();
         }
