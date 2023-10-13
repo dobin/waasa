@@ -6,7 +6,7 @@ using waasa.Models;
 namespace waasa
 {
     /// <summary>
-    /// Detailed Information about a file extension
+    /// Detailed Information about a file extension. Requires GatheredData
     /// </summary>
     public partial class WindowInfo : Window
     {
@@ -18,14 +18,14 @@ namespace waasa
         }
 
         
-        public WindowInfo(_FileExtension fe)
+        public WindowInfo(_GatheredData gatheredData, _FileExtension fe)
         {
             InitializeComponent();
 
             InfoData infoData = new InfoData();
-            //infoData.ExtensionRegInfo = gatheredData.GetExtensionInfo(fe.Extension);
-            //infoData.ExtensionObjInfo = gatheredData.GetObjidInfo(fe.Extension);
-            //infoData.Shlwapi = gatheredData.GetShlwapiInfo(fe.Extension);
+            infoData.ExtensionRegInfo = gatheredData.GetExtensionInfo(fe.Extension);
+            infoData.ExtensionObjInfo = gatheredData.GetObjidInfo(fe.Extension);
+            infoData.Shlwapi = gatheredData.GetShlwapiInfo(fe.Extension);
 
             this.DataContext = infoData;
         }

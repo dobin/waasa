@@ -21,8 +21,11 @@ namespace waasa {
     /// Main Window of the UI app
     /// </summary>
     public partial class MainWindow : Window {
-        // Data
+        // Main data strucutre, used for most of the UI
         private List<_FileExtension> FileExtensions = new List<_FileExtension>();
+
+        // Optional, for some functionality
+        private _GatheredData? gatheredData = null;
 
         // UI
         ICollectionView collectionView;
@@ -36,18 +39,18 @@ namespace waasa {
             DataContext = new MyViewModel(this);
             UpdateStatus("Ready");
 
-            var gatheredData = Io.ReadGatheredData("gathered_data.json");
+            gatheredData = Io.ReadGatheredData("gathered_data.json");
             if (gatheredData != null) {
                 var SimpleRegistryView = new GatheredDataSimpleView(gatheredData);
                 var validator = new Validator();
                 var analyzer = new Analyzer();
                 analyzer.Load(gatheredData, validator, SimpleRegistryView);
                 FileExtensions = analyzer.getResolvedFileExtensions();
-                UpdateStatus("File with gathered data: gathered_data.json");
+                UpdateStatus("Autoloaded file with gathered data: gathered_data.json");
             } else {
                 // Check if waasa-results.json exists, and load it if it does
                 FileExtensions = Io.ReadResultJson("waasa-results.json");
-                UpdateStatus("File with results: waasa-results.json");
+                UpdateStatus("Autoloaded file with results: waasa-results.json");
             }
 
             MyInit();
@@ -207,9 +210,14 @@ namespace waasa {
         }
 
         private void menuRegInfo(object sender, RoutedEventArgs e) {
+            if (gatheredData == null) {
+                MessageBox.Show("No gathered data available, load a dump.");
+                return;
+            }
+
             foreach (var item in dataGrid.SelectedItems) {
                 var fe = item as _FileExtension;
-                WindowInfo secondWindow = new WindowInfo(fe);
+                WindowInfo secondWindow = new WindowInfo(gatheredData, fe);
                 secondWindow.Show();
             }
         }
