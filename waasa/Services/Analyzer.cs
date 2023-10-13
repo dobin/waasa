@@ -71,6 +71,8 @@ namespace waasa.Services {
                     assumption = "exec1";
                 } else {
                     assumption = "openwith2";
+                    fileExtension.AppName = "Pick an application";
+
                 }
 
             } else if (fileExtension.WinApiEntry.Command != "") {

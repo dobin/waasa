@@ -31,7 +31,7 @@ namespace waasa.Services {
 
         public static (string, string) CommandLineToResult(string commandlLine) {
             if (commandlLine == "") {
-                return ("? 1", "");
+                return ("", "");
             }
 
             if (commandlLine.StartsWith("?")) {
@@ -47,6 +47,20 @@ namespace waasa.Services {
             string argStr = "";
             for (var i = 1; i<args.Length; i++) {
                 argStr += '\"' + args[i] + "\" ";
+            }
+
+            if (cmd == "C:\\Program") {
+                // Wrong resolve, path is missing quotes...
+                // Re-do it myself
+                var idx = commandlLine.IndexOf(".exe", StringComparison.OrdinalIgnoreCase);
+                if (idx > 0) {
+                    // Add first quote
+                    commandlLine = "\"" + commandlLine;
+                    // Add second quote
+                    commandlLine.Insert(idx, "\"");
+                    // do it again and return result (this time it should be correct)
+                    return CommandLineToResult(commandlLine);
+                }
             }
 
             if (cmd.Contains("waaza.exe")) {
