@@ -12,9 +12,24 @@ using System.Threading.Tasks;
 using waasa.Services;
 using waasa.Models;
 using waasa.UI;
+using System.Globalization;
 
 
 namespace waasa {
+    public class BoolToFriendlyStringConverter : IValueConverter {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
+            if (value is bool booleanValue) {
+                return booleanValue ? "X" : "";
+            }
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
+            // Implement if you need conversion back, otherwise throw NotSupportedException
+            throw new NotSupportedException();
+        }
+    }
+
     /// UI mostly done with ChatGPT
     /// 
     /// <summary>

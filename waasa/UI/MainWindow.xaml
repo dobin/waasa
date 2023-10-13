@@ -22,6 +22,10 @@
             <MenuItem Header="Content Filter: Show window" Click="menuCfInfo" />
             <MenuItem Header="Content Filter: open in browser" Click="menuCfBrowser" />
         </ContextMenu>
+
+        
+        <local:BoolToFriendlyStringConverter x:Key="BoolToStringConverter"/>
+        
     </Window.Resources>
     
     <DockPanel>
@@ -72,6 +76,7 @@
                     <DataGridTextColumn Header="Assumption" Binding="{Binding Assumption}" />
                     <DataGridTextColumn Header="Judgement" Binding="{Binding Judgement}" />
                     <DataGridTextColumn Header="AppName" Binding="{Binding AppName}" />
+                    <DataGridTextColumn Header="UWP" Binding="{Binding isUwp, Converter={StaticResource BoolToStringConverter}}" />
 
                     <DataGridTextColumn Header="Exe" Binding="{Binding CmdName}" />
 
