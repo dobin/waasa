@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Net.Http;
 using System.Net.Mime;
 using System.Text;
@@ -40,6 +41,7 @@ namespace waasa.Services {
             }
 
             string url = $"{server}/{api}/{filename}";
+            Log.Information("HTTP Request: " + url);
             HttpResponseMessage response = await client.GetAsync(url);
             string responseData = await response.Content.ReadAsStringAsync();
 

@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using waasa.Models;
-
+using Serilog;
+using System.Windows;
 
 namespace waasa.Services {
 
@@ -35,39 +36,56 @@ namespace waasa.Services {
             string ext = fileExtension.Extension;
             string api;
             HttpAnswerInfo answer;
+            string res = "";
 
-            api = "standard";
-            answer = await Requestor.Get("test" + ext, server, api);
-            fileExtension.TestResults[0].Api = api;
-            fileExtension.TestResults[0].HttpStatusCode = answer.StatusCode;
-            fileExtension.TestResults[0].HttpAnswer = answer.Content;
-            if (answer.Content != "data") {
-                fileExtension.TestResults[0].Conclusion = "blocked";
-            } else {
-                fileExtension.TestResults[0].Conclusion = "bypass";
-            }
+            Log.Information("Content Filter test for: " + fileExtension.Extension + " on server " + server);
 
-            api = "nomime";
-            answer = await Requestor.Get("test" + ext, server, api);
-            fileExtension.TestResults[1].Api = api;
-            fileExtension.TestResults[1].HttpStatusCode = answer.StatusCode;
-            fileExtension.TestResults[1].HttpAnswer = answer.Content;
-            if (answer.Content != "data") {
-                fileExtension.TestResults[1].Conclusion = "blocked";
-            } else {
-                fileExtension.TestResults[1].Conclusion = "bypass";
-            }
+            try {
+                api = "standard";
+                answer = await Requestor.Get("test" + ext, server, api);
+                fileExtension.TestResults[0].Api = api;
+                fileExtension.TestResults[0].HttpStatusCode = answer.StatusCode;
+                fileExtension.TestResults[0].HttpAnswer = answer.Content;
+                if (answer.Content != "data") {
+                    fileExtension.TestResults[0].Conclusion = "blocked";
+                    res += "block/";
+                } else {
+                    fileExtension.TestResults[0].Conclusion = "bypass";
+                    res += "bypass/";
+                }
 
-            api = "nomimenofilename";
-            answer = await Requestor.Get("test" + ext, server, api);
-            fileExtension.TestResults[2].Api = api;
-            fileExtension.TestResults[2].HttpStatusCode = answer.StatusCode;
-            fileExtension.TestResults[2].HttpAnswer = answer.Content;
-            if (answer.Content != "data") {
-                fileExtension.TestResults[2].Conclusion = "blocked";
-            } else {
-                fileExtension.TestResults[2].Conclusion = "bypass";
-            }
+                api = "nomime";
+                answer = await Requestor.Get("test" + ext, server, api);
+                fileExtension.TestResults[1].Api = api;
+                fileExtension.TestResults[1].HttpStatusCode = answer.StatusCode;
+                fileExtension.TestResults[1].HttpAnswer = answer.Content;
+                if (answer.Content != "data") {
+                    fileExtension.TestResults[1].Conclusion = "blocked";
+                    res += "block/";
+                } else {
+                    fileExtension.TestResults[1].Conclusion = "bypass";
+                    res += "bypass/";
+                }
+
+                api = "nomimenofilename";
+                answer = await Requestor.Get("test" + ext, server, api);
+                fileExtension.TestResults[2].Api = api;
+                fileExtension.TestResults[2].HttpStatusCode = answer.StatusCode;
+                fileExtension.TestResults[2].HttpAnswer = answer.Content;
+                if (answer.Content != "data") {
+                    fileExtension.TestResults[2].Conclusion = "blocked";
+                    res += "block ";
+                } else {
+                    fileExtension.TestResults[2].Conclusion = "bypass";
+                    res += "bypass ";
+                }
+
+            } catch (Exception e) {
+                res = "error";
+                MessageBox.Show("Error while analyzing extension: " + e.Message.ToString());
+            }   
+
+            fileExtension.TestResult = res;
         }
     }
 }
