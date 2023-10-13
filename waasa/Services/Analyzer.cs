@@ -59,7 +59,7 @@ namespace waasa.Services {
             // Logic to decide the assumption (how the file will be opened)
             var assumption = "";
             if (fileExtension.WinApiEntry.FriendlyAppName.StartsWith("Pick an app")) {
-                assumption = "openwith1";
+                assumption = "openwith";
 
             } else if (fileExtension.WinApiEntry.FriendlyAppName == "") {
                 if (fileExtension.WinApiEntry.Command != "" 
@@ -68,20 +68,20 @@ namespace waasa.Services {
                 {
                     // May also use: Root_DefaultExec
                     // Basically just .cmd, .com
-                    assumption = "exec1";
+                    assumption = "exec";
                 } else {
-                    assumption = "openwith2";
+                    assumption = "openwith";
                     fileExtension.AppName = "Pick an application";
 
                 }
 
             } else if (fileExtension.WinApiEntry.Command != "") {
-                assumption = "exec2";
+                assumption = "exec";
             } else {
                 if (SimpleDataView.countUserOpenWithProgids(fileExtension.Extension) < 2) {
-                    assumption = "exec3";
+                    assumption = "exec";
                 } else {
-                    assumption = "recommended1";
+                    assumption = "recommended";
                 }
             }
             fileExtension.Assumption = assumption;
@@ -99,6 +99,7 @@ namespace waasa.Services {
                 }
 
                 // ???
+                /*
                 if (appPath == "") {
                     // Content-Type -> Media player related
                     if (SimpleDataView.getRootContentType(fileExtension.Extension) != "") {
@@ -125,6 +126,7 @@ namespace waasa.Services {
                         appPath += exec;
                     }
                 }
+                */
 
                 fileExtension.AppPath = appPath;
             }
