@@ -41,12 +41,16 @@
                 <Separator/>
                 <MenuItem Header="Exit"/>
             </MenuItem>
-            <MenuItem Header="Features">
-                <MenuItem Header="Create files" Click="Menu_CreateFiles" />
+            <MenuItem Header="View">
+                <MenuItem Header="Show exec" IsCheckable="True" IsChecked="True" Checked="MenuViewExecOn" Unchecked="MenuViewExecOff" />
+                <MenuItem Header="Show recommended" IsCheckable="True" IsChecked="True" Checked="MenuViewERecommendedOn" Unchecked="MenuViewRecommendedOff" />
+                <MenuItem Header="Show openwith" IsCheckable="True" IsChecked="True" Checked="MenuViewOpenwithOn" Unchecked="MenuViewOpenwithOff" />
+                <MenuItem Header="Show reference" IsCheckable="True" Checked="MenuReferenceOnChecked" Unchecked="MenuReferenceOnUnchecked" />
             </MenuItem>
             <MenuItem Header="Options">
                 <MenuItem Header="Filter (ctrl-f)" Click="Menu_Filter" />
-                <MenuItem Header="Show reference" IsCheckable="True" Checked="MenuReferenceOnChecked" Unchecked="MenuReferenceOnUnchecked" />
+                
+                <MenuItem Header="Create files" Click="Menu_CreateFiles" />
             </MenuItem>
         </Menu>
 

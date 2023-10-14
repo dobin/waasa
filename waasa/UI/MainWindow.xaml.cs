@@ -47,6 +47,9 @@ namespace waasa {
         private string searchFilter = "";
         private bool showReference = false;
         private string StatusBarText = "asdfasd";
+        private bool FilterRecommended = true;
+        private bool FilterOpenwith = true;
+        private bool FilterExec = true;
 
 
         public MainWindow() {
@@ -84,15 +87,28 @@ namespace waasa {
             collectionView = CollectionViewSource.GetDefaultView(FileExtensions);
             collectionView.Filter = obj => {
                 if (obj is _FileExtension fileExtension) {
+                    if (! FilterRecommended && fileExtension.Assumption == "recommended") {
+                        return false;
+                    }
+                    if (!FilterOpenwith && fileExtension.Assumption == "openwith") {
+                        return false;
+                    }
+                    if (!FilterExec && fileExtension.Assumption == "exec") {
+                        return false;
+                    }
+
                     if (searchFilter == "") {
                         return true;
+                    } else {
+                        if (fileExtension.Extension.ToLower().Contains(searchFilter.ToLower())) {
+                            return true;
+                        }
+                        if (fileExtension.AppPath.ToLower().Contains(searchFilter.ToLower())) {
+                            return true;
+                        }
+                        return false;
                     }
-                    if (fileExtension.Extension.ToLower().Contains(searchFilter.ToLower())) {
-                        return true;
-                    }
-                    if (fileExtension.AppPath.ToLower().Contains(searchFilter.ToLower())) {
-                        return true;
-                    }
+
                 }
                 return false;
             };
@@ -206,12 +222,62 @@ namespace waasa {
         }
 
 
+        /*** View ***/
+
         private void MenuReferenceOnChecked(object sender, RoutedEventArgs e) {
-            dataGrid.Columns[1].Visibility = Visibility.Visible;
+            if (dataGrid != null) {
+                dataGrid.Columns[1].Visibility = Visibility.Visible;
+            }
+            
         }
 
         private void MenuReferenceOnUnchecked(object sender, RoutedEventArgs e) {
-            dataGrid.Columns[1].Visibility = Visibility.Collapsed;
+            if (dataGrid != null) {
+                dataGrid.Columns[1].Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void MenuViewExecOn(object sender, RoutedEventArgs e) {
+            FilterExec = true;
+            if (collectionView != null) {
+                collectionView.Refresh();
+            }
+        }
+
+        private void MenuViewExecOff(object sender, RoutedEventArgs e) {
+            FilterExec = false;
+            if (collectionView != null) {
+                collectionView.Refresh();
+            }
+        }
+
+        private void MenuViewERecommendedOn(object sender, RoutedEventArgs e) {
+            FilterRecommended = true;
+            if (collectionView != null) {
+                collectionView.Refresh();
+            }
+        }
+
+        private void MenuViewRecommendedOff(object sender, RoutedEventArgs e) {
+            FilterRecommended = false;
+            if (collectionView != null) {
+                collectionView.Refresh();
+            }
+        }
+
+
+        private void MenuViewOpenwithOn(object sender, RoutedEventArgs e) {
+            FilterOpenwith = true;
+            if (collectionView != null) {
+                collectionView.Refresh();
+            }
+        }
+
+        private void MenuViewOpenwithOff(object sender, RoutedEventArgs e) {
+            FilterOpenwith = false;
+            if (collectionView != null) {
+                collectionView.Refresh();
+            }
         }
 
 
