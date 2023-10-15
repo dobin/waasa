@@ -5,21 +5,33 @@ using System.Collections.Generic;
 
 namespace waasa.Models {
 
+    public enum CfStatus {
+        Unknown,
+        Blocked,
+        Bypassed,
+        Allowed
+    }
+
+    public enum Judgement {
+        Unknown,
+        Good,
+        Bad,
+        Careful
+    }
+
     public class _FileExtension {
         public string Extension { get; set; } = "";
         public string Result { get; set; } = "";
         public string Assumption { get; set; } = "";
-        public string Judgement { get; set; } = "";
+        public Judgement Judgement { get; set; } = Judgement.Unknown;
 
         public string AppName { get; set; } = "";
-        
         public string AppPublisher { get; set; } = "";
-
         public string CmdLine { get; set; } = "";
         public string CmdExePath { get; set; } = "";
         public string CmdArgs { get; set; } = "";
-
         public bool isUwp { get; set; } = false;
+
 
         public _FileExtension(string extension) {
             Extension = extension;
@@ -48,7 +60,7 @@ namespace waasa.Models {
     class _CsvEntry {
         public string Extension { get; set; } = "";
         public string Assumption { get; set; } = "";
-        public string Judgement { get; set; } = "";
+        public Judgement Judgement { get; set; } = Judgement.Unknown;
         public string AppName { get; set; } = "";
         public string AppPath { get; set; } = "";
 

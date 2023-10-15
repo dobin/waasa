@@ -78,16 +78,29 @@
                 </DataGrid.RowStyle>
 
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Exxtension" Binding="{Binding Extension}" SortDirection="Ascending" />
+                    <DataGridTextColumn Header="Extension" Binding="{Binding Extension}" SortDirection="Ascending" />
                     <DataGridTextColumn Header="Reference" Binding="{Binding Result}" Visibility="Collapsed" />
-                    <DataGridTextColumn Header="Assumption" Binding="{Binding Assumption}" />
-                    <DataGridTextColumn Header="Judgement" Binding="{Binding Judgement}" />
-                    <DataGridTextColumn Header="AppName" Binding="{Binding AppName}" />
-                    <DataGridTextColumn Header="UWP" Binding="{Binding isUwp, Converter={StaticResource BoolToStringConverter}}" />
+                    <DataGridTextColumn Header="DoubleClick" Binding="{Binding Assumption}" />
+                    <DataGridTextColumn Header="Judgement" Binding="{Binding Judgement}">
+                        <DataGridTextColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="ToolTip" Value="Assessment how dangerous this extension is" />
+                            </Style>
+                        </DataGridTextColumn.HeaderStyle>
+                    </DataGridTextColumn> 
+                            
+                    <DataGridTextColumn Header="App Name" Binding="{Binding AppName}" />
+                    <DataGridTextColumn Header="UWP" Binding="{Binding isUwp, Converter={StaticResource BoolToStringConverter}}">
+                        <DataGridTextColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="ToolTip" Value="Is a Universal Windows App (UWP), sandboxed" />
+                            </Style>
+                        </DataGridTextColumn.HeaderStyle>
+                    </DataGridTextColumn>
 
-                    <DataGridTextColumn Header="Exe" Binding="{Binding CmdName}" />
+                    <DataGridTextColumn Header="Executable Path" Binding="{Binding CmdExePath}" />
 
-                    <DataGridTemplateColumn Header="Args" Width="*" MinWidth="196">
+                    <DataGridTemplateColumn Header="Executable Args" Width="*" MinWidth="196">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding CmdArgs}" 
