@@ -13,9 +13,10 @@ namespace waasa.Models {
 
         public string AppName { get; set; } = "";
         public string AppPath { get; set; } = "";
+        public string AppPublisher { get; set; } = "";
+
         public string CmdName { get; set; } = "";
         public string CmdArgs { get; set; } = "";
-        public string AppPublisher { get; set; } = "";
 
         public bool isUwp { get; set; } = false;
 

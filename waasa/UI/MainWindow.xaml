@@ -49,7 +49,6 @@
             </MenuItem>
             <MenuItem Header="Options">
                 <MenuItem Header="Filter (ctrl-f)" Click="Menu_Filter" />
-                
                 <MenuItem Header="Create files" Click="Menu_CreateFiles" />
             </MenuItem>
         </Menu>

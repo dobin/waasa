@@ -13,7 +13,8 @@ using waasa.Services;
 using waasa.Models;
 using waasa.UI;
 using System.Globalization;
-
+using System.Linq;
+using System.Security.Cryptography.Pkcs;
 
 namespace waasa {
     public class BoolToFriendlyStringConverter : IValueConverter {
@@ -175,8 +176,17 @@ namespace waasa {
                 return;
             }
             string filepath = dialog.FileName;
-            FileExtensions = Io.ReadManual(filepath);
-            UpdateStatus("File manual extensions: " + filepath);
+            var readFileExtensions = Io.ReadManual(filepath);
+            if (FileExtensions.Count > 0) {
+                var x = FileExtensions.Where(
+                    feA => readFileExtensions.Any(feB => feB.Extension == feA.Extension));
+                FileExtensions = x.ToList();
+                UpdateStatus("File manual extensions " + filepath + " used to filter list");
+            } else {
+                FileExtensions = readFileExtensions;
+                UpdateStatus("File manual extensions loaded: " + filepath);
+            }
+
             MyInit();
         }
 
