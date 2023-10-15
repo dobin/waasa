@@ -87,15 +87,15 @@ namespace waasa.Services {
             fileExtension.Assumption = assumption;
 
             // get real destination path
-            var appPath = fileExtension.AppPath;
-            if (appPath == "") {
+            var cmdLine = fileExtension.CmdLine;
+            if (cmdLine == "") {
                 // Attempt to resolve from MS Store packages
                 if (UwpAnalyzer.progidToPath(fileExtension.WinApiEntry.Progid, GatheredData) != null) {
-                    appPath = UwpAnalyzer.progidToPath(fileExtension.WinApiEntry.Progid, GatheredData);
+                    cmdLine = UwpAnalyzer.progidToPath(fileExtension.WinApiEntry.Progid, GatheredData);
                     fileExtension.isUwp = true;
-                    var exe = UwpAnalyzer.parseManifest(appPath + "\\" + "AppxManifest.xml");
-                    appPath += "\\" + exe;
-                    fileExtension.SetCmd('\"' + appPath + '\"');
+                    var exe = UwpAnalyzer.parseManifest(cmdLine + "\\" + "AppxManifest.xml");
+                    cmdLine += "\\" + exe;
+                    fileExtension.SetCmd('\"' + cmdLine + '\"');
                 }
 
                 // ???
@@ -128,7 +128,7 @@ namespace waasa.Services {
                 }
                 */
 
-                fileExtension.AppPath = appPath;
+                fileExtension.CmdLine = cmdLine;
             }
         }
     }

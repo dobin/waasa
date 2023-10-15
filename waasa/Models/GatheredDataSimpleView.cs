@@ -68,7 +68,7 @@ namespace waasa.Models {
                 entry.Result = fileExtension.Result;
                 entry.Assumption = fileExtension.Assumption;
                 entry.AppName = fileExtension.AppName;
-                entry.AppPath = fileExtension.AppPath;
+                entry.AppPath = fileExtension.CmdLine;
                 entry.DdeExec = GatheredData.WinapiData[fileExtension.Extension].DDECommand;
 
                 var extension = fileExtension.Extension;

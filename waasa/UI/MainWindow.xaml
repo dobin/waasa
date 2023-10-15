@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:waasa"
         mc:Ignorable="d"
-        Title="Waasa" Height="850" Width="1400"
+        Title="Waasa" Height="850" Width="1600"
 >
     <Window.InputBindings>
         <KeyBinding Key="F" Modifiers="Control" Command="{Binding SearchCommand}" />

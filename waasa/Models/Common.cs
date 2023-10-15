@@ -12,10 +12,11 @@ namespace waasa.Models {
         public string Judgement { get; set; } = "";
 
         public string AppName { get; set; } = "";
-        public string AppPath { get; set; } = "";
+        
         public string AppPublisher { get; set; } = "";
 
-        public string CmdName { get; set; } = "";
+        public string CmdLine { get; set; } = "";
+        public string CmdExePath { get; set; } = "";
         public string CmdArgs { get; set; } = "";
 
         public bool isUwp { get; set; } = false;
@@ -36,9 +37,9 @@ namespace waasa.Models {
         public string TestResult { get; set; } = "";
 
         public void SetCmd(string cmd) {
-            this.AppPath = cmd;
+            this.CmdLine = cmd;
             var res = CmdParser.CommandLineToResult(cmd);
-            this.CmdName = res.Item1;
+            this.CmdExePath = res.Item1;
             this.CmdArgs = res.Item2;
         }
     }
@@ -68,7 +69,7 @@ namespace waasa.Models {
 
             Judgement = fileExtension.Judgement;
             AppName = fileExtension.AppName;
-            AppPath = fileExtension.AppPath;
+            AppPath = fileExtension.CmdLine;
         }
     }
 

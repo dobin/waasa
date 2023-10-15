@@ -46,8 +46,6 @@ namespace waasa {
         // UI
         ICollectionView collectionView;
         private string searchFilter = "";
-        private bool showReference = false;
-        private string StatusBarText = "asdfasd";
         private bool FilterRecommended = true;
         private bool FilterOpenwith = true;
         private bool FilterExec = true;
@@ -104,28 +102,28 @@ namespace waasa {
                     if (!FilterUwp && fileExtension.isUwp == true) {
                         return false;
                     }
-                    if (!FilterWindows && fileExtension.CmdName.StartsWith("C:\\Windows\\")) {
+                    if (!FilterWindows && fileExtension.CmdExePath.StartsWith("C:\\Windows\\")) {
                         return false;
                     }
-                    if (!FilterPrograms && fileExtension.CmdName.StartsWith("C:\\Program Files")) {
+                    if (!FilterPrograms && fileExtension.CmdExePath.StartsWith("C:\\Program Files")) {
                         return false;
                     }
-                    if (!FilterUser && fileExtension.CmdName.StartsWith("C:\\Users\\")) {
+                    if (!FilterUser && fileExtension.CmdExePath.StartsWith("C:\\Users\\")) {
                         return false;
                     }
 
+                    // User input search filter
                     if (searchFilter == "") {
                         return true;
                     } else {
                         if (fileExtension.Extension.ToLower().Contains(searchFilter.ToLower())) {
                             return true;
                         }
-                        if (fileExtension.AppPath.ToLower().Contains(searchFilter.ToLower())) {
+                        if (fileExtension.CmdLine.ToLower().Contains(searchFilter.ToLower())) {
                             return true;
                         }
                         return false;
                     }
-
                 }
                 return false;
             };
@@ -411,7 +409,7 @@ namespace waasa {
         private void menuOpenDir(object sender, RoutedEventArgs e) {
             foreach (var item in dataGrid.SelectedItems) {
                 var fe = item as _FileExtension;
-                Io.OpenDir(fe.AppPath);
+                Io.OpenDir(fe.CmdLine);
             }
         }
 
