@@ -51,6 +51,10 @@ namespace waasa {
         private bool FilterRecommended = true;
         private bool FilterOpenwith = true;
         private bool FilterExec = true;
+        private bool FilterUwp = true;
+        private bool FilterWindows = true;
+        private bool FilterPrograms = true;
+        private bool FilterUser = true;
 
 
         public MainWindow() {
@@ -95,6 +99,18 @@ namespace waasa {
                         return false;
                     }
                     if (!FilterExec && fileExtension.Assumption == "exec") {
+                        return false;
+                    }
+                    if (!FilterUwp && fileExtension.isUwp == true) {
+                        return false;
+                    }
+                    if (!FilterWindows && fileExtension.CmdName.StartsWith("C:\\Windows\\")) {
+                        return false;
+                    }
+                    if (!FilterPrograms && fileExtension.CmdName.StartsWith("C:\\Program Files")) {
+                        return false;
+                    }
+                    if (!FilterUser && fileExtension.CmdName.StartsWith("C:\\Users\\")) {
                         return false;
                     }
 
@@ -285,6 +301,62 @@ namespace waasa {
 
         private void MenuViewOpenwithOff(object sender, RoutedEventArgs e) {
             FilterOpenwith = false;
+            if (collectionView != null) {
+                collectionView.Refresh();
+            }
+        }
+
+        private void MenuUwpOnChecked(object sender, RoutedEventArgs e) {
+            FilterUwp = true;
+            if (collectionView != null) {
+                collectionView.Refresh();
+            }
+        }
+
+        private void MenuUwpOnUnchecked(object sender, RoutedEventArgs e) {
+            FilterUwp = false;
+            if (collectionView != null) {
+                collectionView.Refresh();
+            }
+        }
+
+        private void MenuWindowsOnChecked(object sender, RoutedEventArgs e) {
+            FilterWindows = true;
+            if (collectionView != null) {
+                collectionView.Refresh();
+            }
+        }
+
+        private void MenuWindowsOnUnchecked(object sender, RoutedEventArgs e) {
+            FilterWindows = false;
+            if (collectionView != null) {
+                collectionView.Refresh();
+            }
+        }
+
+        private void MenuProgramsOnChecked(object sender, RoutedEventArgs e) {
+            FilterPrograms = true;
+            if (collectionView != null) {
+                collectionView.Refresh();
+            }
+        }
+
+        private void MenuProgramsOnUnchecked(object sender, RoutedEventArgs e) {
+            FilterPrograms = false;
+            if (collectionView != null) {
+                collectionView.Refresh();
+            }
+        }
+
+        private void MenuUserOnChecked(object sender, RoutedEventArgs e) {
+            FilterUser = true;
+            if (collectionView != null) {
+                collectionView.Refresh();
+            }
+        }
+
+        private void MenuUserOnUnchecked(object sender, RoutedEventArgs e) {
+            FilterUser = false;
             if (collectionView != null) {
                 collectionView.Refresh();
             }
