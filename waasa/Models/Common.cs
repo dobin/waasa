@@ -20,17 +20,22 @@ namespace waasa.Models {
     }
 
     public class _FileExtension {
-        public string Extension { get; set; } = "";
-        public string Result { get; set; } = "";
-        public string Assumption { get; set; } = "";
-        public Judgement Judgement { get; set; } = Judgement.Unknown;
+        public string Extension { get; set; } = ""; // reference, e.g. ".exe"
+        public string Result { get; set; } = "";  // how the extension will be opened
+        public string Assumption { get; set; } = "";  //
+        public Judgement Judgement { get; set; } = Judgement.Unknown; // how dangerous it is
 
-        public string AppName { get; set; } = "";
+        // All from WinApi and Registry
+        public string AppName { get; set; } = ""; 
         public string AppPublisher { get; set; } = "";
         public string CmdLine { get; set; } = "";
         public string CmdExePath { get; set; } = "";
         public string CmdArgs { get; set; } = "";
         public bool isUwp { get; set; } = false;
+
+        // Loaded from external reference file
+        public string Description { get; set; } = "";
+        public List<string> Tags { get; set; } = new List<string>();
 
 
         public _FileExtension(string extension) {

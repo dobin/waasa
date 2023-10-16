@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using waasa.Models;
 using Serilog;
-
+using System.Linq;
 
 namespace waasa.Services {
 
@@ -29,6 +29,21 @@ namespace waasa.Services {
             foreach (var extension in GatheredData.ListedExtensions) {
                 var fileExtension = resolveExtension(extension);
                 FileExtensions.Add(fileExtension);
+            }
+
+            var dataExtensions = DataParser.ReadYaml("data.yaml");
+            foreach (var extension in FileExtensions) {
+                var x = dataExtensions.Where(
+                                    feA => extension.Extension == feA.Extension);
+                if (x.Count() == 1) {
+                    var dataExtension = x.First();
+                    extension.Description = dataExtension.Description;
+                    foreach (var tag in dataExtension.Tags) {
+                        extension.Tags.Add(tag);
+                    }
+                } else if (x.Count() > 1) {
+                    Log.Warning("Multiple extensions in data.yaml for: " + extension.Extension);
+                }
             }
         }
 

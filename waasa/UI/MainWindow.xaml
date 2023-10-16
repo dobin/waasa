@@ -23,9 +23,9 @@
             <MenuItem Header="Content Filter: open in browser" Click="menuCfBrowser" />
         </ContextMenu>
 
-        
         <local:BoolToFriendlyStringConverter x:Key="BoolToStringConverter"/>
-        
+        <local:ListToStringConverter x:Key="ListToStringConverter" />
+
     </Window.Resources>
     
     <DockPanel>
@@ -97,7 +97,8 @@
                             </Style>
                         </DataGridTextColumn.HeaderStyle>
                     </DataGridTextColumn>
-
+                    <DataGridTextColumn Header="Tags" Binding="{Binding Tags, Converter={StaticResource ListToStringConverter}}" />
+                    
                     <DataGridTextColumn Header="Executable Path" Binding="{Binding CmdExePath}" />
 
                     <DataGridTemplateColumn Header="Executable Args" Width="*" MinWidth="196">
