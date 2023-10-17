@@ -31,7 +31,7 @@ namespace waasa.Services {
                 FileExtensions.Add(fileExtension);
             }
 
-            var dataExtensions = DataParser.ReadYaml("data.yaml");
+            var dataExtensions = DataParser.ReadYaml("Data\\info.yaml");
             foreach (var extension in FileExtensions) {
                 var x = dataExtensions.Where(
                                     feA => extension.Extension == feA.Extension);
@@ -42,7 +42,7 @@ namespace waasa.Services {
                         extension.Tags.Add(tag);
                     }
                 } else if (x.Count() > 1) {
-                    Log.Warning("Multiple extensions in data.yaml for: " + extension.Extension);
+                    Log.Warning("Multiple extensions in info.yaml for: " + extension.Extension);
                 }
             }
         }

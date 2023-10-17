@@ -25,7 +25,7 @@ namespace waasa.Services
             if (!File.Exists(filepath)) {
                 return new List<DataExtension>();
             }
-            var input = File.ReadAllText("data.yaml");
+            var input = File.ReadAllText(filepath);
             var deserializer = new DeserializerBuilder().Build();
             var yamlRoot = deserializer.Deserialize<YamlRoot>(input);
 

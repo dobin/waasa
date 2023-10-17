@@ -1,0 +1,369 @@
+Extensions:
+
+  # Executables Confident
+  - Extension: .exe
+    Description: Executable
+    Confidence: High
+    Tags:
+    - exec
+    - builtin
+  - Extension: .com
+    Description: Executable
+    Confidence: High
+    Tags:
+    - exec
+    - builtin
+  - Extension: .scr
+    Description: Executable
+    Confidence: High
+    Tags:
+    - exec
+    - builtin
+  - Extension: .bat
+    Description: Executable
+    Confidence: High
+    Tags:
+    - exec
+    - builtin
+  - Extension: .cmd
+    Description: Executable
+    Confidence: High
+    Tags:
+    - exec
+    - builtin
+  - Extension: .msi
+    Description: Executable
+    Confidence: High
+    Tags:
+    - exec
+    - builtin
+  - Extension: .vbs
+    Description: Executable
+    Confidence: High
+    Tags:
+    - exec
+    - builtin
+
+  # executables: filesec.io
+  - Extension: .application
+    Description: Executable
+    Confidence: Filesec
+    Tags:
+    - exec
+    - builtin
+
+  - Extension: .appinstaller
+    Description: Executable
+    Confidence: Filesec
+    Tags:
+    - exec
+    - builtin
+
+  - Extension: .appref-ms
+    Description: Executable
+    Confidence: Filesec
+    Tags:
+    - exec
+    - builtin
+  - Extension: .appx
+    Description: Executable
+    Confidence: Filesec
+    Tags:
+    - exec
+    - builtin
+  - Extension: .appxbundle
+    Description: Executable
+    Confidence: Filesec
+    Tags:
+    - exec
+    - builtin
+  - Extension: .asd
+    Description: Executable
+    Confidence: Filesec
+    Tags:
+    - exec:feature
+    - builtin
+  - Extension: .chm
+    Description: Executable
+    Confidence: Filesec
+    Tags:
+    - exec
+    - builtin
+  - Extension: .cpl
+    Description: Executable
+    Confidence: Filesec
+    Tags:
+    - exec
+    - builtin
+  - Extension: .desktopthemepackfile
+    Description: Executable
+    Confidence: Filesec
+    Tags:
+    - exec:feature
+    - builtin
+  - Extension: .diagcab
+    Description: Executable
+    Confidence: Filesec
+    Tags:
+    - exec
+    - builtin
+  - Extension: .dmg
+    Description: Executable
+    Confidence: Filesec
+    Tags:
+    - exec
+    - builtin
+  - Extension: .gadget
+    Description: Executable
+    Confidence: Filesec
+    Tags:
+    - exec
+    - builtin
+  - Extension: .hta
+    Description: Executable
+    Confidence: Filesec
+    Tags:
+    - exec
+    - builtin
+
+  - Extension: .img
+    Description: Executable
+    Confidence: Filesec
+    Tags:
+    - exec:feature
+    - builtin
+  - Extension: .iqy
+    Description: Executable
+    Confidence: Filesec
+    Tags:
+    - exec:feature
+    - builtin
+
+  - Extension: .jnlp
+    Description: Executable
+    Confidence: Filesec
+    Tags:
+    - exec
+
+  - Extension: .js
+    Description: Executable
+    Confidence: Filesec
+    Tags:
+    - exec
+    - builtin
+  - Extension: .jse
+    Description: Executable
+    Confidence: Filesec
+    Tags:
+    - exec
+    - builtin
+  - Extension: .mht
+    Description: Executable
+    Confidence: Filesec
+    Tags:
+    - exec:feature
+    - builtin
+  - Extension: .mhtml
+    Description: Executable
+    Confidence: Filesec
+    Tags:
+    - exec:feature
+    - builtin
+
+
+  # Executables low-confidence
+  - Extension: .pif
+    Description: Executable
+    Tags:
+    - exec
+    - builtin
+  - Extension: .msm
+    Description: Executable
+    Tags:
+    - exec
+    - builtin
+  - Extension: .msp
+    Description: Executable
+    Tags:
+    - exec
+    - builtin
+  - Extension: .mst
+    Description: Executable
+    Tags:
+    - exec
+    - builtin
+  - Extension: .hta
+    Description: Executable
+    Tags:
+    - exec
+    - builtin
+  - Extension: .cpl
+    Description: Executable
+    Tags:
+    - exec
+    - builtin
+
+  - Extension: .jar
+    Description: Executable
+    Tags:
+    - exec
+    - builtin
+
+  # Office files
+  - Extension: .doc
+    Description: Office Word Doc (without macros)
+    Confidence: High
+    Tags:
+    - container
+  - Extension: .ppt
+    Description: Office Powerpoint Doc (without macros)
+    Confidence: High
+    Tags:
+    - container
+  - Extension: .xls
+    Description: Office Execel Doc with (without macros)
+    Confidence: High
+    Tags:
+    - container
+
+  - Extension: .docx
+    Description: Office Word Doc (without macros)
+    Confidence: High
+    Tags:
+    - exec:feature
+    - container
+  - Extension: .pptx
+    Description: Office Powerpoint Doc (without macros)
+    Confidence: High
+    Tags:
+    - container
+  - Extension: .xlsx
+    Description: Office Execel Doc with (without macros)
+    Confidence: High
+    Tags:
+    - container
+
+  - Extension: .docm
+    Description: Office Word Doc with macros
+    Confidence: High
+    Tags:
+    - exec:feature
+    - container
+  - Extension: .pptm
+    Description: Office Powerpoint Doc with macros
+    Confidence: High
+    Tags:
+    - exec:feature
+    - container
+  - Extension: .xlsm
+    Description: Office Execel Doc with macros
+    Confidence: High
+    Tags:
+    - exec:feature
+    - container
+
+  # Archives
+  - Extension: .zip
+    Description: ZIP Archive
+    Confidence: High
+    Tags:
+    - container:file
+    - builtin
+  - Extension: .iso
+    Description: ISO File
+    Confidence: High
+    Tags:
+    - container:file
+    - builtin
+
+  - Extension: .rar
+    Description: RAR Archive
+    Confidence: High
+    Tags:
+    - container:file
+  - Extension: .7z
+    Description: 7Zip Archive
+    Confidence: High
+    Tags:
+    - container:file
+
+  # Code
+  - Extension: .ps1
+    Description: Powershell script
+    Confidence: High
+    Tags:
+    - code
+  - Extension: .sh
+    Description: Shell script
+    Confidence: High
+    Tags:
+    - code
+  - Extension: .dll
+    Description: DLL File
+    Confidence: High
+    Tags:
+    - code
+
+  # more documents
+  - Extension: .pdf
+    Description: PDF File
+    Confidence: High
+    Tags:
+    - container
+    - phishing
+    - builtin
+
+  - Extension: .html
+    Description: HTML file
+    Confidence: High
+    Tags:
+    - container
+    - phishing
+    - builtin
+  - Extension: .htm
+    Description: HTML file
+    Confidence: High
+    Tags:
+    - container
+    - phishing
+    - builtin
+  - Extension: .ics
+    Description: ICSfile
+    Tags:
+    - container
+    - phishing
+  - Extension: .odt
+    Description: 
+    Tags:
+    - container
+    - phishing
+    - builtin
+  - Extension: .oxps
+    Description: 
+    Tags:
+    - container
+    - phishing
+    - builtin
+
+
+    # Other
+  - Extension: .reg
+    Description: Registry file
+    Tags:
+    - exec:feature
+    - modify
+
+  - Extension: .lnk
+    Description: Windows link
+    Confidence: High
+    Tags:
+    - exec
+    - builtin
+
+  - Extension: .js
+    Description: Javascript file
+    Tags:
+     - code
+
+
+
