@@ -65,6 +65,11 @@ namespace waasa.Services {
             fileExtension.SetCmd(winapiData.Command);
             analyzeExtension(fileExtension);
 
+            if (extension == ".lnk") {
+                fileExtension.Assumption = "exec";
+                fileExtension.AppName = "";
+            }
+
             return fileExtension;
         }
 
