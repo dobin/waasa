@@ -10,6 +10,7 @@ namespace waasa.Services
     public class DataExtension {
         public string Extension { get; set; } = "";
         public string Description { get; set; } = "";
+        public string Confidence { get; set; } = "";
         public List<String> Tags { get; set; } = new List<string>();
     }
 
