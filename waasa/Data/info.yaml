@@ -4,366 +4,463 @@ Extensions:
   - Extension: .exe
     Description: Executable
     Confidence: High
-    Tags:
-    - exec
-    - builtin
+    Common: True
+    Exec: True
+    MitreInitialAccess: sometimes
+    MitreExecution: often
+    WindowsBuiltin: True
+    Notes: Always available, except if application whitelistening is active. Commonly blocked.
+
   - Extension: .com
     Description: Executable
     Confidence: High
-    Tags:
-    - exec
-    - builtin
+    Exec: True
+    MitreInitialAccess: sometimes
+    MitreExecution: often
+    WindowsBuiltin: True
+    Notes: Always available, except if application whitelistening is active. Commonly blocked.
+
   - Extension: .scr
     Description: Executable
     Confidence: High
-    Tags:
-    - exec
-    - builtin
+    Exec: True
+    WindowsBuiltin: True
+    Notes: Just an .exe
+
   - Extension: .bat
-    Description: Executable
+    Description: Batch script file for cmd.exe
     Confidence: High
-    Tags:
-    - exec
-    - builtin
+    Exec: True
+    MitreInitialAccess: Often
+    MitreExecution: Often
+    WindowsBuiltin: True
+    Notes: Always available, except if application whitelistening is active. Commonly blocked.
+
   - Extension: .cmd
     Description: Executable
     Confidence: High
-    Tags:
-    - exec
-    - builtin
+    Exec: True
+    WindowsBuiltin: True
+    MitreExecution: sometimes
+    Notes: Just a .bat
+
   - Extension: .msi
-    Description: Executable
+    Description: MSI Package
     Confidence: High
-    Tags:
-    - exec
-    - builtin
+    Common: True
+    Exec: True
+    MitreInitialAccess: sometimes
+    MitreExecution: sometimes
+    WindowsBuiltin: True
+    Notes: 
+
   - Extension: .vbs
     Description: Executable
     Confidence: High
-    Tags:
-    - exec
-    - builtin
+    Common: True
+    Exec: True
+    MitreInitialAccess: sometimes
+    MitreExecution: often
+    WindowsBuiltin: true
+    Notes: 
+
+  - Extension: .vbe
+    Description: Executable
+    Exec: True
+    WindowsBuiltin: True
+
+  - Extension: .wsf
+    Description: Executable
+    Exec: True
+    WindowsBuiltin: True
+
+  - Extension: .wsh
+    Description: Executable
+    Exec: True
+    WindowsBuiltin: True
+
+  - Extension: .xlm
+    Description: Executable
+    Exec: True
+
 
   # executables: filesec.io
   - Extension: .application
     Description: Executable
     Confidence: Filesec
-    Tags:
-    - exec
-    - builtin
+    Exec: True
+    WindowsBuiltin: True
 
   - Extension: .appinstaller
     Description: Executable
     Confidence: Filesec
-    Tags:
-    - exec
-    - builtin
+    Exec: True
+    WindowsBuiltin: True
 
   - Extension: .appref-ms
     Description: Executable
     Confidence: Filesec
-    Tags:
-    - exec
-    - builtin
+    Exec: True
+    WindowsBuiltin: True
+
   - Extension: .appx
     Description: Executable
     Confidence: Filesec
-    Tags:
-    - exec
-    - builtin
+    Exec: True
+    WindowsBuiltin: True
+
   - Extension: .appxbundle
     Description: Executable
     Confidence: Filesec
-    Tags:
-    - exec
-    - builtin
+    Exec: True
+    WindowsBuiltin: True
+
   - Extension: .asd
     Description: Executable
     Confidence: Filesec
-    Tags:
-    - exec:feature
-    - builtin
+    Exec: True
+    WindowsBuiltin: True
+
   - Extension: .chm
     Description: Executable
     Confidence: Filesec
-    Tags:
-    - exec
-    - builtin
+    Exec: True
+    WindowsBuiltin: True
+
   - Extension: .cpl
     Description: Executable
     Confidence: Filesec
-    Tags:
-    - exec
-    - builtin
+    Exec: True
+    WindowsBuiltin: True
+
   - Extension: .desktopthemepackfile
     Description: Executable
     Confidence: Filesec
-    Tags:
-    - exec:feature
-    - builtin
+    Exec: True
+    WindowsBuiltin: True
+
   - Extension: .diagcab
     Description: Executable
     Confidence: Filesec
-    Tags:
-    - exec
-    - builtin
+    Exec: True
+    WindowsBuiltin: True
+
   - Extension: .dmg
     Description: Executable
     Confidence: Filesec
-    Tags:
-    - exec
-    - builtin
+    Exec: True
+    WindowsBuiltin: True
+
   - Extension: .gadget
     Description: Executable
     Confidence: Filesec
-    Tags:
-    - exec
-    - builtin
+    Exec: True
+    WindowsBuiltin: True
+
   - Extension: .hta
     Description: Executable
     Confidence: Filesec
-    Tags:
-    - exec
-    - builtin
+    Exec: True
+    WindowsBuiltin: True
 
   - Extension: .img
     Description: Executable
     Confidence: Filesec
-    Tags:
-    - exec:feature
-    - builtin
+    Exec: True
+    WindowsBuiltin: True
+
   - Extension: .iqy
     Description: Executable
     Confidence: Filesec
-    Tags:
-    - exec:feature
-    - builtin
+    Exec: True
+    WindowsBuiltin: True
 
   - Extension: .jnlp
     Description: Executable
     Confidence: Filesec
-    Tags:
-    - exec
+    Exec: True
 
   - Extension: .js
     Description: Executable
     Confidence: Filesec
-    Tags:
-    - exec
-    - builtin
+    Exec: True
+    WindowsBuiltin: True
+    MitreInitialAccess: sometimes
+    MitreExecution: often
+
   - Extension: .jse
     Description: Executable
     Confidence: Filesec
-    Tags:
-    - exec
-    - builtin
+    Exec: True
+    WindowsBuiltin: True
+
   - Extension: .mht
     Description: Executable
     Confidence: Filesec
-    Tags:
-    - exec:feature
-    - builtin
+    Exec: True
+    WindowsBuiltin: True
+
   - Extension: .mhtml
     Description: Executable
     Confidence: Filesec
-    Tags:
-    - exec:feature
-    - builtin
+    Exec: True
+    WindowsBuiltin: True
 
 
   # Executables low-confidence
   - Extension: .pif
     Description: Executable
-    Tags:
-    - exec
-    - builtin
+    Exec: True
+    WindowsBuiltin: True
+
   - Extension: .msm
     Description: Executable
-    Tags:
-    - exec
-    - builtin
+    Exec: True
+    WindowsBuiltin: True
+
   - Extension: .msp
     Description: Executable
-    Tags:
-    - exec
-    - builtin
+    Exec: True
+    WindowsBuiltin: True
+
   - Extension: .mst
     Description: Executable
-    Tags:
-    - exec
-    - builtin
+    Exec: True
+    WindowsBuiltin: True
+
   - Extension: .hta
     Description: Executable
-    Tags:
-    - exec
-    - builtin
+    Exec: True
+    WindowsBuiltin: True
+
   - Extension: .cpl
     Description: Executable
-    Tags:
-    - exec
-    - builtin
+    Exec: True
+    WindowsBuiltin: True
 
   - Extension: .jar
     Description: Executable
-    Tags:
-    - exec
-    - builtin
+    Exec: True
 
   # Office files
   - Extension: .doc
-    Description: Office Word Doc (without macros)
+    Description: Office Word Doc (macros)
     Confidence: High
-    Tags:
-    - container
+    Common: True
+    Exec: True
+    MitreInitialAccess: often
+    Container: True
+    BusinessCase: True
+    Notes: 
+
   - Extension: .ppt
-    Description: Office Powerpoint Doc (without macros)
+    Description: Office Powerpoint Doc (macros)
     Confidence: High
-    Tags:
-    - container
+    Common: True
+    Exec: True
+    MitreInitialAccess: sometimes
+    BusinessCase: True
+    Notes: 
+
   - Extension: .xls
-    Description: Office Execel Doc with (without macros)
+    Description: Office Execel Doc with (macros)
     Confidence: High
-    Tags:
-    - container
+    Common: True
+    Exec: True
+    MitreInitialAccess: sometimes
+    BusinessCase: True
+    Notes: 
 
   - Extension: .docx
     Description: Office Word Doc (without macros)
-    Confidence: High
-    Tags:
-    - exec:feature
-    - container
+    Common: True
+    Exec: True
+    MitreInitialAccess: often
+    Container: True
+    BusinessCase: True
+    Notes: 
+
   - Extension: .pptx
     Description: Office Powerpoint Doc (without macros)
     Confidence: High
-    Tags:
-    - container
+    Common: True
+    Exec: True
+    BusinessCase: True
+    Notes: 
+
   - Extension: .xlsx
     Description: Office Execel Doc with (without macros)
     Confidence: High
-    Tags:
-    - container
+    Common: True
+    Exec: True
+    MitreInitialAccess: sometimes
+    BusinessCase: True
+    Notes: 
 
   - Extension: .docm
     Description: Office Word Doc with macros
     Confidence: High
-    Tags:
-    - exec:feature
-    - container
+    Common: True
+    Exec: True
+    MitreInitialAccess: often
+    Container: True
+    BusinessCase: True
+    Notes: 
+
   - Extension: .pptm
     Description: Office Powerpoint Doc with macros
     Confidence: High
-    Tags:
-    - exec:feature
-    - container
+    Common: True
+    Exec: True
+    MitreInitialAccess: sometimes
+    BusinessCase: True
+    Notes: 
+
   - Extension: .xlsm
     Description: Office Execel Doc with macros
     Confidence: High
-    Tags:
-    - exec:feature
-    - container
+    Common: True
+    Exec: True
+    MitreInitialAccess: sometimes
+    BusinessCase: True
+    Notes: 
 
   # Archives
   - Extension: .zip
     Description: ZIP Archive
     Confidence: High
-    Tags:
-    - container:file
-    - builtin
+    Exec: True
+    Common: True
+    MitreInitialAccess: often
+    Container: True
+    WindowsBuiltin: True
+
   - Extension: .iso
     Description: ISO File
     Confidence: High
-    Tags:
-    - container:file
-    - builtin
+    Exec: True
+    Common: True
+    MitreInitialAccess: often
+    Container: True
+    WindowsBuiltin: True
 
   - Extension: .rar
     Description: RAR Archive
     Confidence: High
-    Tags:
-    - container:file
+    Exec: True
+    Common: True
+    Container: True
+
   - Extension: .7z
     Description: 7Zip Archive
     Confidence: High
-    Tags:
-    - container:file
+    Exec: True
+    Common: True
+    Container: True
 
   # Code
   - Extension: .ps1
     Description: Powershell script
     Confidence: High
-    Tags:
-    - code
+    Code: True
+    Common: True
   - Extension: .sh
     Description: Shell script
     Confidence: High
-    Tags:
-    - code
+    Code: True
   - Extension: .dll
     Description: DLL File
     Confidence: High
-    Tags:
-    - code
+    Code: True
+    Common: True
 
   # more documents
   - Extension: .pdf
     Description: PDF File
     Confidence: High
-    Tags:
-    - container
-    - phishing
-    - builtin
+    BusinessCase: True
+    WindowsBuiltin: True
 
   - Extension: .html
     Description: HTML file
     Confidence: High
-    Tags:
-    - container
-    - phishing
-    - builtin
+    Container: True
+    WindowsBuiltin: True
+    Common: True
+
   - Extension: .htm
     Description: HTML file
     Confidence: High
-    Tags:
-    - container
-    - phishing
-    - builtin
+    Container: True
+    WindowsBuiltin: True
+    Common: True
+
   - Extension: .ics
     Description: ICSfile
-    Tags:
-    - container
-    - phishing
+    Container: True
+    WindowsBuiltin: True
+    Common: True
+
   - Extension: .odt
     Description: 
-    Tags:
-    - container
-    - phishing
-    - builtin
+    WindowsBuiltin: True
+
   - Extension: .oxps
     Description: 
-    Tags:
-    - container
-    - phishing
-    - builtin
+    WindowsBuiltin: True
 
+  - Extension: .rtf
+    Description: 
+    WindowsBuiltin: True
+    BusinessCase: True
+
+  - Extension: .xps
+    Description: 
+    WindowsBuiltin: True
+    BusinessCase: True
 
     # Other
   - Extension: .reg
     Description: Registry file
-    Tags:
-    - exec:feature
-    - modify
+    Exec: True
+    WindowsBuiltin: True
+    MitreExecution: often
 
   - Extension: .lnk
     Description: Windows link
     Confidence: High
-    Tags:
-    - exec
-    - builtin
+    Exec: True
+    MitreInitialAccess: often
+    MitreExecution: sometimes
+    WindowsBuiltin: True
 
   - Extension: .js
     Description: Javascript file
+    Code: True
+    WindowsBuiltin: True
+
+
+    # unknown
+
+  - Extension: .settingscontent-ms
+    Description: 
+    Exec: True
+    WindowsBuiltin: True
+  - Extension: .sldm
+    Description: 
+    Exec: True
+  - Extension: .slk
+    Description: 
+    Exec: True
+  - Extension: .svg
+    Description: 
     Tags:
-     - code
+     - phishing
+  - Extension: .uue
+    Description: 
+    Container: True
 
-
-
+  - Extension: .
+    Description: 
+    Tags:
+     - phishing

@@ -25,6 +25,7 @@
 
         <local:BoolToFriendlyStringConverter x:Key="BoolToStringConverter"/>
         <local:ListToStringConverter x:Key="ListToStringConverter" />
+        <local:JudgmentToNice x:Key="JudgmentToNice" />
 
     </Window.Resources>
     
@@ -81,7 +82,7 @@
                     <DataGridTextColumn Header="Extension" Binding="{Binding Extension}" SortDirection="Ascending" />
                     <DataGridTextColumn Header="Reference" Binding="{Binding Result}" Visibility="Collapsed" />
                     <DataGridTextColumn Header="DoubleClick" Binding="{Binding Assumption}" />
-                    <DataGridTextColumn Header="Judgement" Binding="{Binding Judgement}">
+                    <DataGridTextColumn Header="Judgement" Binding="{Binding Judgement, Converter={StaticResource JudgmentToNice}}">
                         <DataGridTextColumn.HeaderStyle>
                             <Style TargetType="DataGridColumnHeader">
                                 <Setter Property="ToolTip" Value="Assessment how dangerous this extension is" />
@@ -97,7 +98,6 @@
                             </Style>
                         </DataGridTextColumn.HeaderStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="Tags" Binding="{Binding Tags, Converter={StaticResource ListToStringConverter}}" />
                     
                     <DataGridTextColumn Header="Executable Path" Binding="{Binding CmdExePath}" />
 

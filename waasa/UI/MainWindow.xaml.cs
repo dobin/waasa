@@ -26,7 +26,6 @@ namespace waasa {
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
-            // Implement if you need conversion back, otherwise throw NotSupportedException
             throw new NotSupportedException();
         }
     }
@@ -37,6 +36,22 @@ namespace waasa {
                 return string.Join(", ", stringList);
             }
             return string.Empty;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class JudgmentToNice: IValueConverter {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
+            if (value is Judgement judgementValue) {
+                if (judgementValue == Judgement.Unknown) {
+                    return "";
+                }
+                return judgementValue.ToString();
+            }
+            return "";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {

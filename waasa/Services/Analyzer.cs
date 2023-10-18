@@ -37,9 +37,18 @@ namespace waasa.Services {
                                     feA => extension.Extension == feA.Extension);
                 if (x.Count() == 1) {
                     var dataExtension = x.First();
-                    extension.Description = dataExtension.Description;
-                    foreach (var tag in dataExtension.Tags) {
-                        extension.Tags.Add(tag);
+                    extension.DataExtension = dataExtension;
+
+                    if (dataExtension.Exec != "") {
+                        extension.Judgement = Judgement.Bad;
+                    } else if (dataExtension.Container == true) {
+                        extension.Judgement = Judgement.Bad;
+                    } else if (dataExtension.MitreInitialAccess.Length > 0) {
+                        extension.Judgement = Judgement.Bad;
+                    } else if (dataExtension.MitreExecution.Length > 0) {
+                        extension.Judgement = Judgement.Bad;
+                    } else if (dataExtension.Code) {
+                        extension.Judgement = Judgement.Careful;
                     }
                 } else if (x.Count() > 1) {
                     Log.Warning("Multiple extensions in info.yaml for: " + extension.Extension);
