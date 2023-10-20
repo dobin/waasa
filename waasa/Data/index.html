@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bad Files</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" href="styles.css"></link>
+</head>
+<body>
+    <table id="myTable" class="compact row-border">
+        <thead>
+            <tr>
+                <!-- assuming your object has three properties: name, age, and city -->
+                <th>Extension</th>
+                <th>Confidence</th>
+                <th>Common</th>
+                <th>Exec</th>
+                <th>Category</th>
+                <th>MitreInitialAccess</th>
+                <th>MitreExecution</th>
+                <th>WindowsBuiltin</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be inserted here via JavaScript -->
+        </tbody>
+    </table>
+
+    Legend: 
+    <ul>
+        <li>Exec: Is able to execute code (can be used reasonably as initial access)</li>
+        <li>MitreInitialAccess: Is being used as initial access</li>
+        <li>MiteExecution: Is being used as execution technique</li>
+        <li>WindowsBuiltin: Supported by windows by default</li>
+    </ul>
+
+    <script>
+        $(document).ready(function() {
+            $.getJSON('info.json', function(data) {
+                $.each(data, function(key, value) {
+                    var row = $('<tr></tr>');
+
+                    var Confidence = value.Confidence !== undefined ? value.Confidence : '';
+                    var Common = value.Common !== undefined ? value.Common : '';
+                    var Exec = value.Exec !== undefined ? value.Exec : '';
+                    var Category = value.Category !== undefined ? value.Category : '';
+                    var MitreInitialAccess = value.MitreInitialAccess !== undefined ? value.MitreInitialAccess : '';
+                    var MitreExecution = value.MitreExecution !== undefined ? value.MitreExecution : '';
+                    var WindowsBuiltin = value.WindowsBuiltin !== undefined ? value.WindowsBuiltin : '';
+                    var Notes = value.Notes !== undefined ? value.Notes : '';
+
+                    row.append('<td>' + value.Extension + '</td>');
+                    row.append('<td>' + Confidence + '</td>');
+                    row.append('<td>' + Common + '</td>');
+                    row.append('<td>' + Exec + '</td>');
+                    row.append('<td>' + Category + '</td>');
+
+                    row.append('<td>' + MitreInitialAccess + '</td>');
+                    row.append('<td>' + MitreExecution + '</td>');
+                    row.append('<td>' + WindowsBuiltin + '</td>');
+                    row.append('<td>' + Notes + '</td>');
+                    $('#myTable tbody').append(row);
+                });
+
+                $('#myTable').DataTable({
+                    paging: false,
+                    columnDefs: [{
+                      targets: "_all",
+                      className: 'dt-left'
+                    }]
+                });
+            });
+        });
+    </script>
+</body>
+</html>

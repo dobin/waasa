@@ -21,6 +21,7 @@ namespace waasa.Services
         public bool Container { get; set; } = false;
         public bool BusinessCase { get; set; } = false;
         public bool Code { get; set; } = false;
+        public string Category { get; set; } = "";
         public List<String> Tags { get; set; } = new List<string>();
     }
 
