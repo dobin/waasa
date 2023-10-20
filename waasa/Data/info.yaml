@@ -30,13 +30,14 @@ Extensions:
     WindowsBuiltin: True
     Notes: Just an .exe
 
+
   - Extension: .bat
     Category: Executable
     Description: Batch script file for cmd.exe
     Confidence: High
     Exec: True
-    MitreInitialAccess: Often
-    MitreExecution: Often
+    MitreInitialAccess: often
+    MitreExecution: often
     WindowsBuiltin: True
     Notes: Always available, except if application whitelistening is active. Commonly blocked.
 
@@ -79,6 +80,13 @@ Extensions:
     WindowsBuiltin: True
     Notes: Encoded version of .vbs. Makes it harder to read, but can be used for same malicious purposes as .vbs.
 
+  - Extension: .vb
+    Category: Script
+    Description: Windows Visual Basic Script file
+    Confidence: Govcert.ch
+    Exec: True
+    WindowsBuiltin: True
+
   - Extension: .wsf
     Category: Script
     Description: Windows Script File
@@ -94,6 +102,20 @@ Extensions:
     Exec: True
     WindowsBuiltin: True
     Notes: Used to set properties for script execution. Can be used in conjunction with other scripts for execution.
+ 
+  - Extension: .ws
+    Category: Windows Script file
+    Exec: True
+    Description: 
+    WindowsBuiltin: True
+    Notes: Can execute scripts, similar to other Windows scripting files like .vbs or .js.
+
+  - Extension: .wsc
+    Exec: True
+    Category: Windows Script Component
+    Description: 
+    WindowsBuiltin: True
+    Notes: Allows for the creation of COM objects with scripts. Can be used to execute malicious scripts.
 
 
   # executables: filesec.io / govcert.ch
@@ -144,6 +166,11 @@ Extensions:
     Exec: True
     WindowsBuiltin: True
     Notes: Can run embedded scripts or malicious payloads when opened.
+
+  - Extension: .hlp
+    Description: Windows Script Component
+    WindowsBuiltin: True
+    Notes: Legacy help file format. Can potentially execute other files or code under specific circumstances.
 
   - Extension: .cpl
     Description: Windows Control Panel item
@@ -218,6 +245,11 @@ Extensions:
     WindowsBuiltin: True
     Notes: Encoded .js file. Can execute malicious scripts.
 
+  - Extension: .htc
+    Description: HTML Component
+    Category: Script
+    Notes: Contains script to be executed in web pages.
+
   - Extension: .mht
     Description: MHTML Web Archive
     Category: Script
@@ -281,6 +313,20 @@ Extensions:
     Exec: True
     WindowsBuiltin: True
     Notes: Contains changes to be applied to a Windows Installer package. Can be used maliciously to modify software installations.
+
+  - Extension: .msu
+    Description: Microsoft Update Standalone Package
+    Category: System
+    WindowsBuiltin: True
+    Exec: True
+    Note: Used to distribute Windows updates or hotfixes. If maliciously crafted, can introduce harmful changes to the system.
+
+  - Extension: .ppkg
+    Description: Windows Provisioning Package file
+    Category: System
+    Exec: True
+    WindowsBuiltin: True
+    Notes: Used to configure settings on Windows devices. If malicious, can modify system settings.
 
   - Extension: .jar
     Description: Java Archive
@@ -385,7 +431,31 @@ Extensions:
     Exec: True
     MitreInitialAccess: sometimes
     BusinessCase: True
-    Notes: 
+
+  - Extension: .xlsb
+    Description: Office Excel Add-in
+    Category: Office
+    Exec: True
+
+  - Extension: .xlam
+    Description: Office Excel Add-in
+    Category: Office
+    Exec: True
+
+  - Extension: .xll
+    Description: Office Excel Add-in
+    Category: Office
+    Exec: True
+
+  - Extension: .xlw
+    Description: Office Excel Add-in
+    Category: Office
+    Exec: True
+
+  - Extension: .ppam
+    Description: Microsoft PowerPoint Add-in file
+    Category: Office
+    Exec: True
 
   - Extension: .asd
     Description: AutoRecovery file for Microsoft Word
@@ -415,6 +485,91 @@ Extensions:
     Notes: Can potentially introduce malicious formulas or external data connections in Excel.
 
 
+  - Extension: .ade
+    Description: Microsoft Access project extension
+    Category: Office
+    Notes: Can contain scripts and execute actions within Access.
+
+  - Extension: .adp
+    Description: Microsoft Access project
+    Category: Office
+    Notes: Similar to .ade, can contain and execute scripts within Access.
+
+  - Extension: .bas
+    Description: Basic module
+    Category: Office
+    Notes: Contains code for Visual Basic for Applications; can be run within host applications like MS Excel or Access.
+
+  - Extension: .bgi
+    Description: Borland Graphics Interface
+    Category: Office
+    Notes: Old graphics program; be cautious of sources as it's an executable.
+
+  - Extension: .mad
+    Description: Microsoft Access module shortcut
+    Category: Office
+    Exec: True
+    Notes: Can reference and execute modules within Access.
+  - Extension: .maf
+    Description: Microsoft Access form shortcut
+    Category: Office
+    Notes: Can reference and execute forms within Access.
+  - Extension: .mag
+    Description: Microsoft Access diagram shortcut
+    Category: Office
+    Notes: Can reference and execute diagrams within Access.
+  - Extension: .mam
+    Description: Microsoft Access macro shortcut
+    Exec: True
+    Category: Office
+    Notes: Can reference and execute macros within Access.
+  - Extension: .maq
+    Description: Microsoft Access query shortcut
+    Category: Office
+    Notes: Can reference and execute queries within Access.
+  - Extension: .mar
+    Description: Microsoft Access report shortcut
+    Category: Office
+    Notes: Can reference and execute reports within Access.
+  - Extension: .mas
+    Description: Microsoft Access stored procedures
+    Exec: True
+    Category: Office
+    Notes: Contains code that can be executed within Access.
+  - Extension: .mat
+    Description: Microsoft Access table shortcut
+    Category: Office
+    Notes: Can reference tables in Access.
+  - Extension: 
+    Description: 
+    Exec: True
+    Category: Office
+    Notes: 
+  - Extension: .mav
+    Description: Microsoft Access view shortcut
+    Category: Office
+    Notes: Can reference and execute views within Access.
+  - Extension: .maw
+    Description: Microsoft Access data access page
+    Category: Office
+    Notes: Can reference and execute data access pages in Access.
+  - Extension: 
+    Description: 
+    Exec: True
+    Category: Office
+    Notes: 
+    
+  - Extension: 
+    Description: 
+    Exec: True
+    Category: Office
+    Notes: 
+  - Extension: 
+    Description: 
+    Exec: True
+    Category: Office
+    Notes: 
+
   # Archives
   - Extension: .zip
     Description: ZIP Archive
@@ -436,6 +591,23 @@ Extensions:
     Container: True
     WindowsBuiltin: True
 
+  - Extension: .iso
+    Description: ISO File
+    Category: Archive
+    Container: True
+
+  - Extension: .vhd
+    Description: Hyper-V Virtual Hard Disk files
+    Category: Container
+    Container: True
+    Notes: Disk image file. Doesn't execute, but the contents inside, once mounted, might contain malicious files or software.
+
+  - Extension: .vhdx
+    Description: Hyper-V Virtual Hard Disk files
+    Category: Container
+    Container: True
+    Notes: Similar concerns as .vhd. Contents inside, once mounted, might be harmful.
+
   - Extension: .rar
     Description: RAR Archive
     Category: Archive
@@ -452,6 +624,48 @@ Extensions:
     Common: True
     Container: True
 
+  - Extension: .z
+    Description: 
+    Category: Archive
+    Confidence: High
+    Exec: True
+    Container: True
+
+  - Extension: .bz2
+    Description: 
+    Category: Archive
+    Confidence: High
+    Exec: True
+    Container: True
+
+  - Extension: .cab
+    Description: Cabinet file
+    Category: Archive
+    Confidence: High
+    Exec: True
+    Container: True
+
+  - Extension: .gz
+    Description: 
+    Category: Archive
+    Confidence: High
+    Exec: True
+    Container: True
+
+  - Extension: .tar
+    Description: 
+    Category: Archive
+    Confidence: High
+    Exec: True
+    Container: True
+
+  - Extension: .ace
+    Description: 
+    Category: Archive
+    Confidence: High
+    Exec: True
+    Container: True
+
   # Code
   - Extension: .ps1
     Description: Powershell script
@@ -460,11 +674,69 @@ Extensions:
     Confidence: High
     Code: True
     Common: True
+  - Extension: .ps1xml
+    Description: Powershell script
+    WindowsBuiltin: True
+    Category: Code
+    Code: True
+  - Extension: .ps2
+    Description: Powershell script
+    WindowsBuiltin: True
+    Category: Code
+    Code: True
+  - Extension: .ps2xml
+    Description: Powershell script
+    WindowsBuiltin: True
+    Category: Code
+    Code: True
+  - Extension: .psc1
+    Description: Powershell script
+    WindowsBuiltin: True
+    Category: Code
+    Code: True
+  - Extension: .psc2
+    Description: Powershell script
+    WindowsBuiltin: True
+    Category: Code
+    Code: True
+  - Extension: .msh
+    Description: Powershell script
+    WindowsBuiltin: True
+    Category: Code
+    Code: True
+  - Extension: .msh1
+    Description: Powershell script
+    WindowsBuiltin: True
+    Category: Code
+    Code: True
+  - Extension: .msh2
+    Description: Powershell script
+    WindowsBuiltin: True
+    Category: Code
+    Code: True
+  - Extension: .mshxml
+    Description: Powershell script
+    WindowsBuiltin: True
+    Category: Code
+    Code: True
+  - Extension: .msh1xml
+    Description: Powershell script
+    WindowsBuiltin: True
+    Category: Code
+    Code: True
+  - Extension: .msh2xml
+    Description: Powershell script
+    WindowsBuiltin: True
+    Category: Code
+    Code: True
+
+
   - Extension: .sh
     Description: Shell script
     Category: Code
     Confidence: High
     Code: True
+
   - Extension: .dll
     Description: DLL File
     WindowsBuiltin: True
@@ -472,6 +744,18 @@ Extensions:
     Confidence: High
     Code: True
     Common: True
+
+  - Extension: .asp
+    Description: Active Server Pages
+    Category: Code
+    Code: True
+    Notes: Web file that can contain and execute server-side script.
+
+  - Extension: .aspx
+    Description: 
+    Category: Code
+    Code: True
+    Notes: Web file that can execute server-side script, primarily in .NET.
 
   # more documents
   - Extension: .pdf
@@ -552,9 +836,33 @@ Extensions:
     WindowsBuiltin: True
     Notes: Can point to and execute malicious applications or scripts. Can also have embedded harmful arguments or actions.
 
+  - Extension: .msc
+    Category: System
+    Description: Microsoft Management Console file
+    WindowsBuiltin: True
+    Notes: Provides a UI for managing different aspects of Windows. Maliciously crafted .msc files can be harmful.
+
+  - Extension: .pol
+    Category: System
+    Description: Windows Group Policy file
+    WindowsBuiltin: True
+    Notes: Represents policy settings. While not executable, they can alter system configurations if applied.
+
+  - Extension: .scf
+    Category: Executable
+    Description: Windows Explorer Command
+    Exec: True
+    WindowsBuiltin: True
+    Notes: Can be used to execute commands in Windows.
+
+  - Extension: .shb
+    Category: Executable
+    Description: Windows Document Shortcut
+    Exec: True
+    WindowsBuiltin: True
+    Notes: Can be used to execute documents or applications.
 
     # unknown
-
   - Extension: .settingscontent-ms
     Description: Windows Settings shortcut
     Category: System
@@ -572,3 +880,9 @@ Extensions:
   - Extension: .uue
     Description: Uuencode (Unix-to-Unix encoding) encoded file
     Notes: Used for encoding binary data to text. While the format itself doesn't execute, the decoded content might be malicious.
+    Category: Encoding
+
+  - Extension: .b64
+    Description: Base64 encoded file
+    Notes: Used for encoding binary data to text. While the format itself doesn't execute, the decoded content might be malicious.
+    Category: Encoding
