@@ -76,7 +76,7 @@ namespace waasa {
         ICollectionView collectionView;
         private string searchFilter = "";
         private bool FilterRecommended = true;
-        private bool FilterOpenwith = true;
+        private bool FilterOpenwith = false;
         private bool FilterExec = true;
         private bool FilterUwp = true;
         private bool FilterWindows = true;

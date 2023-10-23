@@ -45,7 +45,7 @@
             <MenuItem Header="View">
                 <MenuItem Header="Show exec" IsCheckable="True" IsChecked="True" Checked="MenuViewExecOn" Unchecked="MenuViewExecOff" />
                 <MenuItem Header="Show recommended" IsCheckable="True" IsChecked="True" Checked="MenuViewERecommendedOn" Unchecked="MenuViewRecommendedOff" />
-                <MenuItem Header="Show openwith" IsCheckable="True" IsChecked="True" Checked="MenuViewOpenwithOn" Unchecked="MenuViewOpenwithOff" />
+                <MenuItem Header="Show openwith" IsCheckable="True" IsChecked="False" Checked="MenuViewOpenwithOn" Unchecked="MenuViewOpenwithOff" />
                 <MenuItem Header="Show reference" IsCheckable="True" Checked="MenuReferenceOnChecked" Unchecked="MenuReferenceOnUnchecked" />
                 <MenuItem Header="Show UWP" IsChecked="True" IsCheckable="True" Checked="MenuUwpOnChecked" Unchecked="MenuUwpOnUnchecked" />
                 <MenuItem Header="Show C:\\windows\\*" IsChecked="True" IsCheckable="True" Checked="MenuWindowsOnChecked" Unchecked="MenuWindowsOnUnchecked" />
