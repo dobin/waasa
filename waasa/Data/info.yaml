@@ -1,4 +1,4 @@
-Extensions:
+ï»¿Extensions:
 
   # Executables Confident
   - Extension: .exe
@@ -302,7 +302,7 @@ Extensions:
     Description: Program Information File
     Category: System
     WindowsBuiltin: True
-    Notes: A program information file for MS-DOS programs. While .PIF files aren’t supposed to contain executable code, Windows will treat .PIFs the same as .EXE files if they contain executable code.
+    Notes: A program information file for MS-DOS programs. While .PIF files arenï¿½t supposed to contain executable code, Windows will treat .PIFs the same as .EXE files if they contain executable code.
 
   - Extension: .msm
     Description: Windows Installer Merge Module
