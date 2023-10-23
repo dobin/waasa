@@ -590,6 +590,37 @@
     Description: Microsoft Access data access page
     Category: Office
     Notes: Can reference and execute data access pages in Access.
+
+  - Extension: .one
+    Description: Onenote
+    Category: Office
+    Confidence: High
+    Exec: True
+    MitreInitialAccess: often
+    Container: True
+    WindowsBuiltin: True
+    Notes: May have file extension blacklist
+  - Extension: .onepkg
+    Description: Onenote
+    Category: Office
+    Exec: True
+    Container: True
+    WindowsBuiltin: True
+    Notes: May have file extension blacklist
+  - Extension: .onetoc
+    Description: Onenote
+    Category: Office
+    Exec: True
+    Container: True
+    WindowsBuiltin: True
+    Notes: May have file extension blacklist
+  - Extension: .onetoc2
+    Description: Onenote
+    Category: Office
+    Exec: True
+    Container: True
+    WindowsBuiltin: True
+    Notes: May have file extension blacklist
     
   # Archives
   - Extension: .zip
