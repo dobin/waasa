@@ -82,6 +82,7 @@ namespace waasa {
         private bool FilterWindows = true;
         private bool FilterPrograms = true;
         private bool FilterUser = true;
+        private bool OnlyShowJudged = false;
 
 
         public MainWindow() {
@@ -138,6 +139,9 @@ namespace waasa {
                         return false;
                     }
                     if (!FilterUser && fileExtension.CmdExePath.StartsWith("C:\\Users\\")) {
+                        return false;
+                    }
+                    if (OnlyShowJudged && fileExtension.Judgement == Judgement.Unknown) {
                         return false;
                     }
 
@@ -353,7 +357,6 @@ namespace waasa {
                 collectionView.Refresh();
             }
         }
-
         private void MenuWindowsOnUnchecked(object sender, RoutedEventArgs e) {
             FilterWindows = false;
             if (collectionView != null) {
@@ -367,7 +370,6 @@ namespace waasa {
                 collectionView.Refresh();
             }
         }
-
         private void MenuProgramsOnUnchecked(object sender, RoutedEventArgs e) {
             FilterPrograms = false;
             if (collectionView != null) {
@@ -381,7 +383,6 @@ namespace waasa {
                 collectionView.Refresh();
             }
         }
-
         private void MenuUserOnUnchecked(object sender, RoutedEventArgs e) {
             FilterUser = false;
             if (collectionView != null) {
@@ -389,6 +390,18 @@ namespace waasa {
             }
         }
 
+        private void MenuJudgedOnChecked(object sender, RoutedEventArgs e) {
+            OnlyShowJudged = true;
+            if (collectionView != null) {
+                collectionView.Refresh();
+            }
+        }
+        private void MenuJudgedOnUnchecked(object sender, RoutedEventArgs e) {
+            OnlyShowJudged = false;
+            if (collectionView != null) {
+                collectionView.Refresh();
+            }
+        }
 
         /*** Row selection menu ***/
 

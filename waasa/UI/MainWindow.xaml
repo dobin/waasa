@@ -51,6 +51,7 @@
                 <MenuItem Header="Show C:\\windows\\*" IsChecked="True" IsCheckable="True" Checked="MenuWindowsOnChecked" Unchecked="MenuWindowsOnUnchecked" />
                 <MenuItem Header="Show C:\\Program Files*" IsChecked="True" IsCheckable="True" Checked="MenuProgramsOnChecked" Unchecked="MenuProgramsOnUnchecked" />
                 <MenuItem Header="Show C:\\Users\\*" IsChecked="True" IsCheckable="True" Checked="MenuUserOnChecked" Unchecked="MenuUserOnUnchecked" />
+                <MenuItem Header="Only show judged" IsChecked="False" IsCheckable="True" Checked="MenuJudgedOnChecked" Unchecked="MenuJudgedOnUnchecked" />
             </MenuItem>
             <MenuItem Header="Options">
                 <MenuItem Header="Filter (ctrl-f)" Click="Menu_Filter" />
