@@ -7,7 +7,7 @@ using Serilog;
 
 namespace waasa.Services
 {
-    public class DataExtension {
+    public class InfoExtension {
         public string Extension { get; set; } = "";
         public string Description { get; set; } = "";
         public string Exec{ get; set; } = "";
@@ -27,15 +27,15 @@ namespace waasa.Services
     }
 
     public class YamlRoot {
-        public List<DataExtension> Extensions { get; set; } = new List<DataExtension>();
+        public List<InfoExtension> Extensions { get; set; } = new List<InfoExtension>();
     }
 
 
-    class DataParser
+    class InfoParser
     {
-        public static List<DataExtension> ReadYaml(string filepath) {
+        public static List<InfoExtension> ReadYaml(string filepath) {
             if (!File.Exists(filepath)) {
-                return new List<DataExtension>();
+                return new List<InfoExtension>();
             }
             var input = File.ReadAllText(filepath);
             var deserializer = new DeserializerBuilder().Build();

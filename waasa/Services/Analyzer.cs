@@ -31,23 +31,24 @@ namespace waasa.Services {
                 FileExtensions.Add(fileExtension);
             }
 
-            var dataExtensions = DataParser.ReadYaml("Data\\info.yaml");
+            // Read the info.yaml file and add the data to the extensions
+            var infoExtensions = InfoParser.ReadYaml("Data\\info.yaml");
             foreach (var extension in FileExtensions) {
-                var x = dataExtensions.Where(
+                var x = infoExtensions.Where(
                                     feA => extension.Extension == feA.Extension);
                 if (x.Count() == 1) {
-                    var dataExtension = x.First();
-                    extension.DataExtension = dataExtension;
+                    var infoExtension = x.First();
+                    extension.InfoExtension = infoExtension;
 
-                    if (dataExtension.Exec != "") {
+                    if (infoExtension.Exec != "") {
                         extension.Judgement = Judgement.Bad;
-                    } else if (dataExtension.Container == true) {
+                    } else if (infoExtension.Container == true) {
                         extension.Judgement = Judgement.Bad;
-                    } else if (dataExtension.MitreInitialAccess.Length > 0) {
+                    } else if (infoExtension.MitreInitialAccess.Length > 0) {
                         extension.Judgement = Judgement.Bad;
-                    } else if (dataExtension.MitreExecution.Length > 0) {
+                    } else if (infoExtension.MitreExecution.Length > 0) {
                         extension.Judgement = Judgement.Bad;
-                    } else if (dataExtension.Code) {
+                    } else if (infoExtension.Code) {
                         extension.Judgement = Judgement.Careful;
                     }
                 } else if (x.Count() > 1) {

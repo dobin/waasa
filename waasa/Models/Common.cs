@@ -34,7 +34,7 @@ namespace waasa.Models {
         public bool isUwp { get; set; } = false;
 
         // Loaded from external reference file
-        public DataExtension DataExtension { get; set; } = new DataExtension();
+        public InfoExtension InfoExtension { get; set; } = new InfoExtension();
         
         public string Description { get; set; } = "";
         public List<string> Tags { get; set; } = new List<string>();
