@@ -23,11 +23,14 @@ namespace waasa.Services {
         public void Load(_GatheredData gatheredData, Validator validator, GatheredDataSimpleView registry) {
             Log.Information("Analyzer: Load and resolve extensions");
 
+            validator.LoadFromFile("reference-data.txt");
+
             GatheredData = gatheredData;
             SimpleDataView = registry;
 
             foreach (var extension in GatheredData.ListedExtensions) {
                 var fileExtension = resolveExtension(extension);
+                fileExtension.Result = validator.GetEffectiveResultFor(extension);
                 FileExtensions.Add(fileExtension);
             }
 

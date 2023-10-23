@@ -38,7 +38,7 @@ Create all files in `./output/`:
 * waasa.json: a dump from the registry of a machine, and additional information. Main working file.
 * waasa.csv: Output to CSV
 * waasa.txt: Input of file extensions
-
+* gathered_data.json: Registry dump
 
 ## Example Results
 
