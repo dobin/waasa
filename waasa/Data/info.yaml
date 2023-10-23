@@ -104,18 +104,25 @@ Extensions:
     Notes: Used to set properties for script execution. Can be used in conjunction with other scripts for execution.
  
   - Extension: .ws
-    Category: Windows Script file
+    Category: Script
     Exec: True
-    Description: 
+    Description: Windows Script file
     WindowsBuiltin: True
     Notes: Can execute scripts, similar to other Windows scripting files like .vbs or .js.
 
   - Extension: .wsc
     Exec: True
-    Category: Windows Script Component
-    Description: 
+    Category: Script
+    Description: Windows Script Component
     WindowsBuiltin: True
     Notes: Allows for the creation of COM objects with scripts. Can be used to execute malicious scripts.
+
+  - Extension: .inf
+    Exec: True
+    Category: System
+    Description: 
+    WindowsBuiltin: True
+    Notes: If run, this file could potentially launch dangerous applications it came with or pass dangerous options to programs included with Windows.
 
 
   # executables: filesec.io / govcert.ch
@@ -214,7 +221,7 @@ Extensions:
     Confidence: Filesec
     Exec: True
     WindowsBuiltin: True
-    Notes: Executes as a trusted application and can run malicious scripts.
+    Notes: An HTML application. Unlike HTML applications run in browsers, .HTA files are run as trusted applications without sandboxing.
 
   - Extension: .img
     Description: Disk image file
@@ -233,15 +240,16 @@ Extensions:
     Description: JavaScript file
     WindowsBuiltin: True
     Confidence: Low
+    Exec: True
     Category: Script
     MitreExecution: often
-    Notes: Can execute code when run with applications like Windows Script Host.
+    Notes: A JavaScript file. .JS files are normally used by webpages and are safe if run in Web browsers. However, Windows will run .JS files outside the browser with no sandboxing.
 
   - Extension: .jse
     Description: JScript Encoded Script File
     Category: Script
-    Confidence: Filesec
     Exec: True
+    Confidence: Filesec
     WindowsBuiltin: True
     Notes: Encoded .js file. Can execute malicious scripts.
 
@@ -271,6 +279,7 @@ Extensions:
     Category: System
     Confidence: Govcert.ch
     WindowsBuiltin: True
+    Exec: True
     Notes: It's an application bundle on macOS. If malicious, it can introduce harmful software to the system.
 
   - Extension: .ocx
@@ -290,10 +299,10 @@ Extensions:
 
   # Executables low-confidence
   - Extension: .pif
-    Description: Program Information File (old DOS shortcut)
+    Description: Program Information File
     Category: System
     WindowsBuiltin: True
-    Notes: Legacy format that can reference or run code. Avoid from untrusted sources.
+    Notes: A program information file for MS-DOS programs. While .PIF files aren’t supposed to contain executable code, Windows will treat .PIFs the same as .EXE files if they contain executable code.
 
   - Extension: .msm
     Description: Windows Installer Merge Module
@@ -305,6 +314,7 @@ Extensions:
     Description: Windows Installer Patch
     Category: System
     WindowsBuiltin: True
+    Exec: True
     Notes: Meant for updating software, but can be crafted to modify installations maliciously.
 
   - Extension: .mst
@@ -319,7 +329,7 @@ Extensions:
     Category: System
     WindowsBuiltin: True
     Exec: True
-    Note: Used to distribute Windows updates or hotfixes. If maliciously crafted, can introduce harmful changes to the system.
+    Notes: Used to distribute Windows updates or hotfixes. If maliciously crafted, can introduce harmful changes to the system.
 
   - Extension: .ppkg
     Description: Windows Provisioning Package file
@@ -344,7 +354,6 @@ Extensions:
     MitreInitialAccess: often
     Container: True
     BusinessCase: True
-    Notes: 
 
   - Extension: .ppt
     Description: Office Powerpoint Doc (with macros)
@@ -354,7 +363,6 @@ Extensions:
     Exec: True
     MitreInitialAccess: sometimes
     BusinessCase: True
-    Notes: 
 
   - Extension: .xls
     Description: Office Execel Doc (with macros)
@@ -364,7 +372,6 @@ Extensions:
     Exec: True
     MitreInitialAccess: sometimes
     BusinessCase: True
-    Notes: 
 
   - Extension: .xlm
     Description: Office Excel 4 Doc (with macros)
@@ -381,7 +388,6 @@ Extensions:
     MitreInitialAccess: often
     Container: True
     BusinessCase: True
-    Notes: 
 
   - Extension: .pptx
     Description: Office Powerpoint Doc (without macros)
@@ -390,7 +396,6 @@ Extensions:
     Common: True
     Exec: True
     BusinessCase: True
-    Notes: 
 
   - Extension: .xlsx
     Description: Office Execel Doc with (without macros)
@@ -400,36 +405,65 @@ Extensions:
     Exec: True
     MitreInitialAccess: sometimes
     BusinessCase: True
-    Notes: 
 
   - Extension: .docm
     Description: Office Word Doc with macros
     Category: Office
     Confidence: High
-    Common: True
     Exec: True
     MitreInitialAccess: often
     Container: True
     BusinessCase: True
-    Notes: 
+
+  - Extension: .dotm
+    Description: Office Word Template with macros
+    Category: Office
+    Confidence: High
+    Exec: True
+    MitreInitialAccess: sometimes
+    Container: True
+    BusinessCase: True
 
   - Extension: .pptm
     Description: Office Powerpoint Doc with macros
     Category: Office
     Confidence: High
-    Common: True
     Exec: True
     MitreInitialAccess: sometimes
     BusinessCase: True
-    Notes: 
+
+  - Extension: .potm
+    Description: Office Powerpoint with macros
+    Category: Office
+    Exec: True
+
+  - Extension: .ppam
+    Description: Office Powerpoint with macros
+    Category: Office
+    Exec: True
+
+  - Extension: .ppsm
+    Description: Office Powerpoint with macros
+    Category: Office
+    Exec: True
+
+  - Extension: .sldm
+    Description: Office with macros
+    Category: Office
+    Exec: True
 
   - Extension: .xlsm
     Description: Office Execel Doc with macros
     Category: Office
     Confidence: High
-    Common: True
     Exec: True
     MitreInitialAccess: sometimes
+    BusinessCase: True
+
+  - Extension: .xltm
+    Description: Office Execel Template with macros
+    Category: Office
+    Exec: True
     BusinessCase: True
 
   - Extension: .xlsb
@@ -462,7 +496,6 @@ Extensions:
     Category: Office
     Confidence: Filesec
     Exec: True
-    WindowsBuiltin: True
     Notes: It's a Word recovery file, but be cautious of macros or embedded objects if opened.
 
   - Extension: .iqy
@@ -488,11 +521,13 @@ Extensions:
   - Extension: .ade
     Description: Microsoft Access project extension
     Category: Office
+    Execute: True
     Notes: Can contain scripts and execute actions within Access.
 
   - Extension: .adp
     Description: Microsoft Access project
     Category: Office
+    Execute: True
     Notes: Similar to .ade, can contain and execute scripts within Access.
 
   - Extension: .bas
@@ -500,9 +535,16 @@ Extensions:
     Category: Office
     Notes: Contains code for Visual Basic for Applications; can be run within host applications like MS Excel or Access.
 
+  - Extension: .wbk
+    Description: Microsoft Word backup file
+    Exec: True
+    Category: Office
+    Notes: Can contain and execute macros.
+
   - Extension: .bgi
     Description: Borland Graphics Interface
     Category: Office
+    Exec: True
     Notes: Old graphics program; be cautious of sources as it's an executable.
 
   - Extension: .mad
@@ -540,11 +582,6 @@ Extensions:
     Description: Microsoft Access table shortcut
     Category: Office
     Notes: Can reference tables in Access.
-  - Extension: 
-    Description: 
-    Exec: True
-    Category: Office
-    Notes: 
   - Extension: .mav
     Description: Microsoft Access view shortcut
     Category: Office
@@ -553,23 +590,7 @@ Extensions:
     Description: Microsoft Access data access page
     Category: Office
     Notes: Can reference and execute data access pages in Access.
-  - Extension: 
-    Description: 
-    Exec: True
-    Category: Office
-    Notes: 
     
-  - Extension: 
-    Description: 
-    Exec: True
-    Category: Office
-    Notes: 
-  - Extension: 
-    Description: 
-    Exec: True
-    Category: Office
-    Notes: 
-
   # Archives
   - Extension: .zip
     Description: ZIP Archive
@@ -591,21 +612,18 @@ Extensions:
     Container: True
     WindowsBuiltin: True
 
-  - Extension: .iso
-    Description: ISO File
-    Category: Archive
-    Container: True
-
   - Extension: .vhd
     Description: Hyper-V Virtual Hard Disk files
     Category: Container
     Container: True
+    WindowsBuiltin: True
     Notes: Disk image file. Doesn't execute, but the contents inside, once mounted, might contain malicious files or software.
 
   - Extension: .vhdx
     Description: Hyper-V Virtual Hard Disk files
     Category: Container
     Container: True
+    WindowsBuiltin: True
     Notes: Similar concerns as .vhd. Contents inside, once mounted, might be harmful.
 
   - Extension: .rar
@@ -644,6 +662,7 @@ Extensions:
     Confidence: High
     Exec: True
     Container: True
+    WindowsBuiltin: True
 
   - Extension: .gz
     Description: 
@@ -853,7 +872,7 @@ Extensions:
     Description: Windows Explorer Command
     Exec: True
     WindowsBuiltin: True
-    Notes: Can be used to execute commands in Windows.
+    Notes: A Windows Explorer command file. Could pass potentially dangerous commands to Windows Explorer.
 
   - Extension: .shb
     Category: Executable

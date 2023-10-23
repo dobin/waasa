@@ -17,6 +17,7 @@ namespace waasa.Services
         public string MitreInitialAccess { get; set; } = "";
         public string MitreExecution { get; set; } = "";
         public bool WindowsBuiltin { get; set; } = false;
+        public bool Execute { get; set; } = false;
         public string Notes { get; set; } = "";
         public bool Container { get; set; } = false;
         public bool BusinessCase { get; set; } = false;
