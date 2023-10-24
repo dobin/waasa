@@ -30,7 +30,6 @@
     WindowsBuiltin: True
     Notes: Just an .exe
 
-
   - Extension: .bat
     Category: Executable
     Description: Batch script file for cmd.exe
@@ -78,6 +77,7 @@
     Confidence: Govcert.ch
     Exec: True
     WindowsBuiltin: True
+    MitreInitialAccess: sometimes
     Notes: Encoded version of .vbs. Makes it harder to read, but can be used for same malicious purposes as .vbs.
 
   - Extension: .vb
@@ -93,6 +93,8 @@
     Confidence: Govcert.ch
     Exec: True
     WindowsBuiltin: True
+    MitreInitialAccess: sometimes
+    MitreExecution: sometimes
     Notes: Allows mixing of scripting languages. Can execute malicious scripts.
 
   - Extension: .wsh
@@ -117,12 +119,17 @@
     WindowsBuiltin: True
     Notes: Allows for the creation of COM objects with scripts. Can be used to execute malicious scripts.
 
-  - Extension: .inf
+  - Extension: ".inf"
     Exec: True
     Category: System
     Description: 
     WindowsBuiltin: True
     Notes: If run, this file could potentially launch dangerous applications it came with or pass dangerous options to programs included with Windows.
+
+  - Extension: .ini
+    Category: System
+    Description: 
+    WindowsBuiltin: True
 
 
   # executables: filesec.io / govcert.ch
@@ -172,6 +179,7 @@
     Confidence: Filesec
     Exec: True
     WindowsBuiltin: True
+    MitreInitialAccess: sometimes
     Notes: Can run embedded scripts or malicious payloads when opened.
 
   - Extension: .hlp
@@ -342,6 +350,7 @@
     Description: Java Archive
     Category: System
     Exec: True
+    MitreInitialAccess: sometimes
     Notes: Can execute Java code when opened with Java Runtime Environment, if installed.
 
   # Office files
@@ -403,7 +412,7 @@
     Confidence: High
     Common: True
     Exec: True
-    MitreInitialAccess: sometimes
+    MitreInitialAccess: often
     BusinessCase: True
 
   - Extension: .docm
@@ -441,6 +450,7 @@
     Description: Office Powerpoint with macros
     Category: Office
     Exec: True
+    MitreInitialAccess: sometimes
 
   - Extension: .ppsm
     Description: Office Powerpoint with macros
@@ -457,7 +467,7 @@
     Category: Office
     Confidence: High
     Exec: True
-    MitreInitialAccess: sometimes
+    MitreInitialAccess: often
     BusinessCase: True
 
   - Extension: .xltm
@@ -470,6 +480,7 @@
     Description: Office Excel Add-in
     Category: Office
     Exec: True
+    MitreInitialAccess: often
 
   - Extension: .xlam
     Description: Office Excel Add-in
@@ -480,6 +491,7 @@
     Description: Office Excel Add-in
     Category: Office
     Exec: True
+    MitreInitialAccess: sometimes
 
   - Extension: .xlw
     Description: Office Excel Add-in
@@ -694,6 +706,7 @@
     Exec: True
     Container: True
     WindowsBuiltin: True
+    MitreInitialAccess: sometimes
 
   - Extension: .gz
     Description: 
@@ -716,6 +729,97 @@
     Exec: True
     Container: True
 
+  - Extension: .arj
+    Description: 
+    Category: Archive
+    Confidence: High
+    Exec: True
+    Container: True
+  - Extension: .bz
+    Description: 
+    Category: Archive
+    Confidence: High
+    Exec: True
+    Container: True
+  - Extension: .bz2
+    Description: 
+    Category: Archive
+    Confidence: High
+    Exec: True
+    Container: True
+  - Extension: .bzip
+    Description: 
+    Category: Archive
+    Confidence: High
+    Exec: True
+    Container: True
+  - Extension: .bzip2
+    Description: 
+    Category: Archive
+    Confidence: High
+    Exec: True
+    Container: True
+  - Extension: .gz
+    Description: 
+    Category: Archive
+    Confidence: High
+    Exec: True
+    Container: True
+  - Extension: .gzip
+    Description: 
+    Category: Archive
+    Confidence: High
+    Exec: True
+    Container: True
+  - Extension: .r00
+    Description: 
+    Category: Archive
+    Confidence: High
+    Exec: True
+    Container: True
+  - Extension: .r01
+    Description: 
+    Category: Archive
+    Confidence: High
+    Exec: True
+    Container: True
+  - Extension: .lzh
+    Description: 
+    Category: Archive
+    Confidence: High
+    Exec: True
+    Container: True
+  - Extension: .z
+    Description: 
+    Category: Archive
+    Confidence: High
+    Exec: True
+    Container: True
+  - Extension: .img
+    Description: 
+    Category: Archive
+    Confidence: High
+    Exec: True
+    Container: True
+  - Extension: .xz
+    Description: 
+    Category: Archive
+    Confidence: High
+    Exec: True
+    Container: True
+  - Extension: .r02
+    Description: 
+    Category: Archive
+    Confidence: High
+    Exec: True
+    Container: True
+  - Extension: .r03
+    Description: 
+    Category: Archive
+    Confidence: High
+    Exec: True
+    Container: True
+
   # Code
   - Extension: .ps1
     Description: Powershell script
@@ -723,6 +827,7 @@
     Category: Code
     Confidence: High
     Code: True
+    MitreExecution: often
     Common: True
   - Extension: .ps1xml
     Description: Powershell script
@@ -858,6 +963,7 @@
     Category: Document
     WindowsBuiltin: True
     BusinessCase: True
+    MitreInitialAccess: sometimes
     Notes: Can potentially contain embedded objects or links that could lead to malicious content or actions when opened.
 
   - Extension: .xps
