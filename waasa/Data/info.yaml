@@ -688,135 +688,191 @@
   - Extension: .z
     Description: 
     Category: Archive
-    Confidence: High
+    Exec: True
+    Container: True
+
+  - Extension: .bz
+    Description: 
+    Category: Archive
     Exec: True
     Container: True
 
   - Extension: .bz2
     Description: 
     Category: Archive
-    Confidence: High
+    Exec: True
+    Container: True
+
+  - Extension: .bin
+    Description: 
+    Category: Archive
     Exec: True
     Container: True
 
   - Extension: .cab
     Description: Cabinet file
     Category: Archive
-    Confidence: High
     Exec: True
     Container: True
     WindowsBuiltin: True
     MitreInitialAccess: sometimes
 
-  - Extension: .gz
+  - Extension: .bin
+    Description: 
+    Category: Archive
+    Exec: True
+    Container: True
+  - Extension: .cpio
     Description: 
     Category: Archive
     Confidence: High
+    Exec: True
+    Container: True
+  - Extension: .lha
+    Description: 
+    Category: Archive
+    Confidence: High
+    Exec: True
+    Container: True
+  - Extension: .rev
+    Description: 
+    Category: Archive
+    Confidence: High
+    Exec: True
+    Container: True
+  - Extension: .rpm
+    Description: 
+    Category: Archive
+    Exec: True
+    Container: True
+  - Extension: .tbz
+    Description: 
+    Category: Archive
+    Exec: True
+    Container: True
+  - Extension: .tbz2
+    Description: 
+    Category: Archive
+    Exec: True
+    Container: True
+  - Extension: .tgz
+    Description: 
+    Category: Archive
+    Exec: True
+    Container: True
+  - Extension: .xxe
+    Description: 
+    Category: Archive
+    Exec: True
+    Container: True
+  - Extension: .xar
+    Description: 
+    Category: Archive
+    Exec: True
+    Container: True
+  - Extension: .webarchive
+    Description: 
+    Category: Archive
+    Exec: True
+    Container: True
+
+  - Extension: .gz
+    Description: 
+    Category: Archive
     Exec: True
     Container: True
 
   - Extension: .tar
     Description: 
     Category: Archive
-    Confidence: High
     Exec: True
     Container: True
 
   - Extension: .ace
     Description: 
     Category: Archive
-    Confidence: High
     Exec: True
     Container: True
 
   - Extension: .arj
     Description: 
     Category: Archive
-    Confidence: High
     Exec: True
     Container: True
-  - Extension: .bz
-    Description: 
-    Category: Archive
-    Confidence: High
-    Exec: True
-    Container: True
-  - Extension: .bz2
-    Description: 
-    Category: Archive
-    Confidence: High
-    Exec: True
-    Container: True
+
   - Extension: .bzip
     Description: 
     Category: Archive
-    Confidence: High
     Exec: True
     Container: True
   - Extension: .bzip2
     Description: 
     Category: Archive
-    Confidence: High
     Exec: True
     Container: True
   - Extension: .gz
     Description: 
     Category: Archive
-    Confidence: High
     Exec: True
     Container: True
   - Extension: .gzip
     Description: 
     Category: Archive
-    Confidence: High
     Exec: True
     Container: True
   - Extension: .r00
     Description: 
     Category: Archive
-    Confidence: High
     Exec: True
     Container: True
   - Extension: .r01
     Description: 
     Category: Archive
-    Confidence: High
     Exec: True
     Container: True
   - Extension: .lzh
     Description: 
     Category: Archive
-    Confidence: High
+    Exec: True
+    Container: True
+  - Extension: .lzma
+    Description: 
+    Category: Archive
+    Exec: True
+    Container: True
+  - Extension: .lz
+    Description: 
+    Category: Archive
+    Exec: True
+    Container: True
+  - Extension: .lzh
+    Description: 
+    Category: Archive
     Exec: True
     Container: True
   - Extension: .z
     Description: 
     Category: Archive
-    Confidence: High
     Exec: True
     Container: True
   - Extension: .img
     Description: 
     Category: Archive
-    Confidence: High
     Exec: True
     Container: True
   - Extension: .xz
     Description: 
     Category: Archive
-    Confidence: High
     Exec: True
     Container: True
   - Extension: .r02
     Description: 
     Category: Archive
-    Confidence: High
     Exec: True
     Container: True
   - Extension: .r03
     Description: 
     Category: Archive
-    Confidence: High
     Exec: True
     Container: True
 
@@ -885,7 +941,6 @@
     Category: Code
     Code: True
 
-
   - Extension: .sh
     Description: Shell script
     Category: Code
@@ -911,8 +966,48 @@
     Category: Code
     Code: True
     Notes: Web file that can execute server-side script, primarily in .NET.
-
-  # more documents
+    
+  - Extension: .asax
+    Category: Code
+    Code: True
+  - Extension: ashx
+    Category: Code
+    Code: True
+  - Extension: .bas
+    Category: Code
+    Code: True
+  - Extension: .btm
+    Category: Code
+    Code: True
+  - Extension: .cla
+    Category: Code
+    Code: True
+  - Extension: .class
+    Category: Code
+    Code: True
+  - Extension: .csh
+    Category: Code
+    Code: True
+  - Extension: .ksh
+    Category: Code
+    Code: True
+  - Extension: .pl
+    Category: Code
+    Code: True
+  - Extension: .plg
+    Category: Code
+    Code: True
+  - Extension: .wml
+    Category: Code
+    Code: True
+  - Extension: .xbap
+    Category: Code
+    Code: True
+  - Extension: .xdp
+    Category: Code
+    Code: True
+  
+    # more documents
   - Extension: .pdf
     Description: PDF File
     Category: Document
