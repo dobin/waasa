@@ -447,18 +447,13 @@
     Exec: True
 
   - Extension: .ppam
-    Description: Office Powerpoint with macros
+    Description: Microsoft PowerPoint Add-in file
     Category: Office
     Exec: True
     MitreInitialAccess: sometimes
 
   - Extension: .ppsm
     Description: Office Powerpoint with macros
-    Category: Office
-    Exec: True
-
-  - Extension: .sldm
-    Description: Office with macros
     Category: Office
     Exec: True
 
@@ -495,11 +490,6 @@
 
   - Extension: .xlw
     Description: Office Excel Add-in
-    Category: Office
-    Exec: True
-
-  - Extension: .ppam
-    Description: Microsoft PowerPoint Add-in file
     Category: Office
     Exec: True
 
@@ -717,11 +707,6 @@
     WindowsBuiltin: True
     MitreInitialAccess: sometimes
 
-  - Extension: .bin
-    Description: 
-    Category: Archive
-    Exec: True
-    Container: True
   - Extension: .cpio
     Description: 
     Category: Archive
@@ -810,11 +795,7 @@
     Category: Archive
     Exec: True
     Container: True
-  - Extension: .gz
-    Description: 
-    Category: Archive
-    Exec: True
-    Container: True
+
   - Extension: .gzip
     Description: 
     Category: Archive
@@ -826,11 +807,6 @@
     Exec: True
     Container: True
   - Extension: .r01
-    Description: 
-    Category: Archive
-    Exec: True
-    Container: True
-  - Extension: .lzh
     Description: 
     Category: Archive
     Exec: True
@@ -850,16 +826,7 @@
     Category: Archive
     Exec: True
     Container: True
-  - Extension: .z
-    Description: 
-    Category: Archive
-    Exec: True
-    Container: True
-  - Extension: .img
-    Description: 
-    Category: Archive
-    Exec: True
-    Container: True
+
   - Extension: .xz
     Description: 
     Category: Archive
@@ -971,9 +938,6 @@
     Category: Code
     Code: True
   - Extension: ashx
-    Category: Code
-    Code: True
-  - Extension: .bas
     Category: Code
     Code: True
   - Extension: .btm
