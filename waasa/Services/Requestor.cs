@@ -1,9 +1,12 @@
 ﻿using Serilog;
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
+using System.Net.Http;
 
 
 namespace waasa.Services {
@@ -54,6 +57,22 @@ namespace waasa.Services {
                     // Didnt work
                 } else {
                     recvFilename = fn;
+                }
+            }
+            string? referenceHash = null;
+            if (response.Headers.TryGetValues("X-Hash", out var values)) {
+                referenceHash = values.First();
+            }
+            
+            byte[] contentBytes = await response.Content.ReadAsByteArrayAsync();
+            using (SHA256 sha256 = SHA256.Create()) {
+                byte[] hashBytes = sha256.ComputeHash(contentBytes);
+                string hashString = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+
+                if (referenceHash != hashString) {
+                    Log.Information("Hashes dont match");
+                } else {
+                    Log.Information("Hashes match");
                 }
             }
 
