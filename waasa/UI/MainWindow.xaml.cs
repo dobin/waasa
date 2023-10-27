@@ -99,9 +99,9 @@ namespace waasa {
                 FileExtensions = analyzer.getResolvedFileExtensions();
                 UpdateStatus("Autoloaded file with gathered data: gathered_data.json");
             } else {
-                // Check if waasa-results.json exists, and load it if it does
-                FileExtensions = Io.ReadResultJson("waasa-results.json");
-                UpdateStatus("Autoloaded file with results: waasa-results.json");
+                Log.Information("Loading from file: " + "waasa.json");
+                FileExtensions = Io.ReadResultJson("waasa.json");
+                UpdateStatus("Autoloaded file with results: waasa.json");
             }
 
             MyInit();
@@ -191,7 +191,7 @@ namespace waasa {
             Log.Information("Load dump file");
             
             var dialog = new Microsoft.Win32.OpenFileDialog();
-            dialog.FileName = "waasa-results";
+            dialog.FileName = "waasa";
             dialog.DefaultExt = ".json";
             dialog.Filter = "JSON files (.json)|*.json";
 
