@@ -11,8 +11,8 @@ namespace waasa.Services {
 
     public class TestResult {
         public string Api { get; set; } = "";
-        public int HttpStatusCode { get; set; } = 0;
         public string HttpAnswer { get; set; } = "";
+        public HttpAnswerInfo HttpAnswerInfo { get; set; } = new HttpAnswerInfo(0, "", false, false);
         public string Conclusion { get; set; } = "";
 
         public TestResult() {
@@ -44,9 +44,8 @@ namespace waasa.Services {
                 api = "standard";
                 answer = await Requestor.Get("test" + ext, server, api);
                 fileExtension.TestResults[0].Api = api;
-                fileExtension.TestResults[0].HttpStatusCode = answer.StatusCode;
-                fileExtension.TestResults[0].HttpAnswer = answer.Content;
-                if (answer.Content != "data") {
+                fileExtension.TestResults[0].HttpAnswerInfo = answer;
+                if (! answer.HashCheck) {
                     fileExtension.TestResults[0].Conclusion = "blocked";
                     res += "block/";
                 } else {
@@ -57,9 +56,8 @@ namespace waasa.Services {
                 api = "nomime";
                 answer = await Requestor.Get("test" + ext, server, api);
                 fileExtension.TestResults[1].Api = api;
-                fileExtension.TestResults[1].HttpStatusCode = answer.StatusCode;
-                fileExtension.TestResults[1].HttpAnswer = answer.Content;
-                if (answer.Content != "data") {
+                fileExtension.TestResults[1].HttpAnswerInfo = answer;
+                if (! answer.HashCheck) {
                     fileExtension.TestResults[1].Conclusion = "blocked";
                     res += "block/";
                 } else {
@@ -70,9 +68,8 @@ namespace waasa.Services {
                 api = "nomimenofilename";
                 answer = await Requestor.Get("test" + ext, server, api);
                 fileExtension.TestResults[2].Api = api;
-                fileExtension.TestResults[2].HttpStatusCode = answer.StatusCode;
-                fileExtension.TestResults[2].HttpAnswer = answer.Content;
-                if (answer.Content != "data") {
+                fileExtension.TestResults[2].HttpAnswerInfo = answer;
+                if (! answer.HashCheck) {
                     fileExtension.TestResults[2].Conclusion = "blocked";
                     res += "block ";
                 } else {

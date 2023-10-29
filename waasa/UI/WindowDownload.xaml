@@ -23,8 +23,9 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="API" Binding="{Binding Api}" />
                 <DataGridTextColumn Header="Conclusion" Binding="{Binding Conclusion}" />
-                <DataGridTextColumn Header="HttpCode" Binding="{Binding HttpStatusCode}" />
-                <DataGridTextColumn Header="HttpAnswer" Binding="{Binding HttpAnswer}" />
+                <DataGridTextColumn Header="HttpCode" Binding="{Binding HttpAnswerInfo.StatusCode}" />
+                <DataGridTextColumn Header="HashCheck" Binding="{Binding HttpAnswerInfo.HashCheck}" />
+                <DataGridTextColumn Header="RealFile" Binding="{Binding HttpAnswerInfo.IsRealFile}" />
             </DataGrid.Columns>
         </DataGrid>
     </StackPanel>

@@ -11,19 +11,21 @@ using System.Net.Http;
 
 namespace waasa.Services {
 
-    class HttpAnswerInfo {
+    public class HttpAnswerInfo {
         public int StatusCode { get; set; } = 0;
         public string Filename { get; set; } = "";
-        public string Content { get; set; } = "";
+        public bool HashCheck { get; set; } = false;
 
-        public string InitialFilename { get; set; } = "";
-        public Boolean IsSuccess { get; set; }
+        //public string InitialFilename { get; set; } = "";
+        //public bool IsSuccess { get; set; }
+        public bool IsRealFile { get; set; } = false;
 
 
-        public HttpAnswerInfo(int statusCode, string filename, string content) {
+        public HttpAnswerInfo(int statusCode, string filename, bool hashCheck, bool isRealFile) {
             StatusCode = statusCode;
             Filename = filename;
-            Content = content;
+            HashCheck = hashCheck;
+            IsRealFile = isRealFile;
         }
     }
 
@@ -63,20 +65,26 @@ namespace waasa.Services {
             if (response.Headers.TryGetValues("X-Hash", out var values)) {
                 referenceHash = values.First();
             }
-            
+
+            bool hashCheck = false;
             byte[] contentBytes = await response.Content.ReadAsByteArrayAsync();
             using (SHA256 sha256 = SHA256.Create()) {
                 byte[] hashBytes = sha256.ComputeHash(contentBytes);
                 string hashString = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
 
                 if (referenceHash != hashString) {
-                    Log.Information("Hashes dont match");
+                    hashCheck = false;
                 } else {
-                    Log.Information("Hashes match");
+                    hashCheck = true;
                 }
             }
 
-            HttpAnswerInfo answer = new HttpAnswerInfo(statuscode, recvFilename, responseData);
+            bool isRealFile = false;
+            if (responseData != "data") {
+                isRealFile = true;
+            }
+
+            HttpAnswerInfo answer = new HttpAnswerInfo(statuscode, recvFilename, hashCheck, isRealFile);
             return answer;
 
         }
