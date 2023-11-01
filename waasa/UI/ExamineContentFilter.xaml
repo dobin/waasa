@@ -1,0 +1,22 @@
+﻿<Window x:Class="waasa.UI.ExamineContentFilter"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:waasa.UI"
+        mc:Ignorable="d"
+        Title="ExamineContentFilter" Height="450" Width="800">
+    <StackPanel Orientation="Vertical">
+        <GroupBox Header="Content Filter Settings" >
+            <StackPanel Orientation="Horizontal" >
+                <Button Click="ButtonTestContentFilter"  Content="Test" />
+                <Label>Server:</Label>
+                <TextBox TextWrapping="NoWrap" Text="{Binding ServerTextBox}" Width="182" TextChanged="ServerTextBox_TextChanged"/>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="Log Output" >
+            <TextBox TextWrapping="NoWrap" Text="{Binding LogTextBox, UpdateSourceTrigger=PropertyChanged}" Height="265" />
+        </GroupBox>
+
+    </StackPanel>
+</Window>

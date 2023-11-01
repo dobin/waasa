@@ -7,8 +7,9 @@
         mc:Ignorable="d"
         Title="WindowDownload" Height="450" Width="800">
     <StackPanel Orientation="Vertical">
-        <GroupBox Header="Content Filter Test Settings" >
+        <GroupBox Header="Content Filter Test">
             <StackPanel Orientation="Horizontal" >
+                <Label Content="{Binding FileExtensionLabel}" Width="64"></Label>
                 <Button Click="ButtonDownload"  Content="Download" />
                 
                 <Label>Server: </Label>

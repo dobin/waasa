@@ -1,48 +1,45 @@
 ﻿using System;
-using System.ComponentModel;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using Serilog;
-
-using waasa.Models;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using static waasa.UI.WindowDownload;
 using waasa.Services;
+using System.ComponentModel;
 
-
-namespace waasa.UI {
+namespace waasa.UI
+{
     /// <summary>
-    /// Interaction logic for WindowDownload.xaml
+    /// Interaction logic for ExamineContentFilter.xaml
     /// </summary>
-    public partial class WindowDownload : Window {
-        private _FileExtension FileExtension;
-
-        public WindowDownload(_FileExtension fe) {
+    public partial class ExamineContentFilter : Window
+    {
+        public ExamineContentFilter()
+        {
             InitializeComponent();
-            FileExtension = fe;
-
-            DataContext = new DownloadWindowDataModel();
-            dataGrid.ItemsSource = FileExtension.TestResults;
-            var viewModel = (DownloadWindowDataModel)DataContext;
-            viewModel.FileExtensionLabel = fe.Extension;
+            DataContext = new DownloadWindowDataModel2();
         }
 
-        private async void ButtonDownload(object sender, RoutedEventArgs e) {
-            PrintToUi("Downloading...");
-            await ContentFilter.analyzeExtension(FileExtension);
-            dataGrid.Items.Refresh();
-            PrintToUi("Success");
+        private async void ButtonTestContentFilter(object sender, RoutedEventArgs e) {
+            PrintToUi("Checking...");
+            string s = await ContentFilter.CheckContentFilter();
+            //dataGrid.Items.Refresh();
+            PrintToUi(s);
         }
 
-        private void PrintToUi(string s) {
-            var viewModel = (DownloadWindowDataModel)DataContext;
-            viewModel.LogTextBox = s;
-        }
-
-
-        public class DownloadWindowDataModel : INotifyPropertyChanged {
-            public string FileExtensionLabel { get; set; } = "";
+        public class DownloadWindowDataModel2 : INotifyPropertyChanged {
             public string ServerTextBox { get; set; } = Properties.Settings.Default.WAASA_SERVER;
+            public string OutputTextBox { get; set; } = "";
 
-            /* Log Text Box update */
+            /* handle Log Text Box user input */
             private string _log = "";
             public string LogTextBox {
                 get { return _log; }
@@ -59,6 +56,10 @@ namespace waasa.UI {
             }
         }
 
+        private void PrintToUi(string s) {
+            var viewModel = (DownloadWindowDataModel2)DataContext;
+            viewModel.LogTextBox += s + "\n";
+        }
 
         private void ServerTextBox_TextChanged(object sender, TextChangedEventArgs e) {
             // Store new server value in config to persist it

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using waasa.Models;
 using Serilog;
 using System.Windows;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace waasa.Services {
 
@@ -28,6 +29,30 @@ namespace waasa.Services {
             foreach (var ext in fileExtension) {
                 await analyzeExtension(ext);
             }
+        }
+
+        public static async Task<string> CheckContentFilter() {
+            Log.Information("Content Filter check");
+            string server = Properties.Settings.Default.WAASA_SERVER;
+            HttpAnswerInfo answer;
+            string ret = "";
+
+            answer = await Requestor.Get("test.txt", server, "standard");
+            if (answer.HashCheck) {
+                ret += "Content Filter check standard: Bypass" + "\n";
+            }
+
+            answer = await Requestor.Get("test.txt", server, "nomime");
+            if (answer.HashCheck) {
+                ret += "Content Filter check no-mime: Bypass" + "\n";
+            }
+
+            answer = await Requestor.Get("test.txt", server, "nomimenofilename");
+            if (answer.HashCheck) {
+                ret += "Content Filter check no-mime no-filename: Bypass" + "\n";
+            }
+            Log.Information("Content Filter check: " + ret + "\n");
+            return ret;
         }
 
 

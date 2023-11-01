@@ -13,14 +13,15 @@
 
     <Window.Resources>
         <ContextMenu x:Key="RowContextMenu">
+
+            <MenuItem Header="Content Filter TEST" Click="menuCfDownload" />
+            <MenuItem Header="Content Filter test DETAILS" Click="menuCfInfo" />
+            <MenuItem Header="Open file in BROWSER" Click="menuCfBrowser" />
+            <Separator/>
             <MenuItem Header="EXECUTE a file with this extension" Click="menuExec" />
             <MenuItem Header="Open DIRECTORY of this app" Click="menuOpenDir" />
             <Separator/>
             <MenuItem Header="Show extension INFO" Click="menuRegInfo" />
-            <Separator/>
-            <MenuItem Header="Content Filter bypass DOWNLOAD" Click="menuCfDownload" />
-            <MenuItem Header="Content Filter WINDOW" Click="menuCfInfo" />
-            <MenuItem Header="Content Filter open file download in BROWSER" Click="menuCfBrowser" />
         </ContextMenu>
 
         <local:BoolToFriendlyStringConverter x:Key="BoolToStringConverter"/>
@@ -32,7 +33,7 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
-                <MenuItem Header="Aquire extension data from this machine" Click="Menu_DumpData" />
+                <MenuItem Header="Load extension data from this machine" Click="Menu_DumpData" />
                 <MenuItem Header="Load extension data from dump file" Click="Menu_LoadResultFile" />
                 <MenuItem Header="Load extensions from manual file" Click="Menu_LoadManualFile" />
                 <Separator/>
@@ -45,17 +46,21 @@
             <MenuItem Header="View">
                 <MenuItem Header="Show exec" IsCheckable="True" IsChecked="True" Checked="MenuViewExecOn" Unchecked="MenuViewExecOff" />
                 <MenuItem Header="Show recommended" IsCheckable="True" IsChecked="True" Checked="MenuViewERecommendedOn" Unchecked="MenuViewRecommendedOff" />
-                <MenuItem Header="Show openwith" IsCheckable="True" IsChecked="False" Checked="MenuViewOpenwithOn" Unchecked="MenuViewOpenwithOff" />
                 <MenuItem Header="Show reference" IsCheckable="True" Checked="MenuReferenceOnChecked" Unchecked="MenuReferenceOnUnchecked" />
                 <MenuItem Header="Show UWP" IsChecked="True" IsCheckable="True" Checked="MenuUwpOnChecked" Unchecked="MenuUwpOnUnchecked" />
-                <MenuItem Header="Show C:\\windows\\*" IsChecked="True" IsCheckable="True" Checked="MenuWindowsOnChecked" Unchecked="MenuWindowsOnUnchecked" />
-                <MenuItem Header="Show C:\\Program Files*" IsChecked="True" IsCheckable="True" Checked="MenuProgramsOnChecked" Unchecked="MenuProgramsOnUnchecked" />
-                <MenuItem Header="Show C:\\Users\\*" IsChecked="True" IsCheckable="True" Checked="MenuUserOnChecked" Unchecked="MenuUserOnUnchecked" />
-                <MenuItem Header="Only show judged" IsChecked="False" IsCheckable="True" Checked="MenuJudgedOnChecked" Unchecked="MenuJudgedOnUnchecked" />
+                <MenuItem Header="Show C:\windows\*" IsChecked="True" IsCheckable="True" Checked="MenuWindowsOnChecked" Unchecked="MenuWindowsOnUnchecked" />
+                <MenuItem Header="Show C:\Program Files*" IsChecked="True" IsCheckable="True" Checked="MenuProgramsOnChecked" Unchecked="MenuProgramsOnUnchecked" />
+                <MenuItem Header="Show C:\Users\*" IsChecked="True" IsCheckable="True" Checked="MenuUserOnChecked" Unchecked="MenuUserOnUnchecked" />
+                <MenuItem Header="Filter judged only" IsChecked="False" IsCheckable="True" Checked="MenuJudgedOnChecked" Unchecked="MenuJudgedOnUnchecked" />
+                <MenuItem Header="Display OpenWith row" IsCheckable="True" IsChecked="False" Checked="MenuViewOpenwithOn" Unchecked="MenuViewOpenwithOff" />
             </MenuItem>
             <MenuItem Header="Options">
                 <MenuItem Header="Filter (ctrl-f)" Click="Menu_Filter" />
                 <MenuItem Header="Create files" Click="Menu_CreateFiles" />
+            </MenuItem>
+            <MenuItem Header="Content Filter">
+                <MenuItem Header="Examination" Click="Menu_Cf_Examination" />
+                <MenuItem Header="Test all" Click="Menu_Cf_TestAll" />
             </MenuItem>
         </Menu>
 

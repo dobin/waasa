@@ -14,7 +14,7 @@ using waasa.Models;
 using waasa.UI;
 using System.Globalization;
 using System.Linq;
-using System.Security.Cryptography.Pkcs;
+
 
 namespace waasa {
     public class BoolToFriendlyStringConverter : IValueConverter {
@@ -238,10 +238,6 @@ namespace waasa {
         }
 
 
-        private void Menu_Filter(object sender, RoutedEventArgs e) {
-            SetSearchFilter();
-        }
-
         private void Menu_SaveJson(object sender, RoutedEventArgs e) {
             var dialog = new Microsoft.Win32.SaveFileDialog();
             dialog.FileName = "waasa";
@@ -272,6 +268,13 @@ namespace waasa {
             string filepath = dialog.FileName;
             Io.WriteResultsToCsv(FileExtensions, filepath);
             UpdateStatus("CSV File " + filepath + " (saved)");
+        }
+
+
+        /*** Options ***/
+
+        private void Menu_Filter(object sender, RoutedEventArgs e) {
+            SetSearchFilter();
         }
 
         private void Menu_CreateFiles(object sender, RoutedEventArgs e) {
@@ -403,12 +406,32 @@ namespace waasa {
             }
         }
 
+
+        /*** Content Filter ***/
+
+        private void Menu_Cf_Examination(object sender, RoutedEventArgs e) {
+            var secondWindow = new ExamineContentFilter();
+            secondWindow.Show();
+        }
+
+        private async void Menu_Cf_TestAll(object sender, RoutedEventArgs e) {
+            foreach (var item in dataGrid.Items) {
+                var fe = item as _FileExtension;
+                await ContentFilter.analyzeExtension(fe);
+                collectionView.Refresh();
+            }
+        }
+
         /*** Row selection menu ***/
 
         private void menuExec(object sender, RoutedEventArgs e) {
             foreach (var item in dataGrid.SelectedItems) {
                 var fe = item as _FileExtension;
-                Io.ExecFile(fe.Extension);
+                if (fe != null) {
+                    Io.ExecFile(fe.Extension);
+                } else {
+                    Log.Warning("Row was not a _FileExtension");
+                }
             }
         }
 

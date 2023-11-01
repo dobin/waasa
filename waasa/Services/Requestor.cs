@@ -86,8 +86,8 @@ namespace waasa.Services {
 
             HttpAnswerInfo answer = new HttpAnswerInfo(statuscode, recvFilename, hashCheck, isRealFile);
             return answer;
-
         }
+
 
         public static string? GetFileNameFromContentDisposition(string contentDisposition) {
             const string filenameToken = "filename=";
