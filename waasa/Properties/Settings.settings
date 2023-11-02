@@ -5,5 +5,11 @@
     <Setting Name="WAASA_SERVER" Type="System.String" Scope="User">
       <Value Profile="(Default)">https://files.r00ted.ch</Value>
     </Setting>
+    <Setting Name="WHITELISTED_EXTENSION" Type="System.String" Scope="User">
+      <Value Profile="(Default)">.txt</Value>
+    </Setting>
+    <Setting Name="BLACKLISTED_EXTENSION" Type="System.String" Scope="User">
+      <Value Profile="(Default)">.exe</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

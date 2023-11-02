@@ -12,6 +12,12 @@
                 <Button Click="ButtonTestContentFilter"  Content="Test" />
                 <Label>Server:</Label>
                 <TextBox TextWrapping="NoWrap" Text="{Binding ServerTextBox}" Width="182" TextChanged="ServerTextBox_TextChanged"/>
+
+                <Label>Whitelisted extension:</Label>
+                <TextBox TextWrapping="NoWrap" Text="{Binding WhitelistedFile}" Width="48" TextChanged="WhitelistedFileTextBox_TextChanged"/>
+                
+                <Label>Blocked extension:</Label>
+                <TextBox TextWrapping="NoWrap" Text="{Binding BlacklistedFile}" Width="48" TextChanged="BlacklistedFileTextBox_TextChanged"/>
             </StackPanel>
         </GroupBox>
         <GroupBox Header="Log Output" >

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:waasa.UI"
         mc:Ignorable="d"
-        Title="WindowDownload" Height="450" Width="800">
+        Title="WindowDownload" Height="800" Width="1000">
     <StackPanel Orientation="Vertical">
         <GroupBox Header="Content Filter Test">
             <StackPanel Orientation="Horizontal" >
@@ -24,9 +24,9 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="API" Binding="{Binding Api}" />
                 <DataGridTextColumn Header="Conclusion" Binding="{Binding Conclusion}" />
-                <DataGridTextColumn Header="HttpCode" Binding="{Binding HttpAnswerInfo.StatusCode}" />
-                <DataGridTextColumn Header="HashCheck" Binding="{Binding HttpAnswerInfo.HashCheck}" />
-                <DataGridTextColumn Header="RealFile" Binding="{Binding HttpAnswerInfo.IsRealFile}" />
+                <DataGridTextColumn Header="Http Response" Binding="{Binding HttpAnswerInfo.HttpResponse}" />
+                <DataGridTextColumn Header="Hash Check" Binding="{Binding HttpAnswerInfo.HashCheck}" />
+                <DataGridTextColumn Header="Real File" Binding="{Binding HttpAnswerInfo.IsRealFile}" />
             </DataGrid.Columns>
         </DataGrid>
     </StackPanel>

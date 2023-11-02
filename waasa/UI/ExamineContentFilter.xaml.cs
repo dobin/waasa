@@ -20,12 +20,10 @@ namespace waasa.UI
     /// <summary>
     /// Interaction logic for ExamineContentFilter.xaml
     /// </summary>
-    public partial class ExamineContentFilter : Window
-    {
-        public ExamineContentFilter()
-        {
+    public partial class ExamineContentFilter : Window {
+        public ExamineContentFilter() {
             InitializeComponent();
-            DataContext = new DownloadWindowDataModel2();
+            DataContext = new ExamineContentFilterDataModel();
         }
 
         private async void ButtonTestContentFilter(object sender, RoutedEventArgs e) {
@@ -35,9 +33,11 @@ namespace waasa.UI
             PrintToUi(s);
         }
 
-        public class DownloadWindowDataModel2 : INotifyPropertyChanged {
+        public class ExamineContentFilterDataModel : INotifyPropertyChanged {
             public string ServerTextBox { get; set; } = Properties.Settings.Default.WAASA_SERVER;
             public string OutputTextBox { get; set; } = "";
+            public string WhitelistedFile { get; set; } = Properties.Settings.Default.WHITELISTED_EXTENSION;
+            public string BlacklistedFile { get; set; } = Properties.Settings.Default.BLACKLISTED_EXTENSION;
 
             /* handle Log Text Box user input */
             private string _log = "";
@@ -57,7 +57,7 @@ namespace waasa.UI
         }
 
         private void PrintToUi(string s) {
-            var viewModel = (DownloadWindowDataModel2)DataContext;
+            var viewModel = (ExamineContentFilterDataModel)DataContext;
             viewModel.LogTextBox += s + "\n";
         }
 
@@ -69,6 +69,27 @@ namespace waasa.UI
             }
             string newServer = textBox.Text;
             Properties.Settings.Default.WAASA_SERVER = newServer;
+            Properties.Settings.Default.Save();
+        }
+
+        private void WhitelistedFileTextBox_TextChanged(object sender, TextChangedEventArgs e) {
+            // Store new server value in config to persist it
+            TextBox? textBox = sender as TextBox;
+            if (textBox == null) {
+                return;
+            }
+            string ext = textBox.Text;
+            Properties.Settings.Default.WHITELISTED_EXTENSION = ext;
+            Properties.Settings.Default.Save();
+        }
+        private void BlacklistedFileTextBox_TextChanged(object sender, TextChangedEventArgs e) {
+            // Store new server value in config to persist it
+            TextBox? textBox = sender as TextBox;
+            if (textBox == null) {
+                return;
+            }
+            string ext = textBox.Text;
+            Properties.Settings.Default.BLACKLISTED_EXTENSION = ext;
             Properties.Settings.Default.Save();
         }
     }

@@ -34,5 +34,29 @@ namespace waasa.Properties {
                 this["WAASA_SERVER"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".txt")]
+        public string WHITELISTED_EXTENSION {
+            get {
+                return ((string)(this["WHITELISTED_EXTENSION"]));
+            }
+            set {
+                this["WHITELISTED_EXTENSION"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".exe")]
+        public string BLACKLISTED_EXTENSION {
+            get {
+                return ((string)(this["BLACKLISTED_EXTENSION"]));
+            }
+            set {
+                this["BLACKLISTED_EXTENSION"] = value;
+            }
+        }
     }
 }

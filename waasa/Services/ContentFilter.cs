@@ -13,7 +13,7 @@ namespace waasa.Services {
     public class TestResult {
         public string Api { get; set; } = "";
         public string HttpAnswer { get; set; } = "";
-        public HttpAnswerInfo HttpAnswerInfo { get; set; } = new HttpAnswerInfo(0, "", false, false);
+        public HttpAnswerInfo HttpAnswerInfo { get; set; } = new HttpAnswerInfo("", "", 0, "", false, false);
         public string Conclusion { get; set; } = "";
 
         public TestResult() {

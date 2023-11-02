@@ -212,8 +212,8 @@
   - Extension: .dmg
     Description: Apple Disk Image
     Category: System
-    Confidence: Filesec
-    Notes: Used to mount applications on macOS. If malicious, it can introduce harmful software to the system.
+    Exec: True
+    Notes: Used to mount applications on macOS
 
   - Extension: .gadget
     Description: Windows Gadget
