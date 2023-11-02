@@ -24,7 +24,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="API" Binding="{Binding Api}" />
                 <DataGridTextColumn Header="Conclusion" Binding="{Binding Conclusion}" />
-                <DataGridTextColumn Header="Http Response" Binding="{Binding HttpAnswerInfo.HttpResponse}" />
+                <DataGridTextColumn Header="Http Response" Width="*" Binding="{Binding HttpAnswerInfo.HttpResponse}" />
                 <DataGridTextColumn Header="Hash Check" Binding="{Binding HttpAnswerInfo.HashCheck}" />
                 <DataGridTextColumn Header="Real File" Binding="{Binding HttpAnswerInfo.IsRealFile}" />
             </DataGrid.Columns>

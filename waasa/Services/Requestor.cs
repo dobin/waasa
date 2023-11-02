@@ -60,16 +60,17 @@ namespace waasa.Services {
 
             using (var httpClient = new HttpClient())
             using (var request = new HttpRequestMessage(HttpMethod.Get, url)) {
-                //var requestContent = request.ToString();
                 requestContent = await HttpClientExtensions.ToRawString(request);
 
                 using (response = await httpClient.SendAsync(request)) {
-                    // Process the response
+                    // Get response
                     var responseData = response.StatusCode.ToString();
+                    var responseDataString = await response.Content.ReadAsStringAsync();
                     responseContent = await HttpClientExtensions.ToRawString(response);
-
                     int statuscode = (int)response.StatusCode;
                     string recvFilename = "";
+
+                    // Get filename for file from from server
                     if (response.Content.Headers.ContentDisposition != null) {
                         string contentDisposition = response.Content.Headers.ContentDisposition.ToString();
                         string? fn = GetFileNameFromContentDisposition(contentDisposition);
@@ -79,26 +80,34 @@ namespace waasa.Services {
                             recvFilename = fn;
                         }
                     }
+
+                    // Get hash for file from server
                     string? referenceHash = null;
                     if (response.Headers.TryGetValues("X-Hash", out var values)) {
                         referenceHash = values.First();
                     }
-
+                    // Compare received hash with the file
                     bool hashCheck = false;
-                    byte[] contentBytes = await response.Content.ReadAsByteArrayAsync();
-                    using (SHA256 sha256 = SHA256.Create()) {
-                        byte[] hashBytes = sha256.ComputeHash(contentBytes);
-                        string hashString = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+                    if (referenceHash == null) {
+                        Log.Error("Hash header seem to not exist");
+                        hashCheck = false;
+                    } else {
+                        byte[] contentBytes = await response.Content.ReadAsByteArrayAsync();
+                        using (SHA256 sha256 = SHA256.Create()) {
+                            byte[] hashBytes = sha256.ComputeHash(contentBytes);
+                            string hashString = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
 
-                        if (referenceHash != hashString) {
-                            hashCheck = false;
-                        } else {
-                            hashCheck = true;
+                            if (referenceHash != hashString) {
+                                hashCheck = false;
+                            } else {
+                                hashCheck = true;
+                            }
                         }
                     }
 
+                    // Also note if its a realistic file or not
                     bool isRealFile = false;
-                    if (responseData != "data") {
+                    if (!responseDataString.StartsWith("data")) {
                         isRealFile = true;
                     }
 
