@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using static waasa.UI.WindowDownload;
 using waasa.Services;
 using System.ComponentModel;
+using waasa.Models;
 
 namespace waasa.UI
 {
@@ -21,16 +22,39 @@ namespace waasa.UI
     /// Interaction logic for ExamineContentFilter.xaml
     /// </summary>
     public partial class ExamineContentFilter : Window {
+
+
         public ExamineContentFilter() {
             InitializeComponent();
             DataContext = new ExamineContentFilterDataModel();
+            dataGrid1.ItemsSource = new List<TestResult> {
+                new TestResult(),
+                new TestResult(),
+                new TestResult()
+            };
+            dataGrid2.ItemsSource = new List<TestResult> {
+                new TestResult(),
+                new TestResult(),
+                new TestResult()
+            };
         }
 
         private async void ButtonTestContentFilter(object sender, RoutedEventArgs e) {
             PrintToUi("Checking...");
-            string s = await ContentFilter.CheckContentFilter();
-            //dataGrid.Items.Refresh();
-            PrintToUi(s);
+            _FileExtension fe;
+            var viewModel = (ExamineContentFilterDataModel)DataContext;
+
+            fe = new _FileExtension(viewModel.WhitelistedFile);
+            await ContentFilter.analyzeExtension(fe);
+            dataGrid1.ItemsSource = fe.TestResults;
+            dataGrid1.Items.Refresh();
+
+            fe = new _FileExtension(viewModel.BlacklistedFile);
+            await ContentFilter.analyzeExtension(fe);
+            dataGrid2.ItemsSource = fe.TestResults;
+            dataGrid2.Items.Refresh();
+            
+            PrintToUi("done");
         }
 
         public class ExamineContentFilterDataModel : INotifyPropertyChanged {

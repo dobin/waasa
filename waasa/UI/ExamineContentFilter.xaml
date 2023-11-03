@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:waasa.UI"
         mc:Ignorable="d"
-        Title="ExamineContentFilter" Height="450" Width="800">
+        Title="ExamineContentFilter" Height="800" Width="1024">
     <StackPanel Orientation="Vertical">
         <GroupBox Header="Content Filter Settings" >
             <StackPanel Orientation="Horizontal" >
@@ -20,9 +20,37 @@
                 <TextBox TextWrapping="NoWrap" Text="{Binding BlacklistedFile}" Width="48" TextChanged="BlacklistedFileTextBox_TextChanged"/>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Log Output" >
-            <TextBox TextWrapping="NoWrap" Text="{Binding LogTextBox, UpdateSourceTrigger=PropertyChanged}" Height="265" />
-        </GroupBox>
 
+        <GroupBox Header="Log Output" >
+            <TextBox TextWrapping="NoWrap" Text="{Binding LogTextBox, UpdateSourceTrigger=PropertyChanged}" Height="40" />
+        </GroupBox>
+        
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <DataGrid Grid.Column="0" Name="dataGrid1" AutoGenerateColumns="False" IsReadOnly="True"  GridLinesVisibility="All"
+          HorizontalGridLinesBrush="LightGray"
+          VerticalGridLinesBrush="LightGray"
+          BorderBrush="LightGray" Margin="5">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="API" Binding="{Binding Api}" />
+                    <DataGridTextColumn Header="Conclusion" Binding="{Binding Conclusion}" />
+                    <DataGridTextColumn Header="Http Response" Width="*" Binding="{Binding HttpAnswerInfo.HttpResponse}" />
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid Grid.Column="1" Name="dataGrid2" AutoGenerateColumns="False" IsReadOnly="True"  GridLinesVisibility="All"
+          HorizontalGridLinesBrush="LightGray"
+          VerticalGridLinesBrush="LightGray"
+          BorderBrush="LightGray" Margin="5">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="API" Binding="{Binding Api}" />
+                    <DataGridTextColumn Header="Conclusion" Binding="{Binding Conclusion}" />
+                    <DataGridTextColumn Header="Http Response" Width="*" Binding="{Binding HttpAnswerInfo.HttpResponse}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
     </StackPanel>
 </Window>
