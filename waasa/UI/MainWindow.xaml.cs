@@ -121,6 +121,15 @@ namespace waasa {
             collectionView = CollectionViewSource.GetDefaultView(FileExtensions);
             collectionView.Filter = obj => {
                 if (obj is _FileExtension fileExtension) {
+                    if (searchFilter != "") {
+                        if (   ! fileExtension.Extension.ToLower().Contains(searchFilter.ToLower())
+                            && ! fileExtension.AppName.ToLower().Contains(searchFilter.ToLower())
+                            && ! fileExtension.CmdLine.ToLower().Contains(searchFilter.ToLower())
+                        ) {
+                            return false;
+                        }
+                    }
+
                     if (! FilterRecommended && fileExtension.Assumption == "recommended") {
                         return false;
                     }
@@ -146,18 +155,7 @@ namespace waasa {
                         return false;
                     }
 
-                    // User input search filter
-                    if (searchFilter == "") {
-                        return true;
-                    } else {
-                        if (fileExtension.Extension.ToLower().Contains(searchFilter.ToLower())) {
-                            return true;
-                        }
-                        if (fileExtension.CmdLine.ToLower().Contains(searchFilter.ToLower())) {
-                            return true;
-                        }
-                        return false;
-                    }
+                    return true;
                 }
                 return false;
             };
