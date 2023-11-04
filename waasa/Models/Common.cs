@@ -41,7 +41,7 @@ namespace waasa.Models {
 
 
         public _FileExtension(string extension) {
-            Extension = extension;
+            Extension = extension.ToLower();
         }
 
         // Pointer to source

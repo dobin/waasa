@@ -159,7 +159,7 @@ namespace waasa.Services {
             List<_FileExtension> fileExtensions = new List<_FileExtension>();
             foreach (var key in Registry.ClassesRoot.GetSubKeyNames()) {
                 if (key.StartsWith(".")) {
-                    fileExtensions.Add(new _FileExtension(key));
+                    fileExtensions.Add(new _FileExtension(key.ToLower()));
                 }
             }
             return fileExtensions;
@@ -176,7 +176,7 @@ namespace waasa.Services {
         private void GatherListedExtensions() {
             foreach (var key in Registry.ClassesRoot.GetSubKeyNames()) {
                 if (key.StartsWith(".")) {
-                    GatheredData.ListedExtensions.Add(key);
+                    GatheredData.ListedExtensions.Add(key.ToLower());
                 }
             }
         }

@@ -149,7 +149,7 @@ namespace waasa.Services {
                         if (line == "") {
                             continue;
                         }
-                        var fe = new _FileExtension(line);
+                        var fe = new _FileExtension(line.ToLower());
                         fileExtensions.Add(fe);
                     }
                 }

@@ -45,12 +45,12 @@ namespace waasa.UI
             _FileExtension fe;
             var viewModel = (ExamineContentFilterDataModel)DataContext;
 
-            fe = new _FileExtension(viewModel.WhitelistedFile);
+            fe = new _FileExtension(viewModel.WhitelistedFile.ToLower());
             await ContentFilter.analyzeExtension(fe);
             dataGrid1.ItemsSource = fe.TestResults;
             dataGrid1.Items.Refresh();
 
-            fe = new _FileExtension(viewModel.BlacklistedFile);
+            fe = new _FileExtension(viewModel.BlacklistedFile.ToLower());
             await ContentFilter.analyzeExtension(fe);
             dataGrid2.ItemsSource = fe.TestResults;
             dataGrid2.Items.Refresh();
