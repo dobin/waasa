@@ -47,7 +47,7 @@ namespace waasa.Models {
         // Pointer to source
         public Winapi.WinapiEntry WinApiEntry { get; set; } = new Winapi.WinapiEntry();
 
-        // Results
+        // Content Filter Results
         public List<TestResult> TestResults { get; set; } = new List<TestResult> {
             new TestResult(),
             new TestResult(),

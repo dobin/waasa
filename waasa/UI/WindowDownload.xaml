@@ -10,7 +10,7 @@
         <GroupBox Header="Content Filter Test" DockPanel.Dock="Top">
             <StackPanel Orientation="Vertical" DockPanel.Dock="Top">
                 <DockPanel LastChildFill="False" HorizontalAlignment="Stretch">
-                    <Button Click="ButtonDownload"  Content="Download" />
+                    <Button Name="BtnDownload"  Click="ButtonDownload" Content="Download" />
                     <Label Content="{Binding FileExtensionLabel}" Width="128"></Label>
 
                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" >

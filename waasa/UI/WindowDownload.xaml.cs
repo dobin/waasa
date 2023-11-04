@@ -27,9 +27,11 @@ namespace waasa.UI {
 
         private async void ButtonDownload(object sender, RoutedEventArgs e) {
             PrintToUi("Downloading...");
+            BtnDownload.IsEnabled = false;
             await ContentFilter.analyzeExtension(FileExtension);
             dataGrid.Items.Refresh();
             PrintToUi("Success");
+            BtnDownload.IsEnabled = true;
         }
 
         private void PrintToUi(string s) {

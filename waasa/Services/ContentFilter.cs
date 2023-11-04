@@ -7,6 +7,7 @@ using waasa.Models;
 using Serilog;
 using System.Windows;
 using static System.Net.Mime.MediaTypeNames;
+using System.Net.Http;
 
 namespace waasa.Services {
 
@@ -26,64 +27,56 @@ namespace waasa.Services {
 
 
         public static async Task analyzeExtensions(List<_FileExtension> fileExtension) {
-            foreach (var ext in fileExtension) {
-                await analyzeExtension(ext);
+            var tasks = fileExtension.Select(fe => analyzeExtension(fe));
+            await Task.WhenAll(tasks);
+        }
+
+
+        private static async Task downloadCf(_FileExtension fileExtension, string api, string server) {
+            Log.Information("Download: " + fileExtension.Extension + " with API: " + api + " on server " + server);
+            HttpAnswerInfo answer = await Requestor.Get("test" + fileExtension.Extension, server, api);
+
+            int idx = -1;
+            if (api == "standard") {
+                idx = 0;
+            } else if (api == "nomime") {
+                idx = 1;
+            } else if (api == "nomimenofilename") {
+                idx = 2;
+            }
+
+            fileExtension.TestResults[idx].Api = api;
+            fileExtension.TestResults[idx].HttpAnswerInfo = answer;
+            if (!answer.HashCheck) {
+                fileExtension.TestResults[idx].Conclusion = "blocked";
+            } else {
+                fileExtension.TestResults[idx].Conclusion = "bypass";
             }
         }
 
 
         public static async Task analyzeExtension(_FileExtension fileExtension) {
             string server = Properties.Settings.Default.WAASA_SERVER;
-            string ext = fileExtension.Extension;
-            string api;
-            HttpAnswerInfo answer;
-            string res = "";
-
             Log.Information("Content Filter test for: " + fileExtension.Extension + " on server " + server);
 
+            // Download all in parallel and wait for completion
+            List<string> batch = new List<string>() { "standard", "nomime", "nomimenofilename" };
             try {
-                api = "standard";
-                answer = await Requestor.Get("test" + ext, server, api);
-                fileExtension.TestResults[0].Api = api;
-                fileExtension.TestResults[0].HttpAnswerInfo = answer;
-                if (! answer.HashCheck) {
-                    fileExtension.TestResults[0].Conclusion = "blocked";
-                    res += "block/";
-                } else {
-                    fileExtension.TestResults[0].Conclusion = "bypass";
-                    res += "bypass/";
-                }
-
-                api = "nomime";
-                answer = await Requestor.Get("test" + ext, server, api);
-                fileExtension.TestResults[1].Api = api;
-                fileExtension.TestResults[1].HttpAnswerInfo = answer;
-                if (! answer.HashCheck) {
-                    fileExtension.TestResults[1].Conclusion = "blocked";
-                    res += "block/";
-                } else {
-                    fileExtension.TestResults[1].Conclusion = "bypass";
-                    res += "bypass/";
-                }
-
-                api = "nomimenofilename";
-                answer = await Requestor.Get("test" + ext, server, api);
-                fileExtension.TestResults[2].Api = api;
-                fileExtension.TestResults[2].HttpAnswerInfo = answer;
-                if (! answer.HashCheck) {
-                    fileExtension.TestResults[2].Conclusion = "blocked";
-                    res += "block ";
-                } else {
-                    fileExtension.TestResults[2].Conclusion = "bypass";
-                    res += "bypass ";
-                }
-
+                var tasks = batch.Select(api => downloadCf(fileExtension, api, server));
+                await Task.WhenAll(tasks);
             } catch (Exception e) {
-                res = "error";
                 MessageBox.Show("Error while analyzing extension: " + e.Message.ToString());
-            }   
+            }
 
-            fileExtension.TestResult = res;
+            string summary = "";
+            foreach(var res in fileExtension.TestResults) {
+                if (res.Conclusion == "blocked") {
+                    summary += "blocked ";
+                } else if (res.Conclusion == "bypass") {
+                    summary += "bypass ";
+                }
+            }
+            fileExtension.TestResult = summary;
         }
     }
 }

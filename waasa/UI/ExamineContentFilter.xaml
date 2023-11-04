@@ -9,7 +9,10 @@
     <DockPanel>
         <GroupBox Header="Content Filter Examine" DockPanel.Dock="Top">
             <DockPanel LastChildFill="False" HorizontalAlignment="Stretch">
-                <Button Click="ButtonTestContentFilter"  Content="Test Content Filter" DockPanel.Dock="Left"/>
+                <Button 
+                    Name="BtnDownload"
+                    Click="ButtonTestContentFilter"  
+                    Content="Test Content Filter" DockPanel.Dock="Left"/>
 
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" >
                     <Label Content="Server:"/>

@@ -14,6 +14,7 @@ using waasa.Models;
 using waasa.UI;
 using System.Globalization;
 using System.Linq;
+using System.Security.Policy;
 
 
 namespace waasa {
@@ -415,12 +416,24 @@ namespace waasa {
         }
 
         private async void Menu_Cf_TestAll(object sender, RoutedEventArgs e) {
+            List<_FileExtension> fes = new List<_FileExtension>();
             foreach (var item in dataGrid.Items) {
                 var fe = item as _FileExtension;
-                await ContentFilter.analyzeExtension(fe);
+                fes.Add(fe);
+            }
+
+            // Download in parallel in batches of 3
+            while (fes.Any()) {
+                var batch = fes.Take(3).ToList();
+                await ContentFilter.analyzeExtensions(batch);
                 collectionView.Refresh();
+
+                foreach (var url in batch) {
+                    fes.Remove(url);
+                }
             }
         }
+
 
         /*** Row selection menu ***/
 
