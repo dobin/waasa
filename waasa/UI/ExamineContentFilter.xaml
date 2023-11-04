@@ -5,52 +5,94 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:waasa.UI"
         mc:Ignorable="d"
-        Title="ExamineContentFilter" Height="800" Width="1024">
-    <StackPanel Orientation="Vertical">
-        <GroupBox Header="Content Filter Settings" >
-            <StackPanel Orientation="Horizontal" >
-                <Button Click="ButtonTestContentFilter"  Content="Test" />
-                <Label>Server:</Label>
-                <TextBox TextWrapping="NoWrap" Text="{Binding ServerTextBox}" Width="182" TextChanged="ServerTextBox_TextChanged"/>
+        Title="Waasa Content Filter Examine" Height="800" Width="1024">
+    <DockPanel>
+        <GroupBox Header="Content Filter Examine" DockPanel.Dock="Top">
+            <DockPanel LastChildFill="False" HorizontalAlignment="Stretch">
+                <Button Click="ButtonTestContentFilter"  Content="Test Content Filter" DockPanel.Dock="Left"/>
 
-                <Label>Whitelisted extension:</Label>
-                <TextBox TextWrapping="NoWrap" Text="{Binding WhitelistedFile}" Width="48" TextChanged="WhitelistedFileTextBox_TextChanged"/>
-                
-                <Label>Blocked extension:</Label>
-                <TextBox TextWrapping="NoWrap" Text="{Binding BlacklistedFile}" Width="48" TextChanged="BlacklistedFileTextBox_TextChanged"/>
-            </StackPanel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" >
+                    <Label Content="Server:"/>
+                    <TextBox 
+                        VerticalContentAlignment="Center" 
+                        TextWrapping="NoWrap" 
+                        Text="{Binding ServerTextBox}" 
+                        Width="182" 
+                        TextChanged="ServerTextBox_TextChanged" />
+                </StackPanel>
+            </DockPanel>
         </GroupBox>
 
-        <GroupBox Header="Log Output" >
+        <GroupBox Header="Log Output" DockPanel.Dock="Bottom">
             <TextBox TextWrapping="NoWrap" Text="{Binding LogTextBox, UpdateSourceTrigger=PropertyChanged}" Height="40" />
         </GroupBox>
-        
+
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <DataGrid Grid.Column="0" Name="dataGrid1" AutoGenerateColumns="False" IsReadOnly="True"  GridLinesVisibility="All"
-          HorizontalGridLinesBrush="LightGray"
-          VerticalGridLinesBrush="LightGray"
-          BorderBrush="LightGray" Margin="5">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="API" Binding="{Binding Api}" />
-                    <DataGridTextColumn Header="Conclusion" Binding="{Binding Conclusion}" />
-                    <DataGridTextColumn Header="Http Response" Width="*" Binding="{Binding HttpAnswerInfo.HttpResponse}" />
-                </DataGrid.Columns>
-            </DataGrid>
-            <DataGrid Grid.Column="1" Name="dataGrid2" AutoGenerateColumns="False" IsReadOnly="True"  GridLinesVisibility="All"
-          HorizontalGridLinesBrush="LightGray"
-          VerticalGridLinesBrush="LightGray"
-          BorderBrush="LightGray" Margin="5">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="API" Binding="{Binding Api}" />
-                    <DataGridTextColumn Header="Conclusion" Binding="{Binding Conclusion}" />
-                    <DataGridTextColumn Header="Http Response" Width="*" Binding="{Binding HttpAnswerInfo.HttpResponse}" />
-                </DataGrid.Columns>
-            </DataGrid>
+            <DockPanel Grid.Column="0">
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                    <Label>Whitelisted extension:</Label>
+                    <TextBox 
+                        VerticalContentAlignment="Center" 
+                        TextWrapping="NoWrap" 
+                        Text="{Binding WhitelistedFile}" 
+                        Width="100" 
+                        TextChanged="WhitelistedFileTextBox_TextChanged"/>
+                </StackPanel>
+
+                <DataGrid 
+                   Name="dataGrid1" 
+                   AutoGenerateColumns="False" 
+                   IsReadOnly="True" 
+                   VerticalAlignment="Stretch"
+                   GridLinesVisibility="All"
+                   HorizontalGridLinesBrush="LightGray"
+                   VerticalGridLinesBrush="LightGray"
+                   BorderBrush="LightGray" 
+                   Margin="5"
+               >
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="API" Binding="{Binding Api}" />
+                        <DataGridTextColumn Header="Conclusion" Binding="{Binding Conclusion}" />
+                        <DataGridTextColumn Header="Http Response" Width="*" Binding="{Binding HttpAnswerInfo.HttpResponse}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+
+            <DockPanel Grid.Column="1">
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                    <Label>Blocked extension:</Label>
+                    <TextBox 
+                        VerticalContentAlignment="Center" 
+                        TextWrapping="NoWrap" 
+                        Text="{Binding BlacklistedFile}" 
+                        Width="100" 
+                        TextChanged="BlacklistedFileTextBox_TextChanged"/>
+                </StackPanel>
+
+                <DataGrid 
+                    Grid.Column="1" 
+                    Name="dataGrid2" 
+                    AutoGenerateColumns="False" 
+                    IsReadOnly="True"  
+                    VerticalAlignment="Stretch"
+                    GridLinesVisibility="All"
+                    HorizontalGridLinesBrush="LightGray"
+                    VerticalGridLinesBrush="LightGray"
+                    BorderBrush="LightGray" 
+                    Margin="5"
+                >
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="API" Binding="{Binding Api}" />
+                        <DataGridTextColumn Header="Conclusion" Binding="{Binding Conclusion}" />
+                        <DataGridTextColumn Header="Http Response" Width="*" Binding="{Binding HttpAnswerInfo.HttpResponse}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
         </Grid>
-    </StackPanel>
+    </DockPanel>
 </Window>

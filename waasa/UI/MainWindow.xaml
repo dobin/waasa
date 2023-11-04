@@ -13,7 +13,6 @@
 
     <Window.Resources>
         <ContextMenu x:Key="RowContextMenu">
-
             <MenuItem Header="Content Filter TEST" Click="menuCfDownload" />
             <MenuItem Header="Content Filter test DETAILS" Click="menuCfInfo" />
             <MenuItem Header="Open file in BROWSER" Click="menuCfBrowser" />
@@ -64,19 +63,23 @@
             </MenuItem>
         </Menu>
 
-
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem>
                 <TextBlock x:Name="statusTextBlock"></TextBlock>
             </StatusBarItem>
         </StatusBar>
-        
+
         <Grid>
             <DataGrid Name="dataGrid" 
-                  AutoGenerateColumns="False" 
-                  CanUserSortColumns="True" 
-                  IsReadOnly="True"
-                  SelectionMode="Extended">
+                AutoGenerateColumns="False" 
+                CanUserSortColumns="True" 
+                IsReadOnly="True"
+                SelectionMode="Extended"
+                GridLinesVisibility="All"
+                HorizontalGridLinesBrush="LightGray"
+                VerticalGridLinesBrush="LightGray"
+                BorderBrush="LightGray"
+             >
 
                 <DataGrid.RowStyle>
                     <Style TargetType="DataGridRow">
