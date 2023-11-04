@@ -33,7 +33,6 @@ namespace waasa.Services {
 
 
         private static async Task downloadCf(_FileExtension fileExtension, string api, string server) {
-            Log.Information("Download: " + fileExtension.Extension + " with API: " + api + " on server " + server);
             HttpAnswerInfo answer = await Requestor.Get("test" + fileExtension.Extension, server, api);
 
             int idx = -1;
