@@ -1,29 +1,47 @@
 # Windows App Attack Surface Analyzer
 
-Shows which file extensions gets opened by which program (executables).
+It has three main features:
+* Display all file extensions and their associated programs from a windows machine
+* Test a content filter whitelist/blacklist against the file extensions
+* Give information about which file extensions are malicious
+
+This can give a RedTeamer: 
+* An overview of the attack surface of a machine
+* A list of files or ways the content filter can be bypassed
+
+There is a online version: 
+* [badfiles.ch](https://badfiles.ch): A list of malicious file extensions
+* [badfiles.ch/windows.html](https://badfiles.ch/windows.html): Windows attack surface
 
 
-## Usage GUI
+# Usage
 
-Double click `waasa.exe`.
+## Attack Surface
 
-![Waasa GUI](https://raw.githubusercontent.com/dobin/waasa/master/doc/gui.png)
+![Waasa Attack Surface Windows](https://raw.githubusercontent.com/dobin/waasa/master/doc/waasa-win.png)
 
 
-## Usage Console
+## Content Filter Test
+
+![Waasa Content Filter Examine](https://raw.githubusercontent.com/dobin/waasa/master/doc/waasa-contentfilter-examine.png)
+
+![Waasa Content Filter File](https://raw.githubusercontent.com/dobin/waasa/master/doc/waasa-contentfilter-file.png)
+
+
+## Usage Console (beta)
 
 * It uses `./waasa.json` as default dump filename by default
 * You can copy `waasa.json` to another machine for analysis
 
 
-Create a dump (optional):
+Create a registry dump (to `waasa.json`):
 ```
-> .\waasa.exe --dump
+> .\waasa.exe dump
 ```
 
 Create CSV from dump:
 ```
-> .\waasa.exe --csv output.csv
+> .\waasa.exe dump --csv output.csv
 ```
 
 Create all files in `./output/`:
@@ -32,13 +50,13 @@ Create all files in `./output/`:
 ```
 
 
-
 ## Files 
 
-* waasa.json: a dump from the registry of a machine, and additional information. Main working file.
+* gathered_data.json: a dump from the registry of a machine and more, around 10MB
+* waasa.json:  parsed registry dump (from gathered_data.json)
 * waasa.csv: Output to CSV
 * waasa.txt: Input of file extensions
-* gathered_data.json: Registry dump
+
 
 ## Example Results
 
