@@ -22,6 +22,7 @@ namespace waasa.Services {
 
         static public List<_FileExtension> ReadResultJson(string filepath) {
             if (!File.Exists(filepath)) {
+                Log.Warning("File does not exist: " + filepath);
                 return new List<_FileExtension>();
             }
 
@@ -29,6 +30,14 @@ namespace waasa.Services {
             var jsonString = File.ReadAllText(filepath);
             var fileExtensions = JsonSerializer.Deserialize<List<_FileExtension>>(jsonString);
             return fileExtensions;
+        }
+
+        static public void WriteResultJson(List<_FileExtension> fileExtensions, string filepath) {
+            Log.Information("Writing JSON to: " + filepath + " with " + fileExtensions.Count);
+            using (StreamWriter writer = new StreamWriter(filepath)) {
+                string strJson = JsonSerializer.Serialize(fileExtensions);
+                writer.WriteLine(strJson);
+            }
         }
 
 
@@ -44,15 +53,6 @@ namespace waasa.Services {
             ProcessStartInfo startInfo = new ProcessStartInfo("explorer.exe");
             startInfo.Arguments = Path.GetDirectoryName(dir);
             Process.Start(startInfo);
-        }
-
-
-        static public void WriteResultJson(List<_FileExtension> fileExtensions, string filepath) {
-            Log.Information("Writing JSON to: " + filepath + " with " + fileExtensions.Count);
-            using (StreamWriter writer = new StreamWriter(filepath)) {
-                string strJson = JsonSerializer.Serialize(fileExtensions);
-                writer.WriteLine(strJson);
-            }
         }
 
 

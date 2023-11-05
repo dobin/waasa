@@ -1,6 +1,7 @@
 ﻿using System.Windows.Documents;
 using waasa.Services;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 
 namespace waasa.Models {
@@ -39,11 +40,6 @@ namespace waasa.Models {
         public string Description { get; set; } = "";
         public List<string> Tags { get; set; } = new List<string>();
 
-
-        public _FileExtension(string extension) {
-            Extension = extension.ToLower();
-        }
-
         // Pointer to source
         public Winapi.WinapiEntry WinApiEntry { get; set; } = new Winapi.WinapiEntry();
 
@@ -53,7 +49,13 @@ namespace waasa.Models {
             new TestResult(),
             new TestResult()
         };
+
         public string TestResult { get; set; } = "";
+
+
+        public _FileExtension(string extension) {
+            Extension = extension.ToLower();
+        }
 
         public void SetCmd(string cmd) {
             this.CmdLine = cmd;

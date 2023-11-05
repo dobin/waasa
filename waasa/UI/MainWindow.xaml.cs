@@ -100,9 +100,12 @@ namespace waasa {
                 FileExtensions = analyzer.getResolvedFileExtensions();
                 UpdateStatus("Autoloaded file with gathered data: gathered_data.json");
             } else {
-                Log.Information("Loading from file: " + "waasa.json");
-                FileExtensions = Io.ReadResultJson("waasa.json");
-                UpdateStatus("Autoloaded file with results: waasa.json");
+                var filename = "waasa.json";
+                if (File.Exists(filename)) {
+                    Log.Information("Loading from file: " + filename);
+                    FileExtensions = Io.ReadResultJson(filename);
+                    UpdateStatus("Autoloaded file with results: " + filename);
+                }
             }
 
             MyInit();

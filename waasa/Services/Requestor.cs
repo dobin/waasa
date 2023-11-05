@@ -12,18 +12,18 @@ using System.Net.Http;
 namespace waasa.Services {
 
     public class HttpAnswerInfo {
-        public string Filename { get; set; } = "";
-        public bool HashCheck { get; set; } = false;
-        public bool IsRealFile { get; set; } = false;
-
         public string HttpRequest { get; set; } = "";
         public string HttpResponse { get; set; } = "";
         public int HttpResponseStatusCode { get; set; } = 0;
 
-        public HttpAnswerInfo(string httpRequest, string httpResponse, int statusCode, string filename, bool hashCheck, bool isRealFile) {
+        public string Filename { get; set; } = "";
+        public bool HashCheck { get; set; } = false;
+        public bool IsRealFile { get; set; } = false;
+
+        public HttpAnswerInfo(string httpRequest, string httpResponse, int httpResponseStatusCode, string filename, bool hashCheck, bool isRealFile) {
             HttpRequest = httpRequest;
             HttpResponse = httpResponse;
-            HttpResponseStatusCode = statusCode;
+            HttpResponseStatusCode = httpResponseStatusCode;
             Filename = filename;
             HashCheck = hashCheck;
             IsRealFile = isRealFile;
