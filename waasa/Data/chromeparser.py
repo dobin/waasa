@@ -89,7 +89,7 @@ def update(chromeExtensions, filename="info.yaml", write=True):
 
     # write it again
     if write:
-        with open(filename + ".2", 'w') as yamlfile:
+        with open(filename, 'w') as yamlfile:
             yaml.dump(data, yamlfile, sort_keys=False, width=1024)
 
     if False:

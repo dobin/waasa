@@ -1,1381 +1,1849 @@
 Extensions:
-
-  # Executables Confident
-  - Extension: .exe
-    Category: Executable
-    Description: Windows executable file
-    Confidence: High
-    Common: True
-    Exec: True
-    MitreInitialAccess: sometimes
-    MitreExecution: often
-    WindowsBuiltin: True
-    Notes: Always available, except if application whitelistening is active. Commonly blocked.
-
-  - Extension: .com
-    Category: Executable
-    Description: Command File for DOS
-    Confidence: High
-    Exec: True
-    MitreInitialAccess: sometimes
-    MitreExecution: often
-    WindowsBuiltin: True
-    Notes: Always available, except if application whitelistening is active. Commonly blocked.
-
-  - Extension: .scr
-    Category: Executable
-    Description: Windows Screen Saver
-    Confidence: High
-    Exec: True
-    WindowsBuiltin: True
-    Notes: Just an .exe
-
-  - Extension: .bat
-    Category: Executable
-    Description: Batch script file for cmd.exe
-    Confidence: High
-    Exec: True
-    MitreInitialAccess: often
-    MitreExecution: often
-    WindowsBuiltin: True
-    Notes: Always available, except if application whitelistening is active. Commonly blocked.
-
-  - Extension: .cmd
-    Category: Executable
-    Description: Windows Command Script
-    Confidence: High
-    Exec: True
-    WindowsBuiltin: True
-    MitreExecution: sometimes
-    Notes: Just a .bat
-
-  - Extension: .msi
-    Category: Executable
-    Description: Windows Installer Package
-    Confidence: High
-    Common: True
-    Exec: True
-    MitreInitialAccess: sometimes
-    MitreExecution: sometimes
-    WindowsBuiltin: True
-    Notes: While meant for installations, it can be crafted to deploy malicious software.
-
-  - Extension: .msix
-    Category: Executable
-    Description: Windows Installer Package
-    Exec: True
-    WindowsBuiltin: True
-
-  - Extension: .msixbundle
-    Category: Executable
-    Description: Windows Installer Package
-    Exec: True
-    WindowsBuiltin: True
-
-  - Extension: .vbs
-    Category: Script
-    Description: VBScript file
-    Confidence: High
-    Common: True
-    Exec: True
-    MitreInitialAccess: sometimes
-    MitreExecution: often
-    WindowsBuiltin: True
-    Notes: Scripting language file. Can be used to execute malicious scripts.
-
-  - Extension: .vbe
-    Category: Script
-    Description: VBScript Encoded Script File
-    Confidence: Govcert.ch
-    Exec: True
-    WindowsBuiltin: True
-    MitreInitialAccess: sometimes
-    Notes: Encoded version of .vbs. Makes it harder to read, but can be used for same malicious purposes as .vbs.
-
-  - Extension: .vb
-    Category: Script
-    Description: Windows Visual Basic Script file
-    Confidence: Govcert.ch
-    Exec: True
-    WindowsBuiltin: True
-
-  - Extension: .vbscript
-    Category: Script
-    Description: Windows Visual Basic Script file
-    Notes: Some sites claim .vbscript is a valid extension for vbs files.
-
-  - Extension: .drv
-    Category: Executable
-    Description: Windows Executable
-
-  - Extension: .wsf
-    Category: Script
-    Description: Windows Script File
-    Confidence: Govcert.ch
-    Exec: True
-    WindowsBuiltin: True
-    MitreInitialAccess: sometimes
-    MitreExecution: sometimes
-    Notes: Allows mixing of scripting languages. Can execute malicious scripts.
-
-  - Extension: .wsh
-    Category: Script
-    Description: Windows Script Host Settings File
-    Confidence: Govcert.ch
-    Exec: True
-    WindowsBuiltin: True
-    Notes: Used to set properties for script execution. Can be used in conjunction with other scripts for execution.
- 
-  - Extension: .ws
-    Category: Script
-    Exec: True
-    Description: Windows Script file
-    WindowsBuiltin: True
-    Notes: Can execute scripts, similar to other Windows scripting files like .vbs or .js.
-
-  - Extension: .wsc
-    Exec: True
-    Category: Script
-    Description: Windows Script Component
-    WindowsBuiltin: True
-    Notes: Allows for the creation of COM objects with scripts. Can be used to execute malicious scripts.
-
-  - Extension: ".inf"
-    Exec: True
-    Category: System
-    Description: 
-    WindowsBuiltin: True
-    Notes: If run, this file could potentially launch dangerous applications it came with or pass dangerous options to programs included with Windows.
-
-  - Extension: .ini
-    Category: System
-    Description: 
-    WindowsBuiltin: True
-
-
-  # executables: filesec.io / govcert.ch
-  - Extension: .application
-    Category: System
-    Description: ClickOnce Deployment Manifest
-    Confidence: Filesec
-    Exec: True
-    WindowsBuiltin: True
-    Notes: ClickOnce applications can execute code when deployed.
-
-  - Extension: .appinstaller
-    Description: Windows 10 App Installer
-    Category: System
-    Confidence: Filesec
-    Exec: True
-    WindowsBuiltin: True
-    Notes: Used to install apps. Potentially harmful if sourced from untrusted locations.
-
-  - Extension: .appref-ms
-    Description: ClickOnce Application Reference
-    Category: System
-    Confidence: Filesec
-    Exec: True
-    WindowsBuiltin: True
-    Notes: A pointer to a ClickOnce application. Can cause the referenced application to be run.
-
-  - Extension: .appx
-    Description: Windows Application Package
-    Category: System
-    Confidence: Filesec
-    Exec: True
-    WindowsBuiltin: True
-    Notes: Can be used to install potentially malicious Windows apps.
-
-  - Extension: .appxbundle
-    Description: Windows App Bundle
-    Category: System
-    Confidence: Filesec
-    Exec: True
-    WindowsBuiltin: True
-    Notes: Bundle of APPX packages. Can install potentially malicious apps.
-
-  - Extension: .chm
-    Description: Compiled HTML Help file
-    Category: Script
-    Confidence: Filesec
-    Exec: True
-    WindowsBuiltin: True
-    MitreInitialAccess: sometimes
-    Notes: Can run embedded scripts or malicious payloads when opened.
-
-  - Extension: .chi
-    Description: Compiled HTML Help file
-    Category: Script
-
-  - Extension: .hlp
-    Description: Windows Script Component
-    WindowsBuiltin: True
-    Notes: Legacy help file format. Can potentially execute other files or code under specific circumstances.
-
-  - Extension: .cpl
-    Description: Windows Control Panel item
-    Category: System
-    Confidence: Filesec
-    Exec: True
-    WindowsBuiltin: True
-    Notes: Executes directly, potentially harmful if malicious.
-
-  - Extension: .desktopthemefile
-    Description: Executable
-    Category: System
-    WindowsBuiltin: True
-    Notes: For customizing appearance in Windows, but be wary of the source.
-
-  - Extension: .diagcab
-    Description: Microsoft Windows Troubleshooting Pack
-    Category: System
-    Confidence: Filesec
-    Exec: True
-    WindowsBuiltin: True
-    Notes: Can be used to automate troubleshooting steps, but can also be abused.
-
-  - Extension: .dmg
-    Description: Apple Disk Image
-    Category: System
-    Exec: True
-    Notes: Used to mount applications on macOS
-
-  - Extension: .gadget
-    Description: Windows Gadget
-    Category: System
-    Confidence: Filesec
-    Exec: True
-    WindowsBuiltin: True
-    Notes: Can execute code, especially if the gadget is malicious.
-
-  - Extension: .hta
-    Description: HTML Application
-    Category: Script
-    Confidence: Filesec
-    Exec: True
-    WindowsBuiltin: True
-    Notes: An HTML application. Unlike HTML applications run in browsers, .HTA files are run as trusted applications without sandboxing.
-
-  - Extension: .img
-    Description: Disk image file
-    Category: Archive
-    Confidence: Low
-    WindowsBuiltin: True
-    Notes: Non-executable by default. However, contents inside can be harmful once deployed/mounted.
-
-  - Extension: .jnlp
-    Description: Java Network Launch Protocol
-    Category: App
-    Confidence: Filesec
-    Notes: Can run Java applications remotely. Ensure Java security settings are strict.
-
-  - Extension: .js
-    Description: JavaScript file
-    WindowsBuiltin: True
-    Confidence: Low
-    Exec: True
-    Category: Script
-    MitreExecution: often
-    Notes: A JavaScript file. .JS files are normally used by webpages and are safe if run in Web browsers. However, Windows will run .JS files outside the browser with no sandboxing.
-
-  - Extension: .jse
-    Description: JScript Encoded Script File
-    Category: Script
-    Exec: True
-    Confidence: Filesec
-    WindowsBuiltin: True
-    Notes: Encoded .js file. Can execute malicious scripts.
-
-  - Extension: .htc
-    Description: HTML Component
-    Category: Script
-    Notes: Contains script to be executed in web pages.
-
-  - Extension: .mht
-    Description: MHTML Web Archive
-    Category: Script
-    Confidence: Filesec
-    WindowsBuiltin: True
-    Notes: Web page archive format. Potential risk if it contains malicious scripts and is opened in a browser.
-
-  - Extension: .mhtml
-    Description: MHTML Web Archive
-    Category: Script
-    Confidence: Filesec
-    WindowsBuiltin: True
-    Notes: Web page archive format. Potential risk if it contains malicious scripts and is opened in a browser.
-
-
-  # executables: govcert.ch
-  - Extension: .app
-    Description: macOS application bundle
-    Category: System
-    Confidence: Govcert.ch
-    WindowsBuiltin: True
-    Exec: True
-    Notes: It's an application bundle on macOS. If malicious, it can introduce harmful software to the system.
-
-  - Extension: .ocx
-    Description: OLE Control Extension (ActiveX)
-    Category: System
-    Confidence: Govcert.ch
-    WindowsBuiltin: True
-    Notes: Can be used to run code when invoked by an application. Potential for malicious use.
-
-  - Extension: .tlb
-    Description: Type Library
-    Category: System
-    Confidence: Govcert.ch
-    WindowsBuiltin: True
-    Notes: Contains definitions and information for software components, but doesn't execute code itself.
-
-
-  # Executables low-confidence
-  - Extension: .pif
-    Description: Program Information File
-    Category: System
-    WindowsBuiltin: True
-    Notes: A program information file for MS-DOS programs. While .PIF files aren�t supposed to contain executable code, Windows will treat .PIFs the same as .EXE files if they contain executable code.
-
-  - Extension: .msm
-    Description: Windows Installer Merge Module
-    Category: System
-    WindowsBuiltin: True
-    Notes: While meant for installations, can introduce malicious components if tampered with.
-
-  - Extension: .msp
-    Description: Windows Installer Patch
-    Category: System
-    WindowsBuiltin: True
-    Exec: True
-    Notes: Meant for updating software, but can be crafted to modify installations maliciously.
-
-  - Extension: .mst
-    Description: Windows Installer Transform
-    Category: System
-    Exec: True
-    WindowsBuiltin: True
-    Notes: Contains changes to be applied to a Windows Installer package. Can be used maliciously to modify software installations.
-
-  - Extension: .msu
-    Description: Microsoft Update Standalone Package
-    Category: System
-    WindowsBuiltin: True
-    Exec: True
-    Notes: Used to distribute Windows updates or hotfixes. If maliciously crafted, can introduce harmful changes to the system.
-
-  - Extension: .ppkg
-    Description: Windows Provisioning Package file
-    Category: System
-    Exec: True
-    WindowsBuiltin: True
-    Notes: Used to configure settings on Windows devices. If malicious, can modify system settings.
-
-  - Extension: .jar
-    Description: Java Archive
-    Category: System
-    Exec: True
-    MitreInitialAccess: sometimes
-    Notes: Can execute Java code when opened with Java Runtime Environment, if installed.
-
-  # Office files
-  - Extension: .doc
-    Description: Office Word Doc (with macros)
-    Category: Office
-    Confidence: High
-    Common: True
-    Exec: True
-    MitreInitialAccess: often
-    Container: True
-    BusinessCase: True
-
-  - Extension: .ppt
-    Description: Office Powerpoint Doc (with macros)
-    Category: Office
-    Confidence: High
-    Common: True
-    Exec: True
-    MitreInitialAccess: sometimes
-    BusinessCase: True
-
-  - Extension: .xls
-    Description: Office Execel Doc (with macros)
-    Category: Office
-    Confidence: High
-    Common: True
-    Exec: True
-    MitreInitialAccess: sometimes
-    BusinessCase: True
-
-  - Extension: .xlm
-    Description: Office Excel 4 Doc (with macros)
-    Category: Office
-    Confidence: High
-    MitreInitialAccess: sometimes
-    Exec: True
-
-  - Extension: .docx
-    Description: Office Word Doc (without macros)
-    Category: Office
-    Common: True
-    Exec: True
-    MitreInitialAccess: often
-    Container: True
-    BusinessCase: True
-
-  - Extension: .pptx
-    Description: Office Powerpoint Doc (without macros)
-    Category: Office
-    Confidence: High
-    Common: True
-    Exec: True
-    BusinessCase: True
-
-  - Extension: .xlsx
-    Description: Office Execel Doc with (without macros)
-    Category: Office
-    Confidence: High
-    Common: True
-    Exec: True
-    MitreInitialAccess: often
-    BusinessCase: True
-
-  - Extension: .docm
-    Description: Office Word Doc with macros
-    Category: Office
-    Confidence: High
-    Exec: True
-    MitreInitialAccess: often
-    Container: True
-    BusinessCase: True
-
-  - Extension: .dotm
-    Description: Office Word Template with macros
-    Category: Office
-    Confidence: High
-    Exec: True
-    MitreInitialAccess: sometimes
-    Container: True
-    BusinessCase: True
-
-  - Extension: .pptm
-    Description: Office Powerpoint Doc with macros
-    Category: Office
-    Confidence: High
-    Exec: True
-    MitreInitialAccess: sometimes
-    BusinessCase: True
-
-  - Extension: .potm
-    Description: Office Powerpoint with macros
-    Category: Office
-    Exec: True
-
-  - Extension: .ppam
-    Description: Microsoft PowerPoint Add-in file
-    Category: Office
-    Exec: True
-    MitreInitialAccess: sometimes
-
-  - Extension: .ppsm
-    Description: Office Powerpoint with macros
-    Category: Office
-    Exec: True
-
-  - Extension: .xlsm
-    Description: Office Execel Doc with macros
-    Category: Office
-    Confidence: High
-    Exec: True
-    MitreInitialAccess: often
-    BusinessCase: True
-
-  - Extension: .xltm
-    Description: Office Execel Template with macros
-    Category: Office
-    Exec: True
-    BusinessCase: True
-
-  - Extension: .xlsb
-    Description: Office Excel Add-in
-    Category: Office
-    Exec: True
-    MitreInitialAccess: often
-
-  - Extension: .xlam
-    Description: Office Excel Add-in
-    Category: Office
-    Exec: True
-
-  - Extension: .xll
-    Description: Office Excel Add-in
-    Category: Office
-    Exec: True
-    MitreInitialAccess: sometimes
-
-  - Extension: .xlw
-    Description: Office Excel Add-in
-    Category: Office
-    Exec: True
-
-  - Extension: .asd
-    Description: AutoRecovery file for Microsoft Word
-    Category: Office
-    Confidence: Filesec
-    Exec: True
-    Notes: It's a Word recovery file, but be cautious of macros or embedded objects if opened.
-
-  - Extension: .iqy
-    Description: Excel Web Query File
-    Category: Office
-    Confidence: Filesec
-    Exec: True
-    WindowsBuiltin: True
-    Notes: Can fetch data from external sources and can be used in data-driven attacks.
-
-  - Extension: .sldm
-    Description: PowerPoint Slide Show with Macros
-    Category: Office
-    Exec: True
-    Notes: While primarily a presentation format, the macro capability means it can contain and execute malicious VBA code.
-
-  - Extension: .slk
-    Description: Symbolic Link format used by Microsoft Excel
-    Category: Office
-    Notes: Can potentially introduce malicious formulas or external data connections in Excel.
-
-
-  - Extension: .ade
-    Description: Microsoft Access project extension
-    Category: Office
-    Execute: True
-    Notes: Can contain scripts and execute actions within Access.
-
-  - Extension: .adp
-    Description: Microsoft Access project
-    Category: Office
-    Execute: True
-    Notes: Similar to .ade, can contain and execute scripts within Access.
-
-  - Extension: .bas
-    Description: Basic module
-    Category: Office
-    Notes: Contains code for Visual Basic for Applications; can be run within host applications like MS Excel or Access.
-
-  - Extension: .wbk
-    Description: Microsoft Word backup file
-    Exec: True
-    Category: Office
-    Notes: Can contain and execute macros.
-
-  - Extension: .bgi
-    Description: Borland Graphics Interface
-    Category: Office
-    Exec: True
-    Notes: Old graphics program; be cautious of sources as it's an executable.
-
-  - Extension: .mad
-    Description: Microsoft Access module shortcut
-    Category: Office
-    Exec: True
-    Notes: Can reference and execute modules within Access.
-  - Extension: .maf
-    Description: Microsoft Access form shortcut
-    Category: Office
-    Notes: Can reference and execute forms within Access.
-  - Extension: .mag
-    Description: Microsoft Access diagram shortcut
-    Category: Office
-    Notes: Can reference and execute diagrams within Access.
-  - Extension: .mam
-    Description: Microsoft Access macro shortcut
-    Exec: True
-    Category: Office
-    Notes: Can reference and execute macros within Access.
-  - Extension: .maq
-    Description: Microsoft Access query shortcut
-    Category: Office
-    Notes: Can reference and execute queries within Access.
-  - Extension: .mar
-    Description: Microsoft Access report shortcut
-    Category: Office
-    Notes: Can reference and execute reports within Access.
-  - Extension: .mas
-    Description: Microsoft Access stored procedures
-    Exec: True
-    Category: Office
-    Notes: Contains code that can be executed within Access.
-  - Extension: .mat
-    Description: Microsoft Access table shortcut
-    Category: Office
-    Notes: Can reference tables in Access.
-  - Extension: .mav
-    Description: Microsoft Access view shortcut
-    Category: Office
-    Notes: Can reference and execute views within Access.
-  - Extension: .maw
-    Description: Microsoft Access data access page
-    Category: Office
-    Notes: Can reference and execute data access pages in Access.
-
-  - Extension: .one
-    Description: Onenote
-    Category: Office
-    Confidence: High
-    Exec: True
-    MitreInitialAccess: often
-    Container: True
-    WindowsBuiltin: True
-    Notes: May have file extension blacklist
-  - Extension: .onepkg
-    Description: Onenote
-    Category: Office
-    Exec: True
-    Container: True
-    WindowsBuiltin: True
-    Notes: May have file extension blacklist
-  - Extension: .onetoc
-    Description: Onenote
-    Category: Office
-    Exec: True
-    Container: True
-    WindowsBuiltin: True
-    Notes: May have file extension blacklist
-  - Extension: .onetoc2
-    Description: Onenote
-    Category: Office
-    Exec: True
-    Container: True
-    WindowsBuiltin: True
-    Notes: May have file extension blacklist
-    
-  # Archives
-  - Extension: .zip
-    Description: ZIP Archive
-    Category: Archive
-    Confidence: High
-    Exec: True
-    Common: True
-    MitreInitialAccess: often
-    Container: True
-    WindowsBuiltin: True
-
-  - Extension: .iso
-    Description: ISO File
-    Category: Archive
-    Confidence: High
-    Exec: True
-    Common: True
-    MitreInitialAccess: often
-    Container: True
-    WindowsBuiltin: True
-
-  - Extension: .vhd
-    Description: Hyper-V Virtual Hard Disk files
-    Category: Container
-    Container: True
-    WindowsBuiltin: True
-    Notes: Disk image file. Doesn't execute, but the contents inside, once mounted, might contain malicious files or software.
-
-  - Extension: .vhdx
-    Description: Hyper-V Virtual Hard Disk files
-    Category: Container
-    Container: True
-    WindowsBuiltin: True
-    Notes: Similar concerns as .vhd. Contents inside, once mounted, might be harmful.
-
-  - Extension: .rar
-    Description: RAR Archive
-    Category: Archive
-    Confidence: High
-    Exec: True
-    Common: True
-    Container: True
-
-  - Extension: .7z
-    Description: 7Zip Archive
-    Category: Archive
-    Confidence: High
-    Exec: True
-    Common: True
-    Container: True
-
-  - Extension: .z
-    Description: 
-    Category: Archive
-    Exec: True
-    Container: True
-
-  - Extension: .bz
-    Description: 
-    Category: Archive
-    Exec: True
-    Container: True
-
-  - Extension: .bz2
-    Description: 
-    Category: Archive
-    Exec: True
-    Container: True
-
-  - Extension: .bin
-    Description: 
-    Category: Archive
-    Exec: True
-    Container: True
-
-  - Extension: .cab
-    Description: Cabinet file
-    Category: Archive
-    Exec: True
-    Container: True
-    WindowsBuiltin: True
-    MitreInitialAccess: sometimes
-
-  - Extension: .cpio
-    Description: 
-    Category: Archive
-    Confidence: High
-    Exec: True
-    Container: True
-  - Extension: .lha
-    Description: 
-    Category: Archive
-    Confidence: High
-    Exec: True
-    Container: True
-  - Extension: .rev
-    Description: 
-    Category: Archive
-    Confidence: High
-    Exec: True
-    Container: True
-  - Extension: .rpm
-    Description: 
-    Category: Archive
-    Exec: True
-    Container: True
-  - Extension: .tbz
-    Description: 
-    Category: Archive
-    Exec: True
-    Container: True
-  - Extension: .tbz2
-    Description: 
-    Category: Archive
-    Exec: True
-    Container: True
-  - Extension: .tgz
-    Description: 
-    Category: Archive
-    Exec: True
-    Container: True
-  - Extension: .xxe
-    Description: 
-    Category: Archive
-    Exec: True
-    Container: True
-  - Extension: .xar
-    Description: 
-    Category: Archive
-    Exec: True
-    Container: True
-  - Extension: .webarchive
-    Description: 
-    Category: Archive
-    Exec: True
-    Container: True
-
-  - Extension: .gz
-    Description: 
-    Category: Archive
-    Exec: True
-    Container: True
-
-  - Extension: .tar
-    Description: 
-    Category: Archive
-    Exec: True
-    Container: True
-
-  - Extension: .ace
-    Description: 
-    Category: Archive
-    Exec: True
-    Container: True
-
-  - Extension: .arj
-    Description: 
-    Category: Archive
-    Exec: True
-    Container: True
-
-  - Extension: .bzip
-    Description: 
-    Category: Archive
-    Exec: True
-    Container: True
-  - Extension: .bzip2
-    Description: 
-    Category: Archive
-    Exec: True
-    Container: True
-
-  - Extension: .gzip
-    Description: 
-    Category: Archive
-    Exec: True
-    Container: True
-  - Extension: .r00
-    Description: 
-    Category: Archive
-    Exec: True
-    Container: True
-  - Extension: .r01
-    Description: 
-    Category: Archive
-    Exec: True
-    Container: True
-  - Extension: .lzma
-    Description: 
-    Category: Archive
-    Exec: True
-    Container: True
-  - Extension: .lz
-    Description: 
-    Category: Archive
-    Exec: True
-    Container: True
-  - Extension: .lzh
-    Description: 
-    Category: Archive
-    Exec: True
-    Container: True
-
-  - Extension: .xz
-    Description: 
-    Category: Archive
-    Exec: True
-    Container: True
-  - Extension: .r02
-    Description: 
-    Category: Archive
-    Exec: True
-    Container: True
-  - Extension: .r03
-    Description: 
-    Category: Archive
-    Exec: True
-    Container: True
-
-  # Code
-  - Extension: .ps1
-    Description: Powershell script
-    WindowsBuiltin: True
-    Category: Code
-    Confidence: High
-    Code: True
-    MitreExecution: often
-    Common: True
-  - Extension: .ps1xml
-    Description: Powershell script
-    WindowsBuiltin: True
-    Category: Code
-    Code: True
-  - Extension: .psm1
-    Description: Powershell script
-    WindowsBuiltin: True
-    Category: Code
-    Code: True
-  - Extension: .ps2
-    Description: Powershell script
-    WindowsBuiltin: True
-    Category: Code
-    Code: True
-  - Extension: .ps2xml
-    Description: Powershell script
-    WindowsBuiltin: True
-    Category: Code
-    Code: True
-  - Extension: .psc1
-    Description: Powershell script
-    WindowsBuiltin: True
-    Category: Code
-    Code: True
-  - Extension: .psc2
-    Description: Powershell script
-    WindowsBuiltin: True
-    Category: Code
-    Code: True
-  - Extension: .msh
-    Description: Powershell script
-    WindowsBuiltin: True
-    Category: Code
-    Code: True
-  - Extension: .msh1
-    Description: Powershell script
-    WindowsBuiltin: True
-    Category: Code
-    Code: True
-  - Extension: .msh2
-    Description: Powershell script
-    WindowsBuiltin: True
-    Category: Code
-    Code: True
-  - Extension: .mshxml
-    Description: Powershell script
-    WindowsBuiltin: True
-    Category: Code
-    Code: True
-  - Extension: .msh1xml
-    Description: Powershell script
-    WindowsBuiltin: True
-    Category: Code
-    Code: True
-  - Extension: .msh2xml
-    Description: Powershell script
-    WindowsBuiltin: True
-    Category: Code
-    Code: True
-
-  - Extension: .sh
-    Description: Shell script
-    Category: Code
-    Confidence: High
-    Code: True
-
-  - Extension: .dll
-    Description: DLL File
-    WindowsBuiltin: True
-    Category: Code
-    Confidence: High
-    Code: True
-    Common: True
-
-  - Extension: .asp
-    Description: Active Server Pages
-    Category: Code
-    Code: True
-    Notes: Web file that can contain and execute server-side script.
-
-  - Extension: .aspx
-    Description: 
-    Category: Code
-    Code: True
-    Notes: Web file that can execute server-side script, primarily in .NET.
-    
-  - Extension: .asax
-    Category: Code
-    Code: True
-  - Extension: .ashx
-    Category: Code
-    Code: True
-  - Extension: .btm
-    Category: Code
-    Code: True
-  - Extension: .cla
-    Category: Code
-    Code: True
-  - Extension: .class
-    Category: Code
-    Code: True
-  - Extension: .csh
-    Category: Code
-    Code: True
-  - Extension: .ksh
-    Category: Code
-    Code: True
-  - Extension: .pl
-    Category: Code
-    Code: True
-  - Extension: .plg
-    Category: Code
-    Code: True
-  - Extension: .wml
-    Category: Code
-    Code: True
-  - Extension: .xbap
-    Category: Code
-    Code: True
-  - Extension: .xdp
-    Category: Code
-    Code: True
-  
-    # more documents
-  - Extension: .pdf
-    Description: PDF File
-    Category: Document
-    Confidence: High
-    BusinessCase: True
-    WindowsBuiltin: True
-
-  - Extension: .html
-    Description: HTML file
-    Category: HTML
-    Confidence: High
-    Container: True
-    WindowsBuiltin: True
-    Common: True
-
-  - Extension: .htm
-    Description: HTML file
-    Category: HTML
-    Confidence: High
-    Container: True
-    WindowsBuiltin: True
-    Common: True
-
-  - Extension: .ics
-    Category: Office
-    Description: Calendar file format
-    Container: True
-    Exec: True
-    WindowsBuiltin: True
-    Common: True
-    Notes: Used for sharing calendar information. However, be cautious about links or attachments embedded within.
-
-  - Extension: .odt
-    Description: OpenDocument Text Document
-    Category: Office
-    Container: Yes
-    Notes: A word processing document. Be cautious of embedded macros or scripts, although they're less common than in .doc files.
-
-  - Extension: .oxps
-    Description: Open XML Paper Specification
-    Category: Document
-    WindowsBuiltin: True
-    Container: True
-    Notes: Essentially a PDF alternative from Microsoft. While generally safe, be wary of embedded content.
-
-  - Extension: .rtf
-    Description: Rich Text Format
-    Category: Document
-    WindowsBuiltin: True
-    BusinessCase: True
-    MitreInitialAccess: sometimes
-    Notes: Can potentially contain embedded objects or links that could lead to malicious content or actions when opened.
-
-  - Extension: .xps
-    Description: XML Paper Specification
-    Category: Document
-    WindowsBuiltin: True
-    BusinessCase: True
-    Notes: Essentially a PDF alternative from Microsoft. While generally safe, be wary of embedded content.
-
-    # Other
-  - Extension: .reg
-    Category: System
-    Description: Windows Registry file
-    Exec: True
-    WindowsBuiltin: True
-    MitreExecution: often
-    Notes: Can make changes to the Windows Registry. Malicious edits can compromise system integrity or security.
-
-  - Extension: .lnk
-    Description: Windows shortcut file
-    Category: System
-    Confidence: High
-    Exec: True
-    MitreInitialAccess: often
-    MitreExecution: sometimes
-    WindowsBuiltin: True
-    Notes: Can point to and execute malicious applications or scripts. Can also have embedded harmful arguments or actions.
-
-  - Extension: .msc
-    Category: System
-    Description: Microsoft Management Console file
-    WindowsBuiltin: True
-    Notes: Provides a UI for managing different aspects of Windows. Maliciously crafted .msc files can be harmful.
-
-  - Extension: .pol
-    Category: System
-    Description: Windows Group Policy file
-    WindowsBuiltin: True
-    Notes: Represents policy settings. While not executable, they can alter system configurations if applied.
-
-  - Extension: .scf
-    Category: Executable
-    Description: Windows Explorer Command
-    Exec: True
-    WindowsBuiltin: True
-    Notes: A Windows Explorer command file. Could pass potentially dangerous commands to Windows Explorer.
-
-  - Extension: .shb
-    Category: Executable
-    Description: Windows Document Shortcut
-    Exec: True
-    WindowsBuiltin: True
-    Notes: Can be used to execute documents or applications.
-
-    # unknown
-  - Extension: .settingscontent-ms
-    Description: Windows Settings shortcut
-    Category: System
-    Exec: True
-    WindowsBuiltin: True
-    Notes: Can be abused to execute arbitrary code, including shell commands.
-
-  - Extension: .svg
-    Description: Scalable Vector Graphics
-    Category: Image
-    Tags:
-     - phishing
-    Notes: An XML-based image format that can contain embedded JavaScript. Will open in IE.
-
-  - Extension: .uue
-    Description: Uuencode (Unix-to-Unix encoding) encoded file
-    Notes: Used for encoding binary data to text. While the format itself doesn't execute, the decoded content might be malicious.
-    Category: Encoding
-
-  - Extension: .b64
-    Description: Base64 encoded file
-    Notes: Used for encoding binary data to text. While the format itself doesn't execute, the decoded content might be malicious.
-    Category: Encoding
-
-
-  - Extension: .swf
-    Description: Flash file
-    Notes: Flash files downloaded locally can sometimes access the local filesystem
-    Category: Executable
-    Exec: True
-    WindowsBuiltin: False
-    
-  - Extension: .crx
-    Description: Chrome extension
-    Notes: Chrome displays a prompt prior to installation
-    Category: Browser
-    Exec: True
-    
-  - Extension: .oxt
-    Description: OpenOffice extension
-    Notes: OpenOffice extension, can execute arbitrary code.
-    Category: Office
-    Exec: True
-    
-  - Extension: .mda
-    Description: MS Access Add-In
-    Category: Office
-
-  - Extension: .mdb
-    Description: MS Access Database
-    Category: Office
-
-  - Extension: .mde
-    Description: MS Access
-    Category: Office
-
-  - Extension: .mdt
-    Description: MS Access Add-In
-    Category: Office
-
-  - Extension: .mdw
-    Description: MS Access Workgroup Information
-    Category: Office
-
-  - Extension: .mdz
-    Description: MS Access Wizard Template
-    Category: Office
-
-  - Extension: .accdb
-    Description: MS Access Database (like .mdb)
-    Category: Office
-
-  - Extension: .accde
-    Description: MS Access Database (like .mdb)
-    Category: Office
-
-  - Extension: .accdr
-    Description: MS Access Database (like .mdb)
-    Category: Office
-
-  - Extension: .accda
-    Description: MS Access Database (like .mdb)
-    Category: Office
-
-  - Extension: .ops
-    Description: MS Office Profile Settings File
-    Category: Office
-
-  - Extension: .paf
-    Description: Portable Application Installer File
-    Category: System
-    
-  - Extension: .pcd
-    Description: MS Visual Test
-    Category: Office
-    
-  - Extension: .prf
-    Description: Windows System File
-    Category: System
-    
-  - Extension: .prg
-    Description: Program file
-    Category: Misc
-
-  - Extension: .pst
-    Description: Microsoft Exchange Address Book File.
-    Notes: Microsoft Outlook Personal Folder.
-    Category: Office
-  - Extension: .eml
-    Description: Outlook file
-    Notes: Opens in Outlook. Not common, but could be exploited (CVE-2015-6172)
-    Category: Office
-
-  - Extension: .cpi
-    Description: Control Panel Item. Executable used for adding icons to Control Panel.
-    Category: System
-
-  - Extension: .partial
-    Description: will open in IE even when chrome is set as default browser
-    Category: Browser
-  - Extension: .xrm-ms
-    Description: will open in IE even when chrome is set as default browser
-    Category: Browser
-  - Extension: .rels
-    Description: will open in IE even when chrome is set as default browser
-    Category: Browser
-  - Extension: .xml
-    Description: will open in IE even when chrome is set as default browser
-    Category: Browser
-  - Extension: .xsl
-    Description: will open in IE even when chrome is set as default browser
-    Category: Browser
-  - Extension: .xsd
-    Description: will open in IE even when chrome is set as default browser
-    Category: Browser
-
-  - Extension: .url
-    Description: Internet Shortcut
-    Notes: They can point at anything. Dropping a download of this type and opening it automatically can in effect sidestep origin restrictions etc.
-    Category: Browser
-  - Extension: .website
-    Description: Internet Shortcut
-    Notes: They can point at anything. Dropping a download of this type and opening it automatically can in effect sidestep origin restrictions etc.
-    Category: Browser
-    
-  - Extension: .crt
-    Description: Signed certificate file
-    Category: Certificate
-  - Extension: .cer
-    Description: Signed certificate file
-    Category: Certificate
-  - Extension: .der
-    Description: Signed certificate file
-    Category: Certificate
-
-
-  - Extension: .cfg
-    Category: Misc
-    Exec: True
-
-  - Extension: .fon
-    Description: Font file
-    Notes: uses Portable Executable or New Executable format. Not supposed to contain executable code.
-    Category: Font
-  - Extension: .fxp
-    Description: Microsoft FoxPro Compiled Source.
-    Category: Code
-  - Extension: .grp
-    Description: MSProgramGroup (?)
-    Category: Misc
-  - Extension: .htt
-    Description: Hypertext Template File
-  - Extension: .ins
-    Description: Microsoft IIS Internet Communication Settings.
-    Category: Misc
-  - Extension: .inx
-    Description: InstallShield Compiled Script
-    Category: Misc
-  - Extension: .isu
-    Description: InstallShield Uninstaller Script
-    Category: Misc
-  - Extension: .isp
-    Description: Microsoft IIS Internet Service Provider Settings.
-    Category: Misc
-  - Extension: .job
-    Description: Windows Task Scheduler Job file
-    Notes: No handler is registered by default, so this is probably normally not dangerous unless saved into the task scheduler directory.
-    Category: System
-  - Extension: .local
-    Description: 
-    Notes: .local files affect DLL search path for .exe file with same base name.
-    Category: System
-    Exec: True
-  - Extension: .manifest
-    Description: Manifest
-    Notes: having a .manifest file with the same basename as .exe file changes the DLL search order for the .exe file
-    Category: System
-    Exec: True
-  - Extension: .mmc
-    Category: System
-  - Extension: .msg
-    Description: Outlook
-    Notes: Opens in Outlook. Not common, but could be exploited (CVE-2015-6172)
-    Category: Office
-  - Extension: .rgs
-    Description: Registry Script Windows
-    Category: Misc
-  - Extension: .sct
-    Description: Microsoft Windows Script Component. Microsoft FoxPro Screen.
-    Notes: A Script Component is a COM component created using script.
-    Category: Misc
-  - Extension: .search-ms
-    Description: Windows Vista Index Search Data, for local file system.
-    Category: System
-  - Extension: .settingcontent-ms
-    Description: Used to create shortcuts to various Windows 10 setting pages.
-    Notes: Allows invoking any binary file with any parameters.
-    Category: System
-    Exec: True
-  - Extension: .sys
-    Description: System executable
-    Category: Executable
-  - Extension: .vdx
-    Description: Visio file
-    Category: Office
-  - Extension: .vsx
-    Description: Visio file
-    Category: Office
-  - Extension: .vtx
-    Description: Visio file
-    Category: Office
-  - Extension: .vsdx
-    Description: Visio file
-    Category: Office
-  - Extension: .vssx
-    Description: Visio file
-    Category: Office
-  - Extension: .vstx
-    Description: Visio file
-    Category: Office
-  - Extension: .vsdm
-    Description: Visio file
-    Category: Office
-  - Extension: .vssm
-    Description: Visio file
-    Category: Office
-  - Extension: .vstm
-    Description: Visio file
-    Category: Office
-  - Extension: .vsmacros
-    Description: Microsoft Visual Studio Binary-based Macro Project.
-    Category: Development
-  - Extension: .vss
-    Description: Visio file
-    Category: Office
-  - Extension: .vst
-    Description: Visio file
-    Category: Office
-  - Extension: .vsw
-    Description: Visio file
-    Category: Office
- 
-  - Extension: .xnk
-    Description: Microsoft Exchange Public Folder Shortcut
-    Category: Misc
-  - Extension: .diagcfg
-    Description: Windows troubleshooting
-    Category: System
-  - Extension: .diagpkg
-    Description: Windows troubleshooting component
-    Category: System
+- Extension: .exe
+  Category: Executable
+  Description: Windows executable file
+  Confidence: High
+  Common: true
+  Exec: true
+  MitreInitialAccess: sometimes
+  MitreExecution: often
+  WindowsBuiltin: true
+  Notes: Always available, except if application whitelistening is active. Commonly blocked.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .com
+  Category: Executable
+  Description: Command File for DOS
+  Confidence: High
+  Exec: true
+  MitreInitialAccess: sometimes
+  MitreExecution: often
+  WindowsBuiltin: true
+  Notes: Always available, except if application whitelistening is active. Commonly blocked.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .scr
+  Category: Executable
+  Description: Windows Screen Saver
+  Confidence: High
+  Exec: true
+  WindowsBuiltin: true
+  Notes: Just an .exe
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .bat
+  Category: Executable
+  Description: Batch script file for cmd.exe
+  Confidence: High
+  Exec: true
+  MitreInitialAccess: often
+  MitreExecution: often
+  WindowsBuiltin: true
+  Notes: Always available, except if application whitelistening is active. Commonly blocked.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .cmd
+  Category: Executable
+  Description: Windows Command Script
+  Confidence: High
+  Exec: true
+  WindowsBuiltin: true
+  MitreExecution: sometimes
+  Notes: Just a .bat
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .msi
+  Category: Executable
+  Description: Windows Installer Package
+  Confidence: High
+  Common: true
+  Exec: true
+  MitreInitialAccess: sometimes
+  MitreExecution: sometimes
+  WindowsBuiltin: true
+  Notes: While meant for installations, it can be crafted to deploy malicious software.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .msix
+  Category: Executable
+  Description: Windows Installer Package
+  Exec: true
+  WindowsBuiltin: true
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .msixbundle
+  Category: Executable
+  Description: Windows Installer Package
+  Exec: true
+  WindowsBuiltin: true
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .vbs
+  Category: Script
+  Description: VBScript file
+  Confidence: High
+  Common: true
+  Exec: true
+  MitreInitialAccess: sometimes
+  MitreExecution: often
+  WindowsBuiltin: true
+  Notes: Scripting language file. Can be used to execute malicious scripts.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .vbe
+  Category: Script
+  Description: VBScript Encoded Script File
+  Confidence: Govcert.ch
+  Exec: true
+  WindowsBuiltin: true
+  MitreInitialAccess: sometimes
+  Notes: Encoded version of .vbs. Makes it harder to read, but can be used for same malicious purposes as .vbs.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .vb
+  Category: Script
+  Description: Windows Visual Basic Script file
+  Confidence: Govcert.ch
+  Exec: true
+  WindowsBuiltin: true
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .vbscript
+  Category: Script
+  Description: Windows Visual Basic Script file
+  Notes: Some sites claim .vbscript is a valid extension for vbs files.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .drv
+  Category: Executable
+  Description: Windows Executable
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .wsf
+  Category: Script
+  Description: Windows Script File
+  Confidence: Govcert.ch
+  Exec: true
+  WindowsBuiltin: true
+  MitreInitialAccess: sometimes
+  MitreExecution: sometimes
+  Notes: Allows mixing of scripting languages. Can execute malicious scripts.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .wsh
+  Category: Script
+  Description: Windows Script Host Settings File
+  Confidence: Govcert.ch
+  Exec: true
+  WindowsBuiltin: true
+  Notes: Used to set properties for script execution. Can be used in conjunction with other scripts for execution.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .ws
+  Category: Script
+  Exec: true
+  Description: Windows Script file
+  WindowsBuiltin: true
+  Notes: Can execute scripts, similar to other Windows scripting files like .vbs or .js.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .wsc
+  Exec: true
+  Category: Script
+  Description: Windows Script Component
+  WindowsBuiltin: true
+  Notes: Allows for the creation of COM objects with scripts. Can be used to execute malicious scripts.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: '.inf'
+  Exec: true
+  Category: System
+  Description: null
+  WindowsBuiltin: true
+  Notes: If run, this file could potentially launch dangerous applications it came with or pass dangerous options to programs included with Windows.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .ini
+  Category: System
+  Description: null
+  WindowsBuiltin: true
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: DANGEROUS
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .application
+  Category: System
+  Description: ClickOnce Deployment Manifest
+  Confidence: Filesec
+  Exec: true
+  WindowsBuiltin: true
+  Notes: ClickOnce applications can execute code when deployed.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .appinstaller
+  Description: Windows 10 App Installer
+  Category: System
+  Confidence: Filesec
+  Exec: true
+  WindowsBuiltin: true
+  Notes: Used to install apps. Potentially harmful if sourced from untrusted locations.
+- Extension: .appref-ms
+  Description: ClickOnce Application Reference
+  Category: System
+  Confidence: Filesec
+  Exec: true
+  WindowsBuiltin: true
+  Notes: A pointer to a ClickOnce application. Can cause the referenced application to be run.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .appx
+  Description: Windows Application Package
+  Category: System
+  Confidence: Filesec
+  Exec: true
+  WindowsBuiltin: true
+  Notes: Can be used to install potentially malicious Windows apps.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .appxbundle
+  Description: Windows App Bundle
+  Category: System
+  Confidence: Filesec
+  Exec: true
+  WindowsBuiltin: true
+  Notes: Bundle of APPX packages. Can install potentially malicious apps.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .chm
+  Description: Compiled HTML Help file
+  Category: Script
+  Confidence: Filesec
+  Exec: true
+  WindowsBuiltin: true
+  MitreInitialAccess: sometimes
+  Notes: Can run embedded scripts or malicious payloads when opened.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .chi
+  Description: Compiled HTML Help file
+  Category: Script
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .hlp
+  Description: Windows Script Component
+  WindowsBuiltin: true
+  Notes: Legacy help file format. Can potentially execute other files or code under specific circumstances.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .cpl
+  Description: Windows Control Panel item
+  Category: System
+  Confidence: Filesec
+  Exec: true
+  WindowsBuiltin: true
+  Notes: Executes directly, potentially harmful if malicious.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .desktopthemefile
+  Description: Executable
+  Category: System
+  WindowsBuiltin: true
+  Notes: For customizing appearance in Windows, but be wary of the source.
+- Extension: .diagcab
+  Description: Microsoft Windows Troubleshooting Pack
+  Category: System
+  Confidence: Filesec
+  Exec: true
+  WindowsBuiltin: true
+  Notes: Can be used to automate troubleshooting steps, but can also be abused.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .dmg
+  Description: Apple Disk Image
+  Category: System
+  Exec: true
+  Notes: Used to mount applications on macOS
+  ChromePlatform: PLATFORM_TYPE_MAC
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .gadget
+  Description: Windows Gadget
+  Category: System
+  Confidence: Filesec
+  Exec: true
+  WindowsBuiltin: true
+  Notes: Can execute code, especially if the gadget is malicious.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .hta
+  Description: HTML Application
+  Category: Script
+  Confidence: Filesec
+  Exec: true
+  WindowsBuiltin: true
+  Notes: An HTML application. Unlike HTML applications run in browsers, .HTA files are run as trusted applications without sandboxing.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .img
+  Description: Disk image file
+  Category: Archive
+  Confidence: Low
+  WindowsBuiltin: true
+  Notes: Non-executable by default. However, contents inside can be harmful once deployed/mounted.
+  ChromePlatform: PLATFORM_TYPE_MAC
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .jnlp
+  Description: Java Network Launch Protocol
+  Category: App
+  Confidence: Filesec
+  Notes: Can run Java applications remotely. Ensure Java security settings are strict.
+  ChromePlatform: PLATFORM_TYPE_ANY
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .js
+  Description: JavaScript file
+  WindowsBuiltin: true
+  Confidence: Low
+  Exec: true
+  Category: Script
+  MitreExecution: often
+  Notes: A JavaScript file. .JS files are normally used by webpages and are safe if run in Web browsers. However, Windows will run .JS files outside the browser with no sandboxing.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .jse
+  Description: JScript Encoded Script File
+  Category: Script
+  Exec: true
+  Confidence: Filesec
+  WindowsBuiltin: true
+  Notes: Encoded .js file. Can execute malicious scripts.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .htc
+  Description: HTML Component
+  Category: Script
+  Notes: Contains script to be executed in web pages.
+- Extension: .mht
+  Description: MHTML Web Archive
+  Category: Script
+  Confidence: Filesec
+  WindowsBuiltin: true
+  Notes: Web page archive format. Potential risk if it contains malicious scripts and is opened in a browser.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .mhtml
+  Description: MHTML Web Archive
+  Category: Script
+  Confidence: Filesec
+  WindowsBuiltin: true
+  Notes: Web page archive format. Potential risk if it contains malicious scripts and is opened in a browser.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .app
+  Description: macOS application bundle
+  Category: System
+  Confidence: Govcert.ch
+  WindowsBuiltin: true
+  Exec: true
+  Notes: It's an application bundle on macOS. If malicious, it can introduce harmful software to the system.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .ocx
+  Description: OLE Control Extension (ActiveX)
+  Category: System
+  Confidence: Govcert.ch
+  WindowsBuiltin: true
+  Notes: Can be used to run code when invoked by an application. Potential for malicious use.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .tlb
+  Description: Type Library
+  Category: System
+  Confidence: Govcert.ch
+  WindowsBuiltin: true
+  Notes: Contains definitions and information for software components, but doesn't execute code itself.
+- Extension: .pif
+  Description: Program Information File
+  Category: System
+  WindowsBuiltin: true
+  Notes: "A program information file for MS-DOS programs. While .PIF files aren\uFFFDt supposed to contain executable code, Windows will treat .PIFs the same as .EXE files if they contain executable code."
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .msm
+  Description: Windows Installer Merge Module
+  Category: System
+  WindowsBuiltin: true
+  Notes: While meant for installations, can introduce malicious components if tampered with.
+- Extension: .msp
+  Description: Windows Installer Patch
+  Category: System
+  WindowsBuiltin: true
+  Exec: true
+  Notes: Meant for updating software, but can be crafted to modify installations maliciously.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .mst
+  Description: Windows Installer Transform
+  Category: System
+  Exec: true
+  WindowsBuiltin: true
+  Notes: Contains changes to be applied to a Windows Installer package. Can be used maliciously to modify software installations.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .msu
+  Description: Microsoft Update Standalone Package
+  Category: System
+  WindowsBuiltin: true
+  Exec: true
+  Notes: Used to distribute Windows updates or hotfixes. If maliciously crafted, can introduce harmful changes to the system.
+- Extension: .ppkg
+  Description: Windows Provisioning Package file
+  Category: System
+  Exec: true
+  WindowsBuiltin: true
+  Notes: Used to configure settings on Windows devices. If malicious, can modify system settings.
+- Extension: .jar
+  Description: Java Archive
+  Category: System
+  Exec: true
+  MitreInitialAccess: sometimes
+  Notes: Can execute Java code when opened with Java Runtime Environment, if installed.
+  ChromePlatform: PLATFORM_TYPE_ANY
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .doc
+  Description: Office Word Doc (with macros)
+  Category: Office
+  Confidence: High
+  Common: true
+  Exec: true
+  MitreInitialAccess: often
+  Container: true
+  BusinessCase: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .ppt
+  Description: Office Powerpoint Doc (with macros)
+  Category: Office
+  Confidence: High
+  Common: true
+  Exec: true
+  MitreInitialAccess: sometimes
+  BusinessCase: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .xls
+  Description: Office Execel Doc (with macros)
+  Category: Office
+  Confidence: High
+  Common: true
+  Exec: true
+  MitreInitialAccess: sometimes
+  BusinessCase: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .xlm
+  Description: Office Excel 4 Doc (with macros)
+  Category: Office
+  Confidence: High
+  MitreInitialAccess: sometimes
+  Exec: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .docx
+  Description: Office Word Doc (without macros)
+  Category: Office
+  Common: true
+  Exec: true
+  MitreInitialAccess: often
+  Container: true
+  BusinessCase: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .pptx
+  Description: Office Powerpoint Doc (without macros)
+  Category: Office
+  Confidence: High
+  Common: true
+  Exec: true
+  BusinessCase: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .xlsx
+  Description: Office Execel Doc with (without macros)
+  Category: Office
+  Confidence: High
+  Common: true
+  Exec: true
+  MitreInitialAccess: often
+  BusinessCase: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .docm
+  Description: Office Word Doc with macros
+  Category: Office
+  Confidence: High
+  Exec: true
+  MitreInitialAccess: often
+  Container: true
+  BusinessCase: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .dotm
+  Description: Office Word Template with macros
+  Category: Office
+  Confidence: High
+  Exec: true
+  MitreInitialAccess: sometimes
+  Container: true
+  BusinessCase: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .pptm
+  Description: Office Powerpoint Doc with macros
+  Category: Office
+  Confidence: High
+  Exec: true
+  MitreInitialAccess: sometimes
+  BusinessCase: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .potm
+  Description: Office Powerpoint with macros
+  Category: Office
+  Exec: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .ppam
+  Description: Microsoft PowerPoint Add-in file
+  Category: Office
+  Exec: true
+  MitreInitialAccess: sometimes
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .ppsm
+  Description: Office Powerpoint with macros
+  Category: Office
+  Exec: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .xlsm
+  Description: Office Execel Doc with macros
+  Category: Office
+  Confidence: High
+  Exec: true
+  MitreInitialAccess: often
+  BusinessCase: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .xltm
+  Description: Office Execel Template with macros
+  Category: Office
+  Exec: true
+  BusinessCase: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .xlsb
+  Description: Office Excel Add-in
+  Category: Office
+  Exec: true
+  MitreInitialAccess: often
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .xlam
+  Description: Office Excel Add-in
+  Category: Office
+  Exec: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .xll
+  Description: Office Excel Add-in
+  Category: Office
+  Exec: true
+  MitreInitialAccess: sometimes
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .xlw
+  Description: Office Excel Add-in
+  Category: Office
+  Exec: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .asd
+  Description: AutoRecovery file for Microsoft Word
+  Category: Office
+  Confidence: Filesec
+  Exec: true
+  Notes: It's a Word recovery file, but be cautious of macros or embedded objects if opened.
+- Extension: .iqy
+  Description: Excel Web Query File
+  Category: Office
+  Confidence: Filesec
+  Exec: true
+  WindowsBuiltin: true
+  Notes: Can fetch data from external sources and can be used in data-driven attacks.
+- Extension: .sldm
+  Description: PowerPoint Slide Show with Macros
+  Category: Office
+  Exec: true
+  Notes: While primarily a presentation format, the macro capability means it can contain and execute malicious VBA code.
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .slk
+  Description: Symbolic Link format used by Microsoft Excel
+  Category: Office
+  Notes: Can potentially introduce malicious formulas or external data connections in Excel.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .ade
+  Description: Microsoft Access project extension
+  Category: Office
+  Execute: true
+  Notes: Can contain scripts and execute actions within Access.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .adp
+  Description: Microsoft Access project
+  Category: Office
+  Execute: true
+  Notes: Similar to .ade, can contain and execute scripts within Access.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .bas
+  Description: Basic module
+  Category: Office
+  Notes: Contains code for Visual Basic for Applications; can be run within host applications like MS Excel or Access.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .wbk
+  Description: Microsoft Word backup file
+  Exec: true
+  Category: Office
+  Notes: Can contain and execute macros.
+- Extension: .bgi
+  Description: Borland Graphics Interface
+  Category: Office
+  Exec: true
+  Notes: Old graphics program; be cautious of sources as it's an executable.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .mad
+  Description: Microsoft Access module shortcut
+  Category: Office
+  Exec: true
+  Notes: Can reference and execute modules within Access.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .maf
+  Description: Microsoft Access form shortcut
+  Category: Office
+  Notes: Can reference and execute forms within Access.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .mag
+  Description: Microsoft Access diagram shortcut
+  Category: Office
+  Notes: Can reference and execute diagrams within Access.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .mam
+  Description: Microsoft Access macro shortcut
+  Exec: true
+  Category: Office
+  Notes: Can reference and execute macros within Access.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .maq
+  Description: Microsoft Access query shortcut
+  Category: Office
+  Notes: Can reference and execute queries within Access.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .mar
+  Description: Microsoft Access report shortcut
+  Category: Office
+  Notes: Can reference and execute reports within Access.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .mas
+  Description: Microsoft Access stored procedures
+  Exec: true
+  Category: Office
+  Notes: Contains code that can be executed within Access.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .mat
+  Description: Microsoft Access table shortcut
+  Category: Office
+  Notes: Can reference tables in Access.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .mav
+  Description: Microsoft Access view shortcut
+  Category: Office
+  Notes: Can reference and execute views within Access.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .maw
+  Description: Microsoft Access data access page
+  Category: Office
+  Notes: Can reference and execute data access pages in Access.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .one
+  Description: Onenote
+  Category: Office
+  Confidence: High
+  Exec: true
+  MitreInitialAccess: often
+  Container: true
+  WindowsBuiltin: true
+  Notes: May have file extension blacklist
+- Extension: .onepkg
+  Description: Onenote
+  Category: Office
+  Exec: true
+  Container: true
+  WindowsBuiltin: true
+  Notes: May have file extension blacklist
+- Extension: .onetoc
+  Description: Onenote
+  Category: Office
+  Exec: true
+  Container: true
+  WindowsBuiltin: true
+  Notes: May have file extension blacklist
+- Extension: .onetoc2
+  Description: Onenote
+  Category: Office
+  Exec: true
+  Container: true
+  WindowsBuiltin: true
+  Notes: May have file extension blacklist
+- Extension: .zip
+  Description: ZIP Archive
+  Category: Archive
+  Confidence: High
+  Exec: true
+  Common: true
+  MitreInitialAccess: often
+  Container: true
+  WindowsBuiltin: true
+  ChromePlatform: PLATFORM_TYPE_ANY
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .iso
+  Description: ISO File
+  Category: Archive
+  Confidence: High
+  Exec: true
+  Common: true
+  MitreInitialAccess: often
+  Container: true
+  WindowsBuiltin: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .vhd
+  Description: Hyper-V Virtual Hard Disk files
+  Category: Container
+  Container: true
+  WindowsBuiltin: true
+  Notes: Disk image file. Doesn't execute, but the contents inside, once mounted, might contain malicious files or software.
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .vhdx
+  Description: Hyper-V Virtual Hard Disk files
+  Category: Container
+  Container: true
+  WindowsBuiltin: true
+  Notes: Similar concerns as .vhd. Contents inside, once mounted, might be harmful.
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .rar
+  Description: RAR Archive
+  Category: Archive
+  Confidence: High
+  Exec: true
+  Common: true
+  Container: true
+  ChromePlatform: PLATFORM_TYPE_ANY
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .7z
+  Description: 7Zip Archive
+  Category: Archive
+  Confidence: High
+  Exec: true
+  Common: true
+  Container: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .z
+  Description: null
+  Category: Archive
+  Exec: true
+  Container: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .bz
+  Description: null
+  Category: Archive
+  Exec: true
+  Container: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .bz2
+  Description: null
+  Category: Archive
+  Exec: true
+  Container: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .bin
+  Description: null
+  Category: Archive
+  Exec: true
+  Container: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .cab
+  Description: Cabinet file
+  Category: Archive
+  Exec: true
+  Container: true
+  WindowsBuiltin: true
+  MitreInitialAccess: sometimes
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .cpio
+  Description: null
+  Category: Archive
+  Confidence: High
+  Exec: true
+  Container: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .lha
+  Description: null
+  Category: Archive
+  Confidence: High
+  Exec: true
+  Container: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .rev
+  Description: null
+  Category: Archive
+  Confidence: High
+  Exec: true
+  Container: true
+- Extension: .rpm
+  Description: null
+  Category: Archive
+  Exec: true
+  Container: true
+  ChromePlatform: PLATFORM_TYPE_LINUX
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .tbz
+  Description: null
+  Category: Archive
+  Exec: true
+  Container: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .tbz2
+  Description: null
+  Category: Archive
+  Exec: true
+  Container: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .tgz
+  Description: null
+  Category: Archive
+  Exec: true
+  Container: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .xxe
+  Description: null
+  Category: Archive
+  Exec: true
+  Container: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .xar
+  Description: null
+  Category: Archive
+  Exec: true
+  Container: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .webarchive
+  Description: null
+  Category: Archive
+  Exec: true
+  Container: true
+- Extension: .gz
+  Description: null
+  Category: Archive
+  Exec: true
+  Container: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .tar
+  Description: null
+  Category: Archive
+  Exec: true
+  Container: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .ace
+  Description: null
+  Category: Archive
+  Exec: true
+  Container: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .arj
+  Description: null
+  Category: Archive
+  Exec: true
+  Container: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .bzip
+  Description: null
+  Category: Archive
+  Exec: true
+  Container: true
+- Extension: .bzip2
+  Description: null
+  Category: Archive
+  Exec: true
+  Container: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .gzip
+  Description: null
+  Category: Archive
+  Exec: true
+  Container: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .r00
+  Description: null
+  Category: Archive
+  Exec: true
+  Container: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .r01
+  Description: null
+  Category: Archive
+  Exec: true
+  Container: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .lzma
+  Description: null
+  Category: Archive
+  Exec: true
+  Container: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .lz
+  Description: null
+  Category: Archive
+  Exec: true
+  Container: true
+- Extension: .lzh
+  Description: null
+  Category: Archive
+  Exec: true
+  Container: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .xz
+  Description: null
+  Category: Archive
+  Exec: true
+  Container: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .r02
+  Description: null
+  Category: Archive
+  Exec: true
+  Container: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .r03
+  Description: null
+  Category: Archive
+  Exec: true
+  Container: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .ps1
+  Description: Powershell script
+  WindowsBuiltin: true
+  Category: Code
+  Confidence: High
+  Code: true
+  MitreExecution: often
+  Common: true
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .ps1xml
+  Description: Powershell script
+  WindowsBuiltin: true
+  Category: Code
+  Code: true
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .psm1
+  Description: Powershell script
+  WindowsBuiltin: true
+  Category: Code
+  Code: true
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .ps2
+  Description: Powershell script
+  WindowsBuiltin: true
+  Category: Code
+  Code: true
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .ps2xml
+  Description: Powershell script
+  WindowsBuiltin: true
+  Category: Code
+  Code: true
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .psc1
+  Description: Powershell script
+  WindowsBuiltin: true
+  Category: Code
+  Code: true
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .psc2
+  Description: Powershell script
+  WindowsBuiltin: true
+  Category: Code
+  Code: true
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .msh
+  Description: Powershell script
+  WindowsBuiltin: true
+  Category: Code
+  Code: true
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .msh1
+  Description: Powershell script
+  WindowsBuiltin: true
+  Category: Code
+  Code: true
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .msh2
+  Description: Powershell script
+  WindowsBuiltin: true
+  Category: Code
+  Code: true
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .mshxml
+  Description: Powershell script
+  WindowsBuiltin: true
+  Category: Code
+  Code: true
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .msh1xml
+  Description: Powershell script
+  WindowsBuiltin: true
+  Category: Code
+  Code: true
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .msh2xml
+  Description: Powershell script
+  WindowsBuiltin: true
+  Category: Code
+  Code: true
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .sh
+  Description: Shell script
+  Category: Code
+  Confidence: High
+  Code: true
+  ChromePlatform: PLATFORM_TYPE_ANY
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .dll
+  Description: DLL File
+  WindowsBuiltin: true
+  Category: Code
+  Confidence: High
+  Code: true
+  Common: true
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: DANGEROUS
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .asp
+  Description: Active Server Pages
+  Category: Code
+  Code: true
+  Notes: Web file that can contain and execute server-side script.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .aspx
+  Description: null
+  Category: Code
+  Code: true
+  Notes: Web file that can execute server-side script, primarily in .NET.
+- Extension: .asax
+  Category: Code
+  Code: true
+- Extension: .ashx
+  Category: Code
+  Code: true
+- Extension: .btm
+  Category: Code
+  Code: true
+- Extension: .cla
+  Category: Code
+  Code: true
+- Extension: .class
+  Category: Code
+  Code: true
+  ChromePlatform: PLATFORM_TYPE_ANY
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .csh
+  Category: Code
+  Code: true
+  ChromePlatform: PLATFORM_TYPE_ANY
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .ksh
+  Category: Code
+  Code: true
+  ChromePlatform: PLATFORM_TYPE_ANY
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .pl
+  Category: Code
+  Code: true
+  ChromePlatform: PLATFORM_TYPE_LINUX
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .plg
+  Category: Code
+  Code: true
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .wml
+  Category: Code
+  Code: true
+- Extension: .xbap
+  Category: Code
+  Code: true
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .xdp
+  Category: Code
+  Code: true
+- Extension: .pdf
+  Description: PDF File
+  Category: Document
+  Confidence: High
+  BusinessCase: true
+  WindowsBuiltin: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .html
+  Description: HTML file
+  Category: HTML
+  Confidence: High
+  Container: true
+  WindowsBuiltin: true
+  Common: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .htm
+  Description: HTML file
+  Category: HTML
+  Confidence: High
+  Container: true
+  WindowsBuiltin: true
+  Common: true
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .ics
+  Category: Office
+  Description: Calendar file format
+  Container: true
+  Exec: true
+  WindowsBuiltin: true
+  Common: true
+  Notes: Used for sharing calendar information. However, be cautious about links or attachments embedded within.
+- Extension: .odt
+  Description: OpenDocument Text Document
+  Category: Office
+  Container: true
+  Notes: A word processing document. Be cautious of embedded macros or scripts, although they're less common than in .doc files.
+- Extension: .oxps
+  Description: Open XML Paper Specification
+  Category: Document
+  WindowsBuiltin: true
+  Container: true
+  Notes: Essentially a PDF alternative from Microsoft. While generally safe, be wary of embedded content.
+- Extension: .rtf
+  Description: Rich Text Format
+  Category: Document
+  WindowsBuiltin: true
+  BusinessCase: true
+  MitreInitialAccess: sometimes
+  Notes: Can potentially contain embedded objects or links that could lead to malicious content or actions when opened.
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .xps
+  Description: XML Paper Specification
+  Category: Document
+  WindowsBuiltin: true
+  BusinessCase: true
+  Notes: Essentially a PDF alternative from Microsoft. While generally safe, be wary of embedded content.
+- Extension: .reg
+  Category: System
+  Description: Windows Registry file
+  Exec: true
+  WindowsBuiltin: true
+  MitreExecution: often
+  Notes: Can make changes to the Windows Registry. Malicious edits can compromise system integrity or security.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .lnk
+  Description: Windows shortcut file
+  Category: System
+  Confidence: High
+  Exec: true
+  MitreInitialAccess: often
+  MitreExecution: sometimes
+  WindowsBuiltin: true
+  Notes: Can point to and execute malicious applications or scripts. Can also have embedded harmful arguments or actions.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .msc
+  Category: System
+  Description: Microsoft Management Console file
+  WindowsBuiltin: true
+  Notes: Provides a UI for managing different aspects of Windows. Maliciously crafted .msc files can be harmful.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .pol
+  Category: System
+  Description: Windows Group Policy file
+  WindowsBuiltin: true
+  Notes: Represents policy settings. While not executable, they can alter system configurations if applied.
+- Extension: .scf
+  Category: Executable
+  Description: Windows Explorer Command
+  Exec: true
+  WindowsBuiltin: true
+  Notes: A Windows Explorer command file. Could pass potentially dangerous commands to Windows Explorer.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: DANGEROUS
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .shb
+  Category: Executable
+  Description: Windows Document Shortcut
+  Exec: true
+  WindowsBuiltin: true
+  Notes: Can be used to execute documents or applications.
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .settingscontent-ms
+  Description: Windows Settings shortcut
+  Category: System
+  Exec: true
+  WindowsBuiltin: true
+  Notes: Can be abused to execute arbitrary code, including shell commands.
+- Extension: .svg
+  Description: Scalable Vector Graphics
+  Category: Image
+  Tags:
+  - phishing
+  Notes: An XML-based image format that can contain embedded JavaScript. Will open in IE.
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .uue
+  Description: Uuencode (Unix-to-Unix encoding) encoded file
+  Notes: Used for encoding binary data to text. While the format itself doesn't execute, the decoded content might be malicious.
+  Category: Encoding
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .b64
+  Description: Base64 encoded file
+  Notes: Used for encoding binary data to text. While the format itself doesn't execute, the decoded content might be malicious.
+  Category: Encoding
+  ChromePlatform: PLATFORM_TYPE_UNKNOWN
+  ChromeDangerLevel: NOT_DANGEROUS
+  ChromeAutoOpenHint: UNKNOWN
+- Extension: .swf
+  Description: Flash file
+  Notes: Flash files downloaded locally can sometimes access the local filesystem
+  Category: Executable
+  Exec: true
+  WindowsBuiltin: false
+  ChromePlatform: PLATFORM_TYPE_ANY
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .crx
+  Description: Chrome extension
+  Notes: Chrome displays a prompt prior to installation
+  Category: Browser
+  Exec: true
+  ChromePlatform: PLATFORM_TYPE_ANY
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .oxt
+  Description: OpenOffice extension
+  Notes: OpenOffice extension, can execute arbitrary code.
+  Category: Office
+  Exec: true
+  ChromePlatform: PLATFORM_TYPE_ANY
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .mda
+  Description: MS Access Add-In
+  Category: Office
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .mdb
+  Description: MS Access Database
+  Category: Office
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .mde
+  Description: MS Access
+  Category: Office
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .mdt
+  Description: MS Access Add-In
+  Category: Office
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .mdw
+  Description: MS Access Workgroup Information
+  Category: Office
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .mdz
+  Description: MS Access Wizard Template
+  Category: Office
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .accdb
+  Description: MS Access Database (like .mdb)
+  Category: Office
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .accde
+  Description: MS Access Database (like .mdb)
+  Category: Office
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .accdr
+  Description: MS Access Database (like .mdb)
+  Category: Office
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .accda
+  Description: MS Access Database (like .mdb)
+  Category: Office
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .ops
+  Description: MS Office Profile Settings File
+  Category: Office
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .paf
+  Description: Portable Application Installer File
+  Category: System
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .pcd
+  Description: MS Visual Test
+  Category: Office
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .prf
+  Description: Windows System File
+  Category: System
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .prg
+  Description: Program file
+  Category: Misc
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .pst
+  Description: Microsoft Exchange Address Book File.
+  Notes: Microsoft Outlook Personal Folder.
+  Category: Office
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .eml
+  Description: Outlook file
+  Notes: Opens in Outlook. Not common, but could be exploited (CVE-2015-6172)
+  Category: Office
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .cpi
+  Description: Control Panel Item. Executable used for adding icons to Control Panel.
+  Category: System
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .partial
+  Description: will open in IE even when chrome is set as default browser
+  Category: Browser
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .xrm-ms
+  Description: will open in IE even when chrome is set as default browser
+  Category: Browser
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .rels
+  Description: will open in IE even when chrome is set as default browser
+  Category: Browser
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .xml
+  Description: will open in IE even when chrome is set as default browser
+  Category: Browser
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .xsl
+  Description: will open in IE even when chrome is set as default browser
+  Category: Browser
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .xsd
+  Description: will open in IE even when chrome is set as default browser
+  Category: Browser
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .url
+  Description: Internet Shortcut
+  Notes: They can point at anything. Dropping a download of this type and opening it automatically can in effect sidestep origin restrictions etc.
+  Category: Browser
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .website
+  Description: Internet Shortcut
+  Notes: They can point at anything. Dropping a download of this type and opening it automatically can in effect sidestep origin restrictions etc.
+  Category: Browser
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .crt
+  Description: Signed certificate file
+  Category: Certificate
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .cer
+  Description: Signed certificate file
+  Category: Certificate
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .der
+  Description: Signed certificate file
+  Category: Certificate
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .cfg
+  Category: Misc
+  Exec: true
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: DANGEROUS
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .fon
+  Description: Font file
+  Notes: uses Portable Executable or New Executable format. Not supposed to contain executable code.
+  Category: Font
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .fxp
+  Description: Microsoft FoxPro Compiled Source.
+  Category: Code
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .grp
+  Description: MSProgramGroup (?)
+  Category: Misc
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .htt
+  Description: Hypertext Template File
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .ins
+  Description: Microsoft IIS Internet Communication Settings.
+  Category: Misc
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .inx
+  Description: InstallShield Compiled Script
+  Category: Misc
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .isu
+  Description: InstallShield Uninstaller Script
+  Category: Misc
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .isp
+  Description: Microsoft IIS Internet Service Provider Settings.
+  Category: Misc
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .job
+  Description: Windows Task Scheduler Job file
+  Notes: No handler is registered by default, so this is probably normally not dangerous unless saved into the task scheduler directory.
+  Category: System
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .local
+  Description: null
+  Notes: .local files affect DLL search path for .exe file with same base name.
+  Category: System
+  Exec: true
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: DANGEROUS
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .manifest
+  Description: Manifest
+  Notes: having a .manifest file with the same basename as .exe file changes the DLL search order for the .exe file
+  Category: System
+  Exec: true
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: DANGEROUS
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .mmc
+  Category: System
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .msg
+  Description: Outlook
+  Notes: Opens in Outlook. Not common, but could be exploited (CVE-2015-6172)
+  Category: Office
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .rgs
+  Description: Registry Script Windows
+  Category: Misc
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .sct
+  Description: Microsoft Windows Script Component. Microsoft FoxPro Screen.
+  Notes: A Script Component is a COM component created using script.
+  Category: Misc
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .search-ms
+  Description: Windows Vista Index Search Data, for local file system.
+  Category: System
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .settingcontent-ms
+  Description: Used to create shortcuts to various Windows 10 setting pages.
+  Notes: Allows invoking any binary file with any parameters.
+  Category: System
+  Exec: true
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .sys
+  Description: System executable
+  Category: Executable
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .vdx
+  Description: Visio file
+  Category: Office
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .vsx
+  Description: Visio file
+  Category: Office
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .vtx
+  Description: Visio file
+  Category: Office
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .vsdx
+  Description: Visio file
+  Category: Office
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .vssx
+  Description: Visio file
+  Category: Office
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .vstx
+  Description: Visio file
+  Category: Office
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .vsdm
+  Description: Visio file
+  Category: Office
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .vssm
+  Description: Visio file
+  Category: Office
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .vstm
+  Description: Visio file
+  Category: Office
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .vsmacros
+  Description: Microsoft Visual Studio Binary-based Macro Project.
+  Category: Development
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .vss
+  Description: Visio file
+  Category: Office
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .vst
+  Description: Visio file
+  Category: Office
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .vsw
+  Description: Visio file
+  Category: Office
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .xnk
+  Description: Microsoft Exchange Public Folder Shortcut
+  Category: Misc
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: ALLOW_AUTO_OPEN
+- Extension: .diagcfg
+  Description: Windows troubleshooting
+  Category: System
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
+- Extension: .diagpkg
+  Description: Windows troubleshooting component
+  Category: System
+  ChromePlatform: PLATFORM_TYPE_WINDOWS
+  ChromeDangerLevel: ALLOW_ON_USER_GESTURE
+  ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
