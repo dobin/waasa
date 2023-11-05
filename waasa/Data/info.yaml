@@ -1,4 +1,4 @@
-﻿Extensions:
+Extensions:
 
   # Executables Confident
   - Extension: .exe
@@ -60,6 +60,18 @@
     WindowsBuiltin: True
     Notes: While meant for installations, it can be crafted to deploy malicious software.
 
+  - Extension: .msix
+    Category: Executable
+    Description: Windows Installer Package
+    Exec: True
+    WindowsBuiltin: True
+
+  - Extension: .msixbundle
+    Category: Executable
+    Description: Windows Installer Package
+    Exec: True
+    WindowsBuiltin: True
+
   - Extension: .vbs
     Category: Script
     Description: VBScript file
@@ -86,6 +98,15 @@
     Confidence: Govcert.ch
     Exec: True
     WindowsBuiltin: True
+
+  - Extension: .vbscript
+    Category: Script
+    Description: Windows Visual Basic Script file
+    Notes: Some sites claim .vbscript is a valid extension for vbs files.
+
+  - Extension: .drv
+    Category: Executable
+    Description: Windows Executable
 
   - Extension: .wsf
     Category: Script
@@ -181,6 +202,10 @@
     WindowsBuiltin: True
     MitreInitialAccess: sometimes
     Notes: Can run embedded scripts or malicious payloads when opened.
+
+  - Extension: .chi
+    Description: Compiled HTML Help file
+    Category: Script
 
   - Extension: .hlp
     Description: Windows Script Component
@@ -857,6 +882,11 @@
     WindowsBuiltin: True
     Category: Code
     Code: True
+  - Extension: .psm1
+    Description: Powershell script
+    WindowsBuiltin: True
+    Category: Code
+    Code: True
   - Extension: .ps2
     Description: Powershell script
     WindowsBuiltin: True
@@ -937,7 +967,7 @@
   - Extension: .asax
     Category: Code
     Code: True
-  - Extension: ashx
+  - Extension: .ashx
     Category: Code
     Code: True
   - Extension: .btm
@@ -1090,7 +1120,7 @@
     Category: Image
     Tags:
      - phishing
-    Notes: An XML-based image format that can contain embedded JavaScript. Be wary of scripts within SVG files from untrusted sources.
+    Notes: An XML-based image format that can contain embedded JavaScript. Will open in IE.
 
   - Extension: .uue
     Description: Uuencode (Unix-to-Unix encoding) encoded file
@@ -1101,3 +1131,251 @@
     Description: Base64 encoded file
     Notes: Used for encoding binary data to text. While the format itself doesn't execute, the decoded content might be malicious.
     Category: Encoding
+
+
+  - Extension: .swf
+    Description: Flash file
+    Notes: Flash files downloaded locally can sometimes access the local filesystem
+    Category: Executable
+    Exec: True
+    WindowsBuiltin: False
+    
+  - Extension: .crx
+    Description: Chrome extension
+    Notes: Chrome displays a prompt prior to installation
+    Category: Browser
+    Exec: True
+    
+  - Extension: .oxt
+    Description: OpenOffice extension
+    Notes: OpenOffice extension, can execute arbitrary code.
+    Category: Office
+    Exec: True
+    
+  - Extension: .mda
+    Description: MS Access Add-In
+    Category: Office
+
+  - Extension: .mdb
+    Description: MS Access Database
+    Category: Office
+
+  - Extension: .mde
+    Description: MS Access
+    Category: Office
+
+  - Extension: .mdt
+    Description: MS Access Add-In
+    Category: Office
+
+  - Extension: .mdw
+    Description: MS Access Workgroup Information
+    Category: Office
+
+  - Extension: .mdz
+    Description: MS Access Wizard Template
+    Category: Office
+
+  - Extension: .accdb
+    Description: MS Access Database (like .mdb)
+    Category: Office
+
+  - Extension: .accde
+    Description: MS Access Database (like .mdb)
+    Category: Office
+
+  - Extension: .accdr
+    Description: MS Access Database (like .mdb)
+    Category: Office
+
+  - Extension: .accda
+    Description: MS Access Database (like .mdb)
+    Category: Office
+
+  - Extension: .ops
+    Description: MS Office Profile Settings File
+    Category: Office
+
+  - Extension: .paf
+    Description: Portable Application Installer File
+    Category: System
+    
+  - Extension: .pcd
+    Description: MS Visual Test
+    Category: Office
+    
+  - Extension: .prf
+    Description: Windows System File
+    Category: System
+    
+  - Extension: .prg
+    Description: Program file
+    Category: Misc
+
+  - Extension: .pst
+    Description: Microsoft Exchange Address Book File.
+    Notes: Microsoft Outlook Personal Folder.
+    Category: Office
+  - Extension: .eml
+    Description: Outlook file
+    Notes: Opens in Outlook. Not common, but could be exploited (CVE-2015-6172)
+    Category: Office
+
+  - Extension: .cpi
+    Description: Control Panel Item. Executable used for adding icons to Control Panel.
+    Category: System
+
+  - Extension: .partial
+    Description: will open in IE even when chrome is set as default browser
+    Category: Browser
+  - Extension: .xrm-ms
+    Description: will open in IE even when chrome is set as default browser
+    Category: Browser
+  - Extension: .rels
+    Description: will open in IE even when chrome is set as default browser
+    Category: Browser
+  - Extension: .xml
+    Description: will open in IE even when chrome is set as default browser
+    Category: Browser
+  - Extension: .xsl
+    Description: will open in IE even when chrome is set as default browser
+    Category: Browser
+  - Extension: .xsd
+    Description: will open in IE even when chrome is set as default browser
+    Category: Browser
+
+  - Extension: .url
+    Description: Internet Shortcut
+    Notes: They can point at anything. Dropping a download of this type and opening it automatically can in effect sidestep origin restrictions etc.
+    Category: Browser
+  - Extension: .website
+    Description: Internet Shortcut
+    Notes: They can point at anything. Dropping a download of this type and opening it automatically can in effect sidestep origin restrictions etc.
+    Category: Browser
+    
+  - Extension: .crt
+    Description: Signed certificate file
+    Category: Certificate
+  - Extension: .cer
+    Description: Signed certificate file
+    Category: Certificate
+  - Extension: .der
+    Description: Signed certificate file
+    Category: Certificate
+
+
+  - Extension: .cfg
+    Category: Misc
+    Exec: True
+
+  - Extension: .fon
+    Description: Font file
+    Notes: uses Portable Executable or New Executable format. Not supposed to contain executable code.
+    Category: Font
+  - Extension: .fxp
+    Description: Microsoft FoxPro Compiled Source.
+    Category: Code
+  - Extension: .grp
+    Description: MSProgramGroup (?)
+    Category: Misc
+  - Extension: .htt
+    Description: Hypertext Template File
+  - Extension: .ins
+    Description: Microsoft IIS Internet Communication Settings.
+    Category: Misc
+  - Extension: .inx
+    Description: InstallShield Compiled Script
+    Category: Misc
+  - Extension: .isu
+    Description: InstallShield Uninstaller Script
+    Category: Misc
+  - Extension: .isp
+    Description: Microsoft IIS Internet Service Provider Settings.
+    Category: Misc
+  - Extension: .job
+    Description: Windows Task Scheduler Job file
+    Notes: No handler is registered by default, so this is probably normally not dangerous unless saved into the task scheduler directory.
+    Category: System
+  - Extension: .local
+    Description: 
+    Notes: .local files affect DLL search path for .exe file with same base name.
+    Category: System
+    Exec: True
+  - Extension: .manifest
+    Description: Manifest
+    Notes: having a .manifest file with the same basename as .exe file changes the DLL search order for the .exe file
+    Category: System
+    Exec: True
+  - Extension: .mmc
+    Category: System
+  - Extension: .msg
+    Description: Outlook
+    Notes: Opens in Outlook. Not common, but could be exploited (CVE-2015-6172)
+    Category: Office
+  - Extension: .rgs
+    Description: Registry Script Windows
+    Category: Misc
+  - Extension: .sct
+    Description: Microsoft Windows Script Component. Microsoft FoxPro Screen.
+    Notes: A Script Component is a COM component created using script.
+    Category: Misc
+  - Extension: .search-ms
+    Description: Windows Vista Index Search Data, for local file system.
+    Category: System
+  - Extension: .settingcontent-ms
+    Description: Used to create shortcuts to various Windows 10 setting pages.
+    Notes: Allows invoking any binary file with any parameters.
+    Category: System
+    Exec: True
+  - Extension: .sys
+    Description: System executable
+    Category: Executable
+  - Extension: .vdx
+    Description: Visio file
+    Category: Office
+  - Extension: .vsx
+    Description: Visio file
+    Category: Office
+  - Extension: .vtx
+    Description: Visio file
+    Category: Office
+  - Extension: .vsdx
+    Description: Visio file
+    Category: Office
+  - Extension: .vssx
+    Description: Visio file
+    Category: Office
+  - Extension: .vstx
+    Description: Visio file
+    Category: Office
+  - Extension: .vsdm
+    Description: Visio file
+    Category: Office
+  - Extension: .vssm
+    Description: Visio file
+    Category: Office
+  - Extension: .vstm
+    Description: Visio file
+    Category: Office
+  - Extension: .vsmacros
+    Description: Microsoft Visual Studio Binary-based Macro Project.
+    Category: Development
+  - Extension: .vss
+    Description: Visio file
+    Category: Office
+  - Extension: .vst
+    Description: Visio file
+    Category: Office
+  - Extension: .vsw
+    Description: Visio file
+    Category: Office
+ 
+  - Extension: .xnk
+    Description: Microsoft Exchange Public Folder Shortcut
+    Category: Misc
+  - Extension: .diagcfg
+    Description: Windows troubleshooting
+    Category: System
+  - Extension: .diagpkg
+    Description: Windows troubleshooting component
+    Category: System
