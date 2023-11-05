@@ -24,6 +24,10 @@ namespace waasa.Services
         public bool Code { get; set; } = false;
         public string Category { get; set; } = "";
         public List<String> Tags { get; set; } = new List<string>();
+
+        public string ChromePlatform { get; set; } = "";
+        public string ChromeDangerLevel { get; set; } = "";
+        public string ChromeAutoOpenHint { get; set; } = "";
     }
 
     public class YamlRoot {
