@@ -175,7 +175,6 @@ Extensions:
 - Extension: '.inf'
   Exec: true
   Category: System
-  Description: null
   WindowsBuiltin: true
   Notes: If run, this file could potentially launch dangerous applications it came with or pass dangerous options to programs included with Windows.
   ChromePlatform: PLATFORM_TYPE_WINDOWS
@@ -183,7 +182,6 @@ Extensions:
   ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
 - Extension: .ini
   Category: System
-  Description: null
   WindowsBuiltin: true
   ChromePlatform: PLATFORM_TYPE_WINDOWS
   ChromeDangerLevel: DANGEROUS
@@ -856,7 +854,7 @@ Extensions:
   ChromeDangerLevel: NOT_DANGEROUS
   ChromeAutoOpenHint: UNKNOWN
 - Extension: .z
-  Description: null
+
   Category: Archive
   Exec: true
   Container: true
@@ -864,7 +862,7 @@ Extensions:
   ChromeDangerLevel: NOT_DANGEROUS
   ChromeAutoOpenHint: UNKNOWN
 - Extension: .bz
-  Description: null
+
   Category: Archive
   Exec: true
   Container: true
@@ -872,7 +870,7 @@ Extensions:
   ChromeDangerLevel: NOT_DANGEROUS
   ChromeAutoOpenHint: UNKNOWN
 - Extension: .bz2
-  Description: null
+
   Category: Archive
   Exec: true
   Container: true
@@ -880,7 +878,7 @@ Extensions:
   ChromeDangerLevel: NOT_DANGEROUS
   ChromeAutoOpenHint: UNKNOWN
 - Extension: .bin
-  Description: null
+
   Category: Archive
   Exec: true
   Container: true
@@ -898,7 +896,7 @@ Extensions:
   ChromeDangerLevel: NOT_DANGEROUS
   ChromeAutoOpenHint: UNKNOWN
 - Extension: .cpio
-  Description: null
+
   Category: Archive
   Confidence: High
   Exec: true
@@ -907,7 +905,7 @@ Extensions:
   ChromeDangerLevel: NOT_DANGEROUS
   ChromeAutoOpenHint: UNKNOWN
 - Extension: .lha
-  Description: null
+
   Category: Archive
   Confidence: High
   Exec: true
@@ -916,13 +914,13 @@ Extensions:
   ChromeDangerLevel: NOT_DANGEROUS
   ChromeAutoOpenHint: UNKNOWN
 - Extension: .rev
-  Description: null
+
   Category: Archive
   Confidence: High
   Exec: true
   Container: true
 - Extension: .rpm
-  Description: null
+
   Category: Archive
   Exec: true
   Container: true
@@ -930,7 +928,7 @@ Extensions:
   ChromeDangerLevel: ALLOW_ON_USER_GESTURE
   ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
 - Extension: .tbz
-  Description: null
+
   Category: Archive
   Exec: true
   Container: true
@@ -938,7 +936,7 @@ Extensions:
   ChromeDangerLevel: NOT_DANGEROUS
   ChromeAutoOpenHint: UNKNOWN
 - Extension: .tbz2
-  Description: null
+
   Category: Archive
   Exec: true
   Container: true
@@ -946,7 +944,7 @@ Extensions:
   ChromeDangerLevel: NOT_DANGEROUS
   ChromeAutoOpenHint: UNKNOWN
 - Extension: .tgz
-  Description: null
+
   Category: Archive
   Exec: true
   Container: true
@@ -954,7 +952,7 @@ Extensions:
   ChromeDangerLevel: NOT_DANGEROUS
   ChromeAutoOpenHint: UNKNOWN
 - Extension: .xxe
-  Description: null
+
   Category: Archive
   Exec: true
   Container: true
@@ -962,7 +960,7 @@ Extensions:
   ChromeDangerLevel: NOT_DANGEROUS
   ChromeAutoOpenHint: UNKNOWN
 - Extension: .xar
-  Description: null
+
   Category: Archive
   Exec: true
   Container: true
@@ -970,12 +968,12 @@ Extensions:
   ChromeDangerLevel: NOT_DANGEROUS
   ChromeAutoOpenHint: UNKNOWN
 - Extension: .webarchive
-  Description: null
+
   Category: Archive
   Exec: true
   Container: true
 - Extension: .gz
-  Description: null
+
   Category: Archive
   Exec: true
   Container: true
@@ -983,7 +981,7 @@ Extensions:
   ChromeDangerLevel: NOT_DANGEROUS
   ChromeAutoOpenHint: UNKNOWN
 - Extension: .tar
-  Description: null
+
   Category: Archive
   Exec: true
   Container: true
@@ -991,7 +989,7 @@ Extensions:
   ChromeDangerLevel: NOT_DANGEROUS
   ChromeAutoOpenHint: UNKNOWN
 - Extension: .ace
-  Description: null
+
   Category: Archive
   Exec: true
   Container: true
@@ -999,7 +997,7 @@ Extensions:
   ChromeDangerLevel: NOT_DANGEROUS
   ChromeAutoOpenHint: UNKNOWN
 - Extension: .arj
-  Description: null
+
   Category: Archive
   Exec: true
   Container: true
@@ -1007,12 +1005,12 @@ Extensions:
   ChromeDangerLevel: NOT_DANGEROUS
   ChromeAutoOpenHint: UNKNOWN
 - Extension: .bzip
-  Description: null
+
   Category: Archive
   Exec: true
   Container: true
 - Extension: .bzip2
-  Description: null
+
   Category: Archive
   Exec: true
   Container: true
@@ -1020,7 +1018,7 @@ Extensions:
   ChromeDangerLevel: NOT_DANGEROUS
   ChromeAutoOpenHint: UNKNOWN
 - Extension: .gzip
-  Description: null
+
   Category: Archive
   Exec: true
   Container: true
@@ -1028,7 +1026,7 @@ Extensions:
   ChromeDangerLevel: NOT_DANGEROUS
   ChromeAutoOpenHint: UNKNOWN
 - Extension: .r00
-  Description: null
+
   Category: Archive
   Exec: true
   Container: true
@@ -1036,7 +1034,7 @@ Extensions:
   ChromeDangerLevel: NOT_DANGEROUS
   ChromeAutoOpenHint: UNKNOWN
 - Extension: .r01
-  Description: null
+
   Category: Archive
   Exec: true
   Container: true
@@ -1044,7 +1042,7 @@ Extensions:
   ChromeDangerLevel: NOT_DANGEROUS
   ChromeAutoOpenHint: UNKNOWN
 - Extension: .lzma
-  Description: null
+
   Category: Archive
   Exec: true
   Container: true
@@ -1052,12 +1050,12 @@ Extensions:
   ChromeDangerLevel: NOT_DANGEROUS
   ChromeAutoOpenHint: UNKNOWN
 - Extension: .lz
-  Description: null
+
   Category: Archive
   Exec: true
   Container: true
 - Extension: .lzh
-  Description: null
+
   Category: Archive
   Exec: true
   Container: true
@@ -1065,7 +1063,7 @@ Extensions:
   ChromeDangerLevel: NOT_DANGEROUS
   ChromeAutoOpenHint: UNKNOWN
 - Extension: .xz
-  Description: null
+
   Category: Archive
   Exec: true
   Container: true
@@ -1073,7 +1071,7 @@ Extensions:
   ChromeDangerLevel: NOT_DANGEROUS
   ChromeAutoOpenHint: UNKNOWN
 - Extension: .r02
-  Description: null
+
   Category: Archive
   Exec: true
   Container: true
@@ -1081,7 +1079,7 @@ Extensions:
   ChromeDangerLevel: NOT_DANGEROUS
   ChromeAutoOpenHint: UNKNOWN
 - Extension: .r03
-  Description: null
+
   Category: Archive
   Exec: true
   Container: true
@@ -1222,7 +1220,7 @@ Extensions:
   ChromeDangerLevel: ALLOW_ON_USER_GESTURE
   ChromeAutoOpenHint: ALLOW_AUTO_OPEN
 - Extension: .aspx
-  Description: null
+
   Category: Code
   Code: true
   Notes: Web file that can execute server-side script, primarily in .NET.
@@ -1691,7 +1689,7 @@ Extensions:
   ChromeDangerLevel: ALLOW_ON_USER_GESTURE
   ChromeAutoOpenHint: DISALLOW_AUTO_OPEN
 - Extension: .local
-  Description: null
+
   Notes: .local files affect DLL search path for .exe file with same base name.
   Category: System
   Exec: true
