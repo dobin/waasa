@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using waasa.Services;
 using waasa.Models;
+using YamlDotNet.Serialization;
 
 
 namespace waasa
@@ -15,6 +16,7 @@ namespace waasa
             public string ExtensionRegInfo { get; set; } = "";
             public string ExtensionObjInfo { get; set; } = "";
             public string Shlwapi { get; set; } = "";
+            public string BadfileInfo { get; set; } = "";
         }
 
         
@@ -26,6 +28,14 @@ namespace waasa
             infoData.ExtensionRegInfo = gatheredData.GetExtensionInfo(fe.Extension);
             infoData.ExtensionObjInfo = gatheredData.GetObjidInfo(fe.Extension);
             infoData.Shlwapi = gatheredData.GetShlwapiInfo(fe.Extension);
+
+            if (fe.InfoExtension.Extension != "") {
+                var serializer = new SerializerBuilder().Build();
+                string yamlString = serializer.Serialize(fe.InfoExtension);
+                infoData.BadfileInfo = yamlString;
+            } else {
+                infoData.BadfileInfo = "No data";
+            }
 
             this.DataContext = infoData;
         }

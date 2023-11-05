@@ -8,16 +8,19 @@
         Title="Wazza - Extension Details" Height="450" Width="800">
     <Grid>
         <TabControl>
-
+            <TabItem Header="Badfile">
+                <TextBox Text="{Binding BadfileInfo}"></TextBox>
+            </TabItem>
+            <TabItem Header="Shlwapi">
+                <TextBox Text="{Binding Shlwapi}"></TextBox>
+            </TabItem>
             <TabItem Header="Reg HKCR">
                 <TextBox Text="{Binding ExtensionRegInfo}"></TextBox>
             </TabItem>
             <TabItem Header="Reg HKCU">
                 <TextBox Text="{Binding ExtensionObjInfo}"></TextBox>
             </TabItem>
-            <TabItem Header="Shlwapi">
-                <TextBox Text="{Binding Shlwapi}"></TextBox>
-            </TabItem>
+
         </TabControl>
     </Grid>
 </Window>
