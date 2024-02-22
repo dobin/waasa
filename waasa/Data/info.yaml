@@ -322,7 +322,9 @@ Extensions:
 - Extension: .jnlp
   Description: Java Network Launch Protocol
   Category: App
-  Confidence: Filesec
+  Exec: True
+  Confidence: High
+  WindowsBuiltin: False
   Notes: Can run Java applications remotely. Ensure Java security settings are strict.
   ChromePlatform: PLATFORM_TYPE_ANY
   ChromeDangerLevel: ALLOW_ON_USER_GESTURE
